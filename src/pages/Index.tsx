@@ -134,7 +134,7 @@ const Index = () => {
               delay={1} 
               index={1}
             >
-              {`On April 16th, Texas education completely changed with ESA legislation. It allows every single accredited school to get $10,000 from the Texas government when a parent enrolls their child in the school.
+              {`On April 16th, Texas education completely changed with ESA legislation. It allows every single accredited private school or microschool to get $10,000 from the Texas government when a parent enrolls their child in the school.
 
 But you're a coach... why does this matter for you?`}
             </StreamingText>
