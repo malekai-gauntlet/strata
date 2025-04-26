@@ -192,7 +192,7 @@ But why should you care?`}
 
 You will get to own your own school, do what you love (coach kids in your sport), make an impact, and cement your brand in sports.
 
-But you might be busy and already be paid well...`}
+But you might be busy and already well paid...`}
             </StreamingText>
           </div>
         </StorySection>
@@ -334,7 +334,7 @@ We're inviting the best coaches/athletes in Texas to partner on this. If you're 
             <Button 
               variant="default" 
               className="bg-white text-secondary hover:bg-gray-100"
-              onClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSczyLWf3ucIFDTn-ZaxLxqpD_K9ptdHQrOiNZH-HycpdLyYPg/viewform?usp=header', '_blank')}
+              onClick={() => window.open('https://form.typeform.com/to/OmA3cRhW', '_blank')}
             >
               Sign Up
             </Button>
