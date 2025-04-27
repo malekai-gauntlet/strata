@@ -335,7 +335,7 @@ We're inviting the best coaches/athletes in Texas to partner on this. If you're 
             <Button 
               variant="default" 
               className="bg-white text-secondary hover:bg-gray-100"
-              onClick={() => window.open('https://form.typeform.com/to/OmA3cRhW', '_blank')}
+              onClick={() => window.open('https://calendly.com/malekai-mischke-superbuilders/30min?preview_source=et_card', '_blank')}
             >
               Schedule Call
             </Button>
