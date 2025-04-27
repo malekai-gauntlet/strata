@@ -134,7 +134,7 @@ const Index = () => {
               delay={1} 
               index={1}
             >
-              {`On April 16th, Texas education completely changed with ESA legislation. It allows every single accredited private school or microschool to get $10,000 from the Texas government when a parent enrolls their child in the school.
+              {`On April 16th, Texas education completely changed with ESA legislation. It allows every accredited private school or microschool to get $10,000 from the Texas government when a parent enrolls their child in the school.
 
 But you're a coach... why does this matter for you?`}
             </StreamingText>
@@ -163,7 +163,7 @@ But you're a coach... why does this matter for you?`}
 
 1. The new ESA legislation enables coaches to be paid at least $10,000 for each student enrolled at their school. Microschools have 15-25 students.
 
-2. We now have the technology to handle all academics and logistics associated with running a school (more on this later).
+2. In 2025, we have the technology to handle all academics and logistics associated with running a school (more on this later).
 
 But why should you care?`}
             </StreamingText>
@@ -192,7 +192,7 @@ But why should you care?`}
 
 You will get to own your own school, do what you love (coach kids in your sport), make an impact, and cement your brand in sports.
 
-But you might be busy and already well paid...`}
+But you might be busy and already have a job...`}
             </StreamingText>
           </div>
         </StorySection>
@@ -243,12 +243,12 @@ Who teaches the academics at your school?`}
         }>
           <div className="max-w-2xl">
             <StreamingText tag="h2" className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6" index={0}>
-              You'll lead the coaching, we'll handle everything else.
+              You'll lead the coaching, tech handles everything else.
             </StreamingText>
             <StreamingText className="text-xl text-gray-400 mb-8" index={1}>
               {`The education paradigm has changed. The best way to learn is no longer in a classroom, but through learning software that's 100% personalized.
 
-The greatest case study of personalized learning software is Alpha School, an Austin-based high school. Students that use this software achieved Top 1% academic outcomes.
+The greatest case study of personalized learning software is Alpha School, an Austin-based high school. Students that use this software achieve Top 1% academic outcomes.
 
 We have partnered with Alpha School so that coaches can use this learning software in their schools.`}
             </StreamingText>
@@ -281,15 +281,15 @@ We have partnered with Alpha School so that coaches can use this learning softwa
         }>
           <div className="max-w-2xl">
             <StreamingText tag="h2" className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6" index={0}>
-              You'll create top athletes <em>and</em> students.
+              You'll create top athletes <em className="text-4xl md:text-5xl lg:text-6xl">and</em> students.
             </StreamingText>
             <StreamingText className="text-xl text-gray-400 mb-8" index={1}>
-              {`With our personalized learning software, the role of the "teacher" has shifted to that of a motivator. Given the software is doing the hands-on teaching, the "teacher" is now strictly there to motivate — something coaches like you absolutely excel at.
+              {`With personalized learning software doing the hands-on teaching, the role of the "teacher" has shifted to that of a motivator. So the best teachers don't need to be domain experts, they just need to be master motivators — something coaches absolutely excel at.
 
 The structure of a day at your school will be along the lines of:
 
 • Morning: Academics, led by our personalized learning software
-• Afternoon: Sports & Life Skills Workshops, led by you!
+• Afternoon: Sports & Life Skills Workshops, led by you
 
 Ok... but running a school sounds complicated. How would that work?`}
             </StreamingText>
@@ -314,7 +314,8 @@ Ok... but running a school sounds complicated. How would that work?`}
               We will partner with you to make this a home-run.
             </StreamingText>
             <StreamingText className="text-xl text-gray-400 mb-8" index={1}>
-              {`The Strata platform makes it extremely easy for coaches to spin up sports-focused microschools. From finding real estate, filing paperwork, to securing students — we handle that all for you.`}
+              {`The Strata platform makes it extremely easy for coaches to spin up sports-focused microschools.
+\nWe're a team of AI engineers, so automating away tedious, outdated practices is our top skillset. From finding real estate, filing paperwork, to securing students — the Strata team handles that all for you.`}
             </StreamingText>
           </div>
         </StorySection>
@@ -336,7 +337,7 @@ We're inviting the best coaches/athletes in Texas to partner on this. If you're 
               className="bg-white text-secondary hover:bg-gray-100"
               onClick={() => window.open('https://form.typeform.com/to/OmA3cRhW', '_blank')}
             >
-              Sign Up
+              Schedule Call
             </Button>
           </div>
         </StorySection>

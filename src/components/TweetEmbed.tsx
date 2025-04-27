@@ -22,7 +22,7 @@ const TweetEmbed = ({ tweetId, className = '' }: TweetEmbedProps) => {
           // Add delay before showing the tweet
           setTimeout(() => {
             setIsVisible(true);
-          }, 3000); // 1 second delay after loading
+          }, 2500); // 1 second delay after loading
         });
       }
     };
