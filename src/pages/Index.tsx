@@ -361,7 +361,7 @@ We're inviting the best coaches/athletes in Texas to partner on this. Drop your 
               <form 
                 action="https://hooks.zapier.com/hooks/catch/22692611/2pdyolt/"
                 method="POST"
-                className="flex gap-2 items-center"
+                className="flex flex-col sm:flex-row gap-2 w-full max-w-md"
                 onSubmit={(e) => {
                   e.preventDefault();
                   setIsSubmitting(true);
@@ -397,7 +397,7 @@ We're inviting the best coaches/athletes in Texas to partner on this. Drop your 
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-secondary/80 text-white placeholder:text-gray-400 border-gray-700 w-64 focus-visible:ring-white/20"
+                  className="bg-secondary/80 text-white placeholder:text-gray-400 border-gray-700 focus-visible:ring-white/20"
                   disabled={isSubmitting}
                 />
                 <Button 
