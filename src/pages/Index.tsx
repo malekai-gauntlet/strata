@@ -83,6 +83,7 @@ const Index = () => {
 
       // Only trigger if touch movement is significant (> 50px)
       if (Math.abs(touchDelta) > 50) {
+        e.preventDefault(); // Prevent default scrolling
         lastWheelEventTimeRef.current = currentTime;
         
         if (touchDelta > 0 && currentIndex < sections.length - 1) {
