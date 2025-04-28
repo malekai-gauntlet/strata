@@ -150,19 +150,6 @@ const Index = () => {
 
 But you're a coach... why does this matter for you?`}
             </StreamingText>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 2 }}
-            >
-              <Button 
-                variant="default" 
-                className="bg-white text-secondary hover:bg-gray-100"
-                onClick={() => setIsVideoVisible(true)}
-              >
-                Watch Video
-              </Button>
-            </motion.div>
           </div>
         </StorySection>
 
@@ -188,7 +175,7 @@ But you're a coach... why does this matter for you?`}
 
 1. The new ESA legislation enables coaches to be paid at least $10,000 for each student enrolled at their school. Microschools have 15-25 students.
 
-2. In 2025, we have the technology to handle all academics and logistics associated with running a school (more on this later).
+2. In 2025, we have the technology to handle all academics and logistics for running a school (more on this later).
 
 But why should you care?`}
             </StreamingText>
@@ -273,7 +260,7 @@ Who teaches the academics at your school?`}
             <StreamingText className="text-xl text-gray-400 mb-8" index={1}>
               {`The education paradigm has changed. The best way to learn is no longer in a classroom, but through learning software that's 100% personalized.
 
-The greatest case study of personalized learning software is Alpha School, an Austin-based high school. Students that use this software achieve Top 1% academic outcomes.
+The best case study of personalized learning is Alpha School, an Austin-based high school. Students that use their software achieve Top 1% academic outcomes.
 
 We have partnered with Alpha School so that coaches can use this learning software in their schools.`}
             </StreamingText>
@@ -309,7 +296,7 @@ We have partnered with Alpha School so that coaches can use this learning softwa
               You'll create top athletes <em className="text-4xl md:text-5xl lg:text-6xl">and</em> students.
             </StreamingText>
             <StreamingText className="text-xl text-gray-400 mb-8" index={1}>
-              {`With personalized learning software doing the hands-on teaching, the role of the "teacher" has shifted to that of a motivator. So the best teachers don't need to be domain experts, they just need to be master motivators — something coaches absolutely excel at.
+              {`With personalized learning software doing the teaching, the role of the "teacher" has shifted to that of a motivator. So the best teachers don't need to be domain experts, they just need to be master motivators — something coaches absolutely excel at.
 
 The structure of a day at your school will be along the lines of:
 
@@ -340,7 +327,7 @@ Ok... but running a school sounds complicated. How would that work?`}
             </StreamingText>
             <StreamingText className="text-xl text-gray-400 mb-8" index={1}>
               {`The Strata platform makes it extremely easy for coaches to spin up sports-focused microschools.
-\nWe're a team of AI engineers, so automating away tedious, outdated practices is our top skillset. From finding real estate, filing paperwork, to securing students — the Strata team handles that all for you.`}
+\nWe're a team of AI engineers, so automating away tedious, outdated practices is our top skillset. From finding real estate, filing paperwork, to securing students — the Strata team handles that all.`}
             </StreamingText>
           </div>
         </StorySection>
