@@ -14,7 +14,7 @@ const SectionDots = ({ sections, currentSection, onDotClick }: SectionDotsProps)
   return (
     <div className={`fixed ${
       isMobile 
-        ? 'right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2' 
+        ? 'right-4 top-1/2 -translate-y-1/2 flex flex-col gap-3'
         : 'right-8 top-1/2 -translate-y-1/2 flex flex-col gap-4'
     } z-50`}>
       {sections.map((section) => (
