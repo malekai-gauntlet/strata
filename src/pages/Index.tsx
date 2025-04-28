@@ -431,7 +431,7 @@ We're inviting the best coaches/athletes in Texas to partner on this. Drop your 
                 <Button 
                   type="submit"
                   variant="default" 
-                  className="bg-white text-secondary hover:bg-gray-100 whitespace-nowrap"
+                  className="bg-white text-secondary hover:bg-gray-100 whitespace-nowrap disabled:bg-white disabled:opacity-100"
                   disabled={isSubmitting || !email.includes('@')}
                 >
                   {isSubmitting ? 'Submitting...' : 'Learn More'}

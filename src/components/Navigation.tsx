@@ -16,7 +16,9 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 py-6 px-8 bg-transparent backdrop-blur-sm">
+    <nav className={`fixed top-0 left-0 right-0 z-50 py-6 px-8 ${
+      isMobile ? 'bg-black' : 'bg-transparent backdrop-blur-sm'
+    }`}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <a href="#intro" className="text-white text-xl font-medium">Strata Schools</a>
         
