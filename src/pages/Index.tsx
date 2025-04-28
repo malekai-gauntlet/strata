@@ -143,7 +143,7 @@ const Index = () => {
             </StreamingText>
             <StreamingText 
               className="text-xl text-gray-400 max-w-2xl mb-8" 
-              delay={1} 
+              delay={0.5} 
               index={1}
             >
               {`On April 16th, Texas education completely changed with ESA legislation. It allows every accredited private school or microschool to get $10,000 from the Texas government when a parent enrolls their child in the school.

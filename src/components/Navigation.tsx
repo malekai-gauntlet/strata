@@ -35,13 +35,13 @@ const Navigation = () => {
             </button>
             
             {mobileMenuOpen && (
-              <div className="fixed inset-0 top-[76px] z-40 bg-secondary animate-fade-in">
+              <div className="fixed inset-0 top-[76px] z-40 bg-secondary/95 backdrop-blur-lg shadow-xl animate-fade-in">
                 <div className="flex flex-col items-center pt-12 space-y-8">
-                  <a href="#opportunity" className="text-xl text-gray-400 hover:text-white transition-colors" onClick={closeMenu}>Opportunity</a>
-                  <a href="#legacy" className="text-xl text-gray-400 hover:text-white transition-colors" onClick={closeMenu}>Legacy</a>
-                  <a href="#income" className="text-xl text-gray-400 hover:text-white transition-colors" onClick={closeMenu}>Income</a>
-                  <a href="#academics" className="text-xl text-gray-400 hover:text-white transition-colors" onClick={closeMenu}>Academics</a>
-                  <a href="#partner" className="text-xl text-gray-400 hover:text-white transition-colors" onClick={closeMenu}>Partnership</a>
+                  <a href="#opportunity" className="text-xl text-white/90 hover:text-white transition-colors" onClick={closeMenu}>Opportunity</a>
+                  <a href="#legacy" className="text-xl text-white/90 hover:text-white transition-colors" onClick={closeMenu}>Legacy</a>
+                  <a href="#income" className="text-xl text-white/90 hover:text-white transition-colors" onClick={closeMenu}>Income</a>
+                  <a href="#academics" className="text-xl text-white/90 hover:text-white transition-colors" onClick={closeMenu}>Academics</a>
+                  <a href="#partner" className="text-xl text-white/90 hover:text-white transition-colors" onClick={closeMenu}>Partnership</a>
                   <a href="#start" className="text-xl px-6 py-2 bg-white text-secondary rounded-full font-medium hover:bg-gray-100 transition-colors" onClick={closeMenu}>Start</a>
                 </div>
               </div>
