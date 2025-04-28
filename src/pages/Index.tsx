@@ -351,6 +351,12 @@ We're inviting the best coaches/athletes in Texas to partner on this. Drop your 
                 className="flex flex-col sm:flex-row gap-2 w-full max-w-md"
                 onSubmit={(e) => {
                   e.preventDefault();
+                  
+                  if (!email.includes('@')) {
+                    setSubmitStatus('error');
+                    return;
+                  }
+                  
                   setIsSubmitting(true);
                   
                   // Create FormData object
@@ -391,7 +397,7 @@ We're inviting the best coaches/athletes in Texas to partner on this. Drop your 
                   type="submit"
                   variant="default" 
                   className="bg-white text-secondary hover:bg-gray-100 whitespace-nowrap"
-                  disabled={isSubmitting || !email.includes('@')}
+                  disabled={isSubmitting}
                 >
                   {isSubmitting ? 'Submitting...' : 'Learn More'}
                 </Button>
