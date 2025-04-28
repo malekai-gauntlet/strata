@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Button } from './ui/button';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface FloatingVideoPlayerProps {
   src: string;
@@ -10,6 +11,8 @@ interface FloatingVideoPlayerProps {
 }
 
 const FloatingVideoPlayer = ({ src, isVisible, onClose }: FloatingVideoPlayerProps) => {
+  const isMobile = useIsMobile();
+  
   const handleBackgroundClick = (e: React.MouseEvent) => {
     // Only close if clicking the background (not the video or controls)
     if (e.target === e.currentTarget) {
@@ -21,14 +24,18 @@ const FloatingVideoPlayer = ({ src, isVisible, onClose }: FloatingVideoPlayerPro
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, x: 300 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 300 }}
-          className="fixed top-0 right-0 z-50 h-screen w-1/2 hidden lg:flex items-center justify-center bg-secondary/[0.98]"
+          initial={isMobile ? { opacity: 0, y: '100%' } : { opacity: 0, x: 300 }}
+          animate={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, x: 0 }}
+          exit={isMobile ? { opacity: 0, y: '100%' } : { opacity: 0, x: 300 }}
+          className={`fixed z-50 bg-secondary/[0.98] ${
+            isMobile 
+              ? 'inset-0 flex items-center justify-center p-4' 
+              : 'top-0 right-0 h-screen w-1/2 hidden lg:flex items-center justify-center'
+          }`}
           transition={{ type: "spring", damping: 20 }}
           onClick={handleBackgroundClick}
         >
-          <div className="relative w-full max-w-2xl mx-auto px-8" onClick={e => e.stopPropagation()}>
+          <div className={`relative w-full ${isMobile ? 'max-w-xl' : 'max-w-2xl'} mx-auto px-4 lg:px-8`} onClick={e => e.stopPropagation()}>
             <Button
               variant="ghost"
               size="icon"
@@ -37,7 +44,7 @@ const FloatingVideoPlayer = ({ src, isVisible, onClose }: FloatingVideoPlayerPro
             >
               <X className="h-4 w-4" />
             </Button>
-            <div className="min-h-[450px] flex items-center">
+            <div className={`${isMobile ? 'min-h-[200px]' : 'min-h-[450px]'} flex items-center`}>
               <video
                 className="w-full aspect-video rounded-lg shadow-xl"
                 controls
