@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Circle, CircleDot } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -13,18 +12,26 @@ const SectionDots = ({ sections, currentSection, onDotClick }: SectionDotsProps)
   const isMobile = useIsMobile();
 
   return (
-    <div className={`fixed ${isMobile ? 'bottom-8 left-0 right-0 -translate-y-0 flex justify-center' : 'right-8 top-1/2 -translate-y-1/2 flex flex-col'} gap-4 z-50`}>
+    <div className={`fixed ${
+      isMobile 
+        ? 'right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2' 
+        : 'right-8 top-1/2 -translate-y-1/2 flex flex-col gap-4'
+    } z-50`}>
       {sections.map((section) => (
         <button
           key={section}
           onClick={() => onDotClick(section)}
-          className="text-white/50 hover:text-white transition-colors"
+          className={`${
+            isMobile 
+              ? 'text-white/30 hover:text-white/50' 
+              : 'text-white/50 hover:text-white'
+          } transition-colors`}
           aria-label={`Navigate to ${section} section`}
         >
           {section === currentSection ? (
-            <CircleDot className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
+            <CircleDot className={`${isMobile ? 'w-2 h-2' : 'w-4 h-4'}`} />
           ) : (
-            <Circle className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
+            <Circle className={`${isMobile ? 'w-2 h-2' : 'w-4 h-4'}`} />
           )}
         </button>
       ))}

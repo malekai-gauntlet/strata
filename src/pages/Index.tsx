@@ -160,7 +160,7 @@ But you're a coach... why does this matter for you?`}
                 className="bg-white text-secondary hover:bg-gray-100"
                 onClick={() => setIsVideoVisible(true)}
               >
-                Watch Overview Video
+                Watch Video
               </Button>
             </motion.div>
           </div>
