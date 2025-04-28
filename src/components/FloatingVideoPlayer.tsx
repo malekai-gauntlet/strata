@@ -33,17 +33,19 @@ const FloatingVideoPlayer = ({ src, isVisible, onClose }: FloatingVideoPlayerPro
               : 'top-0 right-0 h-screen w-1/2 hidden lg:flex items-center justify-center'
           }`}
           transition={{ type: "spring", damping: 20 }}
-          onClick={handleBackgroundClick}
+          onClick={onClose}
         >
-          <div className={`relative w-full ${isMobile ? 'max-w-xl' : 'max-w-2xl'} mx-auto px-4 lg:px-8`} onClick={e => e.stopPropagation()}>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute top-4 right-4 z-10 bg-secondary/50 hover:bg-secondary/70"
-              onClick={onClose}
-            >
-              <X className="h-4 w-4" />
-            </Button>
+          <div className={`relative w-full ${isMobile ? 'max-w-xl' : 'max-w-2xl'} mx-auto px-4 lg:px-8`}>
+            {!isMobile && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute top-4 right-4 z-10 bg-secondary/50 hover:bg-secondary/70"
+                onClick={onClose}
+              >
+                <X className="h-4 w-4 text-white" />
+              </Button>
+            )}
             <div className={`${isMobile ? 'min-h-[200px]' : 'min-h-[450px]'} flex items-center`}>
               <video
                 className="w-full aspect-video rounded-lg shadow-xl"
