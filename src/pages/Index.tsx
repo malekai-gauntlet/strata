@@ -293,7 +293,7 @@ We have partnered with Alpha School so that coaches can use this learning softwa
         }>
           <div className="max-w-2xl">
             <StreamingText tag="h2" className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6" index={0}>
-              You'll create top athletes <em className="text-4xl md:text-5xl lg:text-6xl">and</em> students.
+              You'll create top athletes and students.
             </StreamingText>
             <StreamingText className="text-xl text-gray-400 mb-8" index={1}>
               {`With personalized learning software doing the teaching, the role of the "teacher" has shifted to that of a motivator. So the best teachers don't need to be domain experts, they just need to be master motivators — something coaches absolutely excel at.
