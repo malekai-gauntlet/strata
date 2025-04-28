@@ -21,6 +21,7 @@ const Index = () => {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const wheelEventRef = useRef<((e: WheelEvent) => void) | null>(null);
   const lastWheelEventTimeRef = useRef(0);
+  const [touchStartY, setTouchStartY] = useState<number | null>(null);
 
   function getInitialSection() {
     const hash = window.location.hash.replace('#', '');
@@ -64,6 +65,40 @@ const Index = () => {
   }, [currentSection, isScrollLocked]);
 
   useEffect(() => {
+    const handleTouchStart = (e: TouchEvent) => {
+      setTouchStartY(e.touches[0].clientY);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (touchStartY === null) return;
+      
+      // If scrolling is locked, ignore touch events
+      if (isScrollLocked) return;
+
+      const currentTime = Date.now();
+      if (currentTime - lastWheelEventTimeRef.current < 800) return;
+
+      const touchDelta = touchStartY - e.touches[0].clientY;
+      const currentIndex = sections.indexOf(currentSection);
+
+      // Only trigger if touch movement is significant (> 50px)
+      if (Math.abs(touchDelta) > 50) {
+        lastWheelEventTimeRef.current = currentTime;
+        
+        if (touchDelta > 0 && currentIndex < sections.length - 1) {
+          navigateToSection(sections[currentIndex + 1]);
+        } else if (touchDelta < 0 && currentIndex > 0) {
+          navigateToSection(sections[currentIndex - 1]);
+        }
+        
+        setTouchStartY(null);
+      }
+    };
+
+    const handleTouchEnd = () => {
+      setTouchStartY(null);
+    };
+
     const handleScroll = (e: WheelEvent) => {
       // Prevent default scrolling behavior
       e.preventDefault();
@@ -93,19 +128,25 @@ const Index = () => {
       }
     };
 
-    // Store the handler reference so we can remove it properly
+    // Add touch event listeners
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchmove', handleTouchMove);
+    window.addEventListener('touchend', handleTouchEnd);
+
+    // Add wheel event listener
     wheelEventRef.current = handleScroll;
-    
-    // Add the wheel event listener with passive: false to allow preventDefault
     window.addEventListener('wheel', wheelEventRef.current, { passive: false });
     
     return () => {
-      // Remove the event listener using the stored reference
+      // Remove all event listeners
       if (wheelEventRef.current) {
         window.removeEventListener('wheel', wheelEventRef.current);
       }
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [currentSection, isScrollLocked]);
+  }, [currentSection, isScrollLocked, touchStartY, sections, navigateToSection]);
 
   const handleDotClick = (section: string) => {
     navigateToSection(section);
