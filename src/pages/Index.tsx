@@ -38,11 +38,15 @@ const Index = () => {
     
     window.location.hash = section;
     setCurrentSection(section);
-    document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById(section)?.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    });
     
+    // Increase timeout duration to match longer scroll animation
     setTimeout(() => {
       setIsScrollLocked(false);
-    }, 800);
+    }, 1200); // Increased from 800ms to 1200ms
   };
 
   useEffect(() => {
@@ -76,13 +80,13 @@ const Index = () => {
       if (isScrollLocked) return;
 
       const currentTime = Date.now();
-      if (currentTime - lastWheelEventTimeRef.current < 800) return;
+      if (currentTime - lastWheelEventTimeRef.current < 1200) return;
 
       const touchDelta = touchStartY - e.touches[0].clientY;
       const currentIndex = sections.indexOf(currentSection);
 
-      // Only trigger if touch movement is significant (> 50px)
-      if (Math.abs(touchDelta) > 50) {
+      // Increased threshold for touch movement to prevent accidental triggers
+      if (Math.abs(touchDelta) > 75) {
         e.preventDefault(); // Prevent default scrolling
         lastWheelEventTimeRef.current = currentTime;
         
