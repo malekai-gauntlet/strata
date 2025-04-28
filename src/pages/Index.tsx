@@ -3,6 +3,7 @@ import Navigation from '@/components/Navigation';
 import StorySection from '@/components/StorySection';
 import SectionDots from '@/components/SectionDots';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import StreamingText from '@/components/StreamingText';
 import TweetEmbed from '@/components/TweetEmbed';
 import VideoPlayer from '@/components/VideoPlayer';
@@ -15,6 +16,9 @@ const Index = () => {
   const [currentSection, setCurrentSection] = useState(getInitialSection());
   const [isScrollLocked, setIsScrollLocked] = useState(false);
   const [isVideoVisible, setIsVideoVisible] = useState(false);
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const wheelEventRef = useRef<((e: WheelEvent) => void) | null>(null);
   const lastWheelEventTimeRef = useRef(0);
 
@@ -351,15 +355,67 @@ Ok... but running a school sounds complicated. How would that work?`}
             <StreamingText className="text-xl text-gray-400 mb-8" index={1}>
               {`We have a school location secured in Carrollton (45 minutes north of Dallas). You can use that location or one of our others.
 
-We're inviting the best coaches/athletes in Texas to partner on this. To learn more, let's connect.`}
+We're inviting the best coaches/athletes in Texas to partner on this. Drop your email to learn more.`}
             </StreamingText>
-            <Button 
-              variant="default" 
-              className="bg-white text-secondary hover:bg-gray-100"
-              onClick={() => window.open('https://calendly.com/malekai-mischke-superbuilders/30min?preview_source=et_card', '_blank')}
-            >
-              Schedule Call
-            </Button>
+            <div className="flex flex-col gap-4">
+              <form 
+                action="https://hooks.zapier.com/hooks/catch/22692611/2pdyolt/"
+                method="POST"
+                className="flex gap-2 items-center"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setIsSubmitting(true);
+                  
+                  // Create FormData object
+                  const formData = new FormData();
+                  formData.append('email', email);
+                  formData.append('source', 'landing_page');
+                  formData.append('timestamp', new Date().toISOString());
+                  
+                  // Submit the form data without setting Content-Type header
+                  fetch(e.currentTarget.action, {
+                    method: 'POST',
+                    body: formData
+                  })
+                  .then(response => {
+                    if (!response.ok) throw new Error('Submission failed');
+                    setSubmitStatus('success');
+                    setEmail('');
+                  })
+                  .catch(error => {
+                    console.error('Error:', error);
+                    setSubmitStatus('error');
+                  })
+                  .finally(() => {
+                    setIsSubmitting(false);
+                  });
+                }}
+              >
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="bg-secondary/80 text-white placeholder:text-gray-400 border-gray-700 w-64 focus-visible:ring-white/20"
+                  disabled={isSubmitting}
+                />
+                <Button 
+                  type="submit"
+                  variant="default" 
+                  className="bg-white text-secondary hover:bg-gray-100 whitespace-nowrap"
+                  disabled={isSubmitting || !email.includes('@')}
+                >
+                  {isSubmitting ? 'Submitting...' : 'Learn More'}
+                </Button>
+              </form>
+              {submitStatus === 'success' && (
+                <p className="text-green-400 text-sm">Thanks! We'll be in touch soon.</p>
+              )}
+              {submitStatus === 'error' && (
+                <p className="text-red-400 text-sm">Something went wrong. Please try again.</p>
+              )}
+            </div>
           </div>
         </StorySection>
       </main>

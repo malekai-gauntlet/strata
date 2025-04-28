@@ -18,7 +18,7 @@ const Navigation = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 py-6 px-8 backdrop-blur-md">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <Link to="/" className="text-white text-xl font-semibold">Strata Schools</Link>
+        <a href="#intro" className="text-white text-xl font-semibold">Strata Schools</a>
         
         {isMobile ? (
           <>
@@ -42,7 +42,7 @@ const Navigation = () => {
                   <a href="#income" className="text-xl text-gray-400 hover:text-white transition-colors" onClick={closeMenu}>Income</a>
                   <a href="#academics" className="text-xl text-gray-400 hover:text-white transition-colors" onClick={closeMenu}>Academics</a>
                   <a href="#partner" className="text-xl text-gray-400 hover:text-white transition-colors" onClick={closeMenu}>Partnership</a>
-                  <a href="#start" className="text-xl text-gray-400 hover:text-white transition-colors" onClick={closeMenu}>Start</a>
+                  <a href="#start" className="text-xl px-6 py-2 bg-white text-secondary rounded-full font-medium hover:bg-gray-100 transition-colors" onClick={closeMenu}>Start</a>
                 </div>
               </div>
             )}
@@ -54,7 +54,7 @@ const Navigation = () => {
             <a href="#income" className="text-gray-400 hover:text-white transition-colors">Income</a>
             <a href="#academics" className="text-gray-400 hover:text-white transition-colors">Academics</a>
             <a href="#partner" className="text-gray-400 hover:text-white transition-colors">Partnership</a>
-            <a href="#start" className="text-gray-400 hover:text-white transition-colors">Start</a>
+            <a href="#start" className="px-6 py-2 bg-white text-secondary rounded-full font-medium hover:bg-gray-100 transition-colors">Get Started</a>
           </div>
         )}
       </div>
