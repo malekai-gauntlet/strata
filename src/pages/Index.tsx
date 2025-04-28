@@ -8,11 +8,13 @@ import TweetEmbed from '@/components/TweetEmbed';
 import VideoPlayer from '@/components/VideoPlayer';
 import MapEmbed from '@/components/MapEmbed';
 import { motion } from 'framer-motion';
+import FloatingVideoPlayer from '@/components/FloatingVideoPlayer';
 
 const Index = () => {
   const sections = ['intro', 'opportunity', 'legacy', 'income', 'academics', 'athletes', 'partner', 'start'];
   const [currentSection, setCurrentSection] = useState(getInitialSection());
   const [isScrollLocked, setIsScrollLocked] = useState(false);
+  const [isVideoVisible, setIsVideoVisible] = useState(false);
   const wheelEventRef = useRef<((e: WheelEvent) => void) | null>(null);
   const lastWheelEventTimeRef = useRef(0);
 
@@ -114,6 +116,12 @@ const Index = () => {
         onDotClick={handleDotClick}
       />
       
+      <FloatingVideoPlayer
+        src="/videos/2-hour-learning-video.mp4"
+        isVisible={isVideoVisible}
+        onClose={() => setIsVideoVisible(false)}
+      />
+      
       <main className="snap-y snap-mandatory h-screen overflow-y-auto scroll-smooth">
         <StorySection 
           id="intro" 
@@ -138,6 +146,19 @@ const Index = () => {
 
 But you're a coach... why does this matter for you?`}
             </StreamingText>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 2 }}
+            >
+              <Button 
+                variant="default" 
+                className="bg-white text-secondary hover:bg-gray-100"
+                onClick={() => setIsVideoVisible(true)}
+              >
+                Watch Overview Video
+              </Button>
+            </motion.div>
           </div>
         </StorySection>
 
@@ -330,7 +351,7 @@ Ok... but running a school sounds complicated. How would that work?`}
             <StreamingText className="text-xl text-gray-400 mb-8" index={1}>
               {`We have a school location secured in Carrollton (45 minutes north of Dallas). You can use that location or one of our others.
 
-We're inviting the best coaches/athletes in Texas to partner on this. If you're up for it, let's connect.`}
+We're inviting the best coaches/athletes in Texas to partner on this. To learn more, let's connect.`}
             </StreamingText>
             <Button 
               variant="default" 
