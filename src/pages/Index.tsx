@@ -22,6 +22,7 @@ const Index = () => {
   const wheelEventRef = useRef<((e: WheelEvent) => void) | null>(null);
   const lastWheelEventTimeRef = useRef(0);
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   function getInitialSection() {
     const hash = window.location.hash.replace('#', '');
@@ -65,52 +66,94 @@ const Index = () => {
   }, [currentSection, isScrollLocked]);
 
   useEffect(() => {
+    // Set up intersection observer to track which section is currently visible
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isScrollLocked) {
+            const sectionId = entry.target.id;
+            if (sections.includes(sectionId)) {
+              setCurrentSection(sectionId);
+              window.location.hash = sectionId;
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.5, // Trigger when section is 50% visible
+        rootMargin: '-10% 0px' // Add a small margin to improve accuracy
+      }
+    );
+
+    // Observe all sections
+    sections.forEach(section => {
+      const element = document.getElementById(section);
+      if (element) {
+        observerRef.current?.observe(element);
+      }
+    });
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, [sections, isScrollLocked]);
+
+  const handleTouchMove = (e: TouchEvent) => {
+    if (touchStartY === null || isScrollLocked) return;
+
+    const currentTime = Date.now();
+    if (currentTime - lastWheelEventTimeRef.current < 400) return; // Reduced from 800ms to 400ms for more responsive feel
+
+    const touchDelta = touchStartY - e.touches[0].clientY;
+    const currentIndex = sections.indexOf(currentSection);
+
+    // Reduced threshold from 50px to 30px for better responsiveness
+    if (Math.abs(touchDelta) > 30) {
+      lastWheelEventTimeRef.current = currentTime;
+      
+      if (touchDelta > 0 && currentIndex < sections.length - 1) {
+        navigateToSection(sections[currentIndex + 1]);
+      } else if (touchDelta < 0 && currentIndex > 0) {
+        navigateToSection(sections[currentIndex - 1]);
+      }
+      
+      setTouchStartY(null);
+    }
+  };
+
+  useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
       setTouchStartY(e.touches[0].clientY);
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (touchStartY === null) return;
-      
-      // If scrolling is locked, ignore touch events
-      if (isScrollLocked) return;
-
-      const currentTime = Date.now();
-      if (currentTime - lastWheelEventTimeRef.current < 800) return;
-
-      const touchDelta = touchStartY - e.touches[0].clientY;
-      const currentIndex = sections.indexOf(currentSection);
-
-      // Only trigger if touch movement is significant (> 50px)
-      if (Math.abs(touchDelta) > 50) {
-        lastWheelEventTimeRef.current = currentTime;
-        
-        if (touchDelta > 0 && currentIndex < sections.length - 1) {
-          navigateToSection(sections[currentIndex + 1]);
-        } else if (touchDelta < 0 && currentIndex > 0) {
-          navigateToSection(sections[currentIndex - 1]);
-        }
-        
-        setTouchStartY(null);
-      }
     };
 
     const handleTouchEnd = () => {
       setTouchStartY(null);
     };
 
+    // Add touch event listeners
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [handleTouchMove]);
+
+  // Keep the wheel event handler for desktop
+  useEffect(() => {
     const handleScroll = (e: WheelEvent) => {
-      // Prevent default scrolling behavior
       e.preventDefault();
       
-      // If scrolling is locked, ignore wheel events completely
       if (isScrollLocked) return;
 
-      // Simple debounce: only allow wheel events every 800ms
       const currentTime = Date.now();
       if (currentTime - lastWheelEventTimeRef.current < 800) return;
       
-      // Only trigger section change if scroll intensity is moderate (> 50) or it's been a while since last scroll
       const scrollIntensity = Math.abs(e.deltaY);
       const timeSinceLastScroll = currentTime - lastWheelEventTimeRef.current;
       
@@ -120,7 +163,6 @@ const Index = () => {
 
       const currentIndex = sections.indexOf(currentSection);
       
-      // Determine scroll direction and navigate accordingly
       if (e.deltaY > 0 && currentIndex < sections.length - 1) {
         navigateToSection(sections[currentIndex + 1]);
       } else if (e.deltaY < 0 && currentIndex > 0) {
@@ -128,25 +170,15 @@ const Index = () => {
       }
     };
 
-    // Add touch event listeners
-    window.addEventListener('touchstart', handleTouchStart);
-    window.addEventListener('touchmove', handleTouchMove);
-    window.addEventListener('touchend', handleTouchEnd);
-
-    // Add wheel event listener
     wheelEventRef.current = handleScroll;
     window.addEventListener('wheel', wheelEventRef.current, { passive: false });
     
     return () => {
-      // Remove all event listeners
       if (wheelEventRef.current) {
         window.removeEventListener('wheel', wheelEventRef.current);
       }
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [currentSection, isScrollLocked, touchStartY, sections, navigateToSection]);
+  }, [currentSection, isScrollLocked, sections, navigateToSection]);
 
   const handleDotClick = (section: string) => {
     navigateToSection(section);
