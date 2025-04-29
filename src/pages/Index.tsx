@@ -227,7 +227,7 @@ But you might be busy and already have a job...`}
               Double your income while making a difference.
             </StreamingText>
             <StreamingText className="text-xl text-gray-400 mb-8" index={1}>
-              {`For every student at your sports-focused microschool, you will earn $10,000-15,000. Your school will have 15-25 students. Factoring in real estate and other expenses, that's minimum $200,000/yr of additional net income. Again, the new Texas bill is why coaches can now get paid so much.
+              {`You will earn thousands of dollars for every student at your sports-microschool. Your school will have 15-25 students. Factoring in real estate and other expenses, that's a minimum six figures of additional net income. Again, the new Texas bill is why coaches can now get paid so much.
 
 And that afterschool coaching job you already have? You can keep it. Your microschool will operate from 9am- 3pm M-F, so you can continue coaching afterschool and on weekends.
 
