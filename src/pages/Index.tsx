@@ -173,7 +173,7 @@ But you're a coach... why does this matter for you?`}
             <StreamingText className="text-xl text-gray-400 mb-6" delay={0.5} index={1}>
               {`This is a unique point in time. Coaches can start their own microschools and double their income. This is only now possible because:
 
-1. The new ESA legislation enables coaches to be paid at least $10,000 for each student enrolled at their school. Microschools have 15-25 students.
+1. The new ESA legislation enables coaches to be paid at least $10,000 in revenue for each student enrolled at their school. Microschools have 15-25 students.
 
 2. In 2025, we have the technology to handle all academics and logistics for running a school (more on this later).
 
@@ -227,7 +227,7 @@ But you might be busy and already have a job...`}
               Double your income while making a difference.
             </StreamingText>
             <StreamingText className="text-xl text-gray-400 mb-8" index={1}>
-              {`You will earn thousands of dollars for every student at your sports-microschool. Your school will have 15-25 students. Factoring in real estate and other expenses, that's a  of six figures of additional net income. Again, the new Texas bill is why coaches can now get paid so much.
+              {`You will earn thousands of dollars for every student at your sports-microschool. Your school will have 15-25 students. Factoring in real estate and other expenses, that's at least six figures of additional net income. Again, the new Texas bill is why coaches can now get paid so much.
 
 And that afterschool coaching job you already have? You can keep it. Your microschool will operate from 9am- 3pm M-F, so you can continue coaching afterschool and on weekends.
 
