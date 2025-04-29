@@ -296,7 +296,7 @@ We have partnered with Alpha School so that coaches can use this learning softwa
               You'll create top athletes and students.
             </StreamingText>
             <StreamingText className="text-xl text-gray-400 mb-8" index={1}>
-              {`With personalized learning software doing the teaching, the role of the "teacher" has shifted to that of a motivator. So the best teachers don't need to be domain experts, they just need to be master motivators — something coaches absolutely excel at.
+              {`With personalized learning software doing the teaching, the role of the "teacher" has shifted to that of a motivator. The best teachers don't need to be curriculum experts, they just need to be master motivators — something coaches absolutely excel at.
 
 The structure of a day at your school will be along the lines of:
 
