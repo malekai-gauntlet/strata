@@ -369,7 +369,7 @@ const About = () => {
           >
             <h2 className="text-4xl font-bold mb-8">CREATING AN EDUCATION POWERHOUSE</h2>
             <p className="text-xl text-gray-400 max-w-4xl mx-auto">
-              Our mission is to establish Strata Schools across every district, providing every Texas child with a choice for world-class education
+              Our mission is to establish Strata Schools across every Texas district, providing each family with the choice of a world-class education.
             </p>
           </motion.div>
         </div>
