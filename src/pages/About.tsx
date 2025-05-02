@@ -36,7 +36,7 @@ const SolutionCard = ({ title, description }: { title: string; description: stri
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
-      className="bg-black/50 p-8 rounded-lg border border-white/10 hover:border-white/20 transition-colors"
+      className="bg-black/50 p-6 md:p-8 rounded-lg border border-white/10 hover:border-white/20 transition-colors"
     >
       <h3 className="text-2xl font-bold mb-4">{title}</h3>
       <p className="text-gray-400">{description}</p>
@@ -72,7 +72,7 @@ const About = () => {
           </motion.div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-6 md:px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -182,8 +182,8 @@ const About = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/70 md:to-transparent" />
         </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl">
+        <div className="container mx-auto px-6 md:px-4 relative z-10">
+          <div className="max-w-4xl px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -208,7 +208,7 @@ const About = () => {
 
       {/* Strata Solution Section */}
       <section className="min-h-screen flex items-center bg-[#111111]">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-6 md:px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -216,15 +216,15 @@ const About = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-8">
+            <h2 className="text-4xl md:text-5xl font-bold mb-8 px-4">
               THE STRATA SOLUTION
             </h2>
-            <p className="text-xl text-gray-400 max-w-4xl mx-auto">
+            <p className="text-xl text-gray-400 max-w-4xl mx-auto px-4">
               We will give every student in Texas the option to switch to a world-class education with Strata.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 px-4">
             <SolutionCard
               title="Top 1% Academic Performance"
               description="Strata Schools are powered by 2 Hour Learning. We use personalized, mastery-based learning to bring students to the top 1-2% nationally with only two hours of studying daily."
@@ -255,8 +255,8 @@ const About = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-l from-black/90 via-black/80 to-black/70 md:to-transparent" />
         </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="ml-auto max-w-2xl">
+        <div className="container mx-auto px-6 md:px-4 relative z-10">
+          <div className="ml-auto max-w-2xl px-4">
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -300,8 +300,8 @@ const About = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/70 md:to-transparent" />
         </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-2xl">
+        <div className="container mx-auto px-6 md:px-4 relative z-10">
+          <div className="max-w-2xl px-4">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
