@@ -15,7 +15,7 @@ const Timeline: React.FC<TimelineProps> = ({ items }) => {
   return (
     <div className="relative">
       {/* Timeline line */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 w-px h-full bg-white/20" />
+      <div className="absolute left-[45%] w-px h-full bg-white/20" />
       
       {/* Timeline items */}
       <div className="space-y-32">
@@ -29,16 +29,16 @@ const Timeline: React.FC<TimelineProps> = ({ items }) => {
             className="relative"
           >
             {/* Year marker */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 -mt-2">
+            <div className="absolute left-[45%] -translate-x-1/2 -mt-2">
               <div className="w-4 h-4 rounded-full bg-white" />
             </div>
             
             {/* Content */}
-            <div className={`flex items-center gap-8 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
+            <div className="flex items-center">
               {/* Year */}
-              <div className={`w-1/2 ${index % 2 === 0 ? 'text-right' : 'text-left'}`}>
+              <div className="w-[45%] text-right pr-8">
                 <motion.h3
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                  initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.3 }}
                   viewport={{ once: true }}
@@ -49,9 +49,9 @@ const Timeline: React.FC<TimelineProps> = ({ items }) => {
               </div>
               
               {/* Content */}
-              <div className={`w-1/2 ${index % 2 === 0 ? 'text-left' : 'text-right'}`}>
+              <div className="w-[55%] pl-8">
                 <motion.div
-                  initial={{ opacity: 0, x: index % 2 === 0 ? 20 : -20 }}
+                  initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.3 }}
                   viewport={{ once: true }}

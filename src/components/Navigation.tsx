@@ -51,13 +51,6 @@ const Navigation = () => {
                   >
                     About
                   </Link>
-                  <Link 
-                    to="/mission" 
-                    className="text-white/90 hover:text-white transition-colors"
-                    onClick={closeMenu}
-                  >
-                    Mission
-                  </Link>
                 </div>
               </div>
             )}
@@ -69,12 +62,6 @@ const Navigation = () => {
               className="text-white/90 hover:text-white transition-colors"
             >
               About
-            </Link>
-            <Link 
-              to="/mission" 
-              className="text-white/90 hover:text-white transition-colors"
-            >
-              Mission
             </Link>
           </div>
         )}
