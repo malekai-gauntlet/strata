@@ -235,7 +235,7 @@ const About = () => {
               description="Strata Schools are designed to be easy to set up and scale. We'll have one school in every district by August 26th and grow to 10% of Texas students by 2028."
             />
             <SolutionCard
-              title="Start Sports at 12 pm Every Day"
+              title="Start Sports at Noon Every Day"
               description="Parents want sports, not just academics. After academics in the morning, Strata students start training basketball, tennis, soccer and other sports at noon."
             />
             <SolutionCard
@@ -315,7 +315,7 @@ const About = () => {
                 After completing their academic work, students engage in professional sports training starting at noon every day. Our comprehensive program develops both athletic skills and character.
               </p>
               <p className="text-xl text-gray-300">
-                With access to professional coaching and state-of-the-art facilities, students can pursue their athletic dreams while maintaining academic excellence.
+                With access to professional coaching, students can pursue their athletic dreams while maintaining academic excellence.
               </p>
               <ul className="space-y-4 text-gray-300">
                 <li className="flex items-center space-x-3">
