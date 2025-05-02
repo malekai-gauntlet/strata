@@ -56,13 +56,20 @@ const About = () => {
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
-          <div className="absolute inset-0 bg-gradient-radial from-transparent via-black/30 to-transparent" />
-          <img
-            src="/images/kidsinfield.png"
-            alt="Students in sports field"
-            className="w-full h-full object-cover"
-          />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2 }}
+            className="relative w-full h-full"
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+            <div className="absolute inset-0 bg-gradient-radial from-transparent via-black/30 to-transparent" />
+            <img
+              src="/images/kidsinfield.png"
+              alt="Students in sports field"
+              className="w-full h-full object-cover"
+            />
+          </motion.div>
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
