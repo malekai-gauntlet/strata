@@ -384,7 +384,7 @@ const About = () => {
       <section className="py-20 bg-[#111111]">
         <div className="container mx-auto px-6 md:px-4">
           <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-2xl font-bold mb-6">JOIN THE EDUCATIONAL REVOLUTION</h3>
+            <h3 className="text-2xl font-bold mb-6">JOIN THE EDUCATION REVOLUTION</h3>
             <form 
               action={import.meta.env.DEV 
                 ? "/api/mock-subscribe" 
