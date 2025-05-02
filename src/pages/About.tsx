@@ -127,7 +127,7 @@ const About = () => {
       </section>
 
       {/* Our Commitment Section */}
-      <section id="about-content" className="min-h-screen flex items-center bg-black">
+      <section id="about-content" className="min-h-screen flex items-center bg-black py-16 md:py-0">
         <div className="container mx-auto px-6 md:px-4">
           <div className="flex flex-col justify-center space-y-20">
             <motion.div
@@ -208,7 +208,7 @@ const About = () => {
       </section>
 
       {/* Strata Solution Section */}
-      <section className="min-h-screen flex items-center bg-[#111111]">
+      <section className="min-h-screen flex items-center bg-[#111111] pt-16 pb-16 md:pt-0 md:pb-0">
         <div className="container mx-auto px-6 md:px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -235,7 +235,7 @@ const About = () => {
               description="Strata Schools are designed to be easy to set up and scale. We'll have one school in every district by August 26th and grow to 10% of Texas students by 2028."
             />
             <SolutionCard
-              title="Start Sports at 12 pm Every Day"
+              title="Start Sports at Noon Every Day"
               description="Parents want sports, not just academics. After academics in the morning, Strata students start training basketball, tennis, soccer and other sports at noon."
             />
             <SolutionCard
@@ -315,7 +315,7 @@ const About = () => {
                 After completing their academic work, students engage in professional sports training starting at noon every day. Our comprehensive program develops both athletic skills and character.
               </p>
               <p className="text-xl text-gray-300">
-                With access to professional coaching and state-of-the-art facilities, students can pursue their athletic dreams while maintaining academic excellence.
+                With access to professional coaching, students can pursue their athletic dreams while maintaining academic excellence.
               </p>
               <ul className="space-y-4 text-gray-300">
                 <li className="flex items-center space-x-3">
@@ -359,17 +359,17 @@ const About = () => {
 
       {/* Texas Coverage Section */}
       <section className="relative min-h-screen bg-black">
-        <div className="container mx-auto px-6 md:px-4 py-16">
+        <div className="container mx-auto px-6 md:px-4 py-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="text-center mb-8"
           >
             <h2 className="text-4xl font-bold mb-8">CREATING AN EDUCATION POWERHOUSE</h2>
             <p className="text-xl text-gray-400 max-w-4xl mx-auto">
-              Our mission is to establish Strata Schools across every district in Texas, ensuring access to revolutionary education for all.
+              Our mission is to establish Strata Schools across every district, providing every Texas child with a choice for world-class education
             </p>
           </motion.div>
         </div>
@@ -386,19 +386,58 @@ const About = () => {
           <div className="max-w-2xl mx-auto text-center">
             <h3 className="text-2xl font-bold mb-6">JOIN THE EDUCATIONAL REVOLUTION</h3>
             <form 
+              action={import.meta.env.DEV 
+                ? "/api/mock-subscribe" 
+                : "https://hooks.zapier.com/hooks/catch/22692611/2pniatp/"}
+              method="POST"
               onSubmit={(e) => {
                 e.preventDefault();
+                
                 if (!email.includes('@')) {
                   setSubmitStatus('error');
                   return;
                 }
+                
                 setIsSubmitting(true);
-                // Handle form submission
-                setTimeout(() => {
+                
+                // Create FormData object
+                const formData = new FormData();
+                formData.append('email', email);
+                formData.append('source', 'about_page');
+                formData.append('timestamp', new Date().toISOString());
+                
+                if (import.meta.env.DEV) {
+                  // In development, just simulate a successful submission
+                  console.log('Development mode - Form data:', {
+                    email,
+                    source: 'about_page',
+                    timestamp: new Date().toISOString()
+                  });
+                  setTimeout(() => {
+                    setSubmitStatus('success');
+                    setEmail('');
+                    setIsSubmitting(false);
+                  }, 500);
+                  return;
+                }
+                
+                // Submit the form data without setting Content-Type header
+                fetch(e.currentTarget.action, {
+                  method: 'POST',
+                  body: formData
+                })
+                .then(response => {
+                  if (!response.ok) throw new Error('Submission failed');
                   setSubmitStatus('success');
-                  setIsSubmitting(false);
                   setEmail('');
-                }, 1000);
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                  setSubmitStatus('error');
+                })
+                .finally(() => {
+                  setIsSubmitting(false);
+                });
               }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
