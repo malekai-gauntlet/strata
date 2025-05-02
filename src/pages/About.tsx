@@ -386,19 +386,58 @@ const About = () => {
           <div className="max-w-2xl mx-auto text-center">
             <h3 className="text-2xl font-bold mb-6">JOIN THE EDUCATIONAL REVOLUTION</h3>
             <form 
+              action={import.meta.env.DEV 
+                ? "/api/mock-subscribe" 
+                : "https://hooks.zapier.com/hooks/catch/22692611/2pniatp/"}
+              method="POST"
               onSubmit={(e) => {
                 e.preventDefault();
+                
                 if (!email.includes('@')) {
                   setSubmitStatus('error');
                   return;
                 }
+                
                 setIsSubmitting(true);
-                // Handle form submission
-                setTimeout(() => {
+                
+                // Create FormData object
+                const formData = new FormData();
+                formData.append('email', email);
+                formData.append('source', 'about_page');
+                formData.append('timestamp', new Date().toISOString());
+                
+                if (import.meta.env.DEV) {
+                  // In development, just simulate a successful submission
+                  console.log('Development mode - Form data:', {
+                    email,
+                    source: 'about_page',
+                    timestamp: new Date().toISOString()
+                  });
+                  setTimeout(() => {
+                    setSubmitStatus('success');
+                    setEmail('');
+                    setIsSubmitting(false);
+                  }, 500);
+                  return;
+                }
+                
+                // Submit the form data without setting Content-Type header
+                fetch(e.currentTarget.action, {
+                  method: 'POST',
+                  body: formData
+                })
+                .then(response => {
+                  if (!response.ok) throw new Error('Submission failed');
                   setSubmitStatus('success');
-                  setIsSubmitting(false);
                   setEmail('');
-                }, 1000);
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                  setSubmitStatus('error');
+                })
+                .finally(() => {
+                  setIsSubmitting(false);
+                });
               }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
