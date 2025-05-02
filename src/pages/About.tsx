@@ -126,7 +126,7 @@ const About = () => {
       </section>
 
       {/* Our Commitment Section */}
-      <section id="about-content" className="min-h-screen flex items-center bg-black">
+      <section id="about-content" className="min-h-screen flex items-center bg-black py-16 md:py-0">
         <div className="container mx-auto px-6 md:px-4">
           <div className="flex flex-col justify-center space-y-20">
             <motion.div
@@ -207,7 +207,7 @@ const About = () => {
       </section>
 
       {/* Strata Solution Section */}
-      <section className="min-h-screen flex items-center bg-[#111111]">
+      <section className="min-h-screen flex items-center bg-[#111111] pt-16 pb-16 md:pt-0 md:pb-0">
         <div className="container mx-auto px-6 md:px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
