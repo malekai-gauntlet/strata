@@ -35,7 +35,6 @@ interface RandomPoint {
   lng: number;
   districtId: string;
   districtName: string;
-  districtDisplayName?: string;
   isCenter?: boolean; // indicates if this is the center point of a district
 }
 
@@ -54,8 +53,6 @@ interface CustomViewState {
 // Use a consistent dot size for all school markers
 const SCHOOL_DOT_SIZE = 10; // Size in pixels
 const MIN_DOT_DISTANCE = 15; // Minimum distance between dots in pixels
-// Flag to completely disable map movement
-const LOCK_MAP_POSITION = true;
 
 // Modify the SchoolMarkers component to use consistent sizes
 const SchoolMarkers = React.memo(({ points, onPointClick }: { 
@@ -130,7 +127,7 @@ const TexasSchoolDistrictsMap = () => {
   const [viewState, setViewState] = useState<CustomViewState>({
     longitude: -99.0,   // Adjusted center for Texas
     latitude: 31.2,     // Adjusted center for Texas
-    zoom: 5.1,          // More zoomed out view (was 5.5)
+    zoom: 5.5,          // Slightly zoomed in to show Texas more prominently
     bearing: 0,
     pitch: 0,
     padding: null,
@@ -140,12 +137,6 @@ const TexasSchoolDistrictsMap = () => {
   
   // Create a ref to store the initial view state so we can reset to it if needed
   const initialViewStateRef = useRef(viewState);
-  
-  // Add a ref to store the initial center position explicitly
-  const initialCenterRef = useRef<{lng: number, lat: number}>({
-    lng: viewState.longitude,
-    lat: viewState.latitude
-  });
   
   // Store the true/false state of whether the map is allowed to move
   const mapMovementLocked = true; // Changed to constant true since we're not using the setter
@@ -889,88 +880,45 @@ const TexasSchoolDistrictsMap = () => {
 
   // Enhanced wheel event prevention
   useEffect(() => {
-    if (!LOCK_MAP_POSITION) return;
-    
     // Completely prevent wheel events for zoom
     const preventZoom = (e: WheelEvent) => {
       // Always prevent wheel events when ctrl key is pressed (zoom gesture)
-      if (e.ctrlKey || e.metaKey) {
+      if (e.ctrlKey) {
         e.preventDefault();
       }
     };
 
-    // More aggressive prevention of map movement events
+    // Prevent all map movement events
     const preventMapMovement = (e: Event) => {
-      e.stopPropagation();
-      if (e.cancelable) {
-        e.preventDefault();
+      if (mapMovementLocked) {
+        e.stopPropagation();
+        if (e.cancelable) {
+          e.preventDefault();
+        }
       }
     };
 
-    // Add the event listeners to the document with capture to intercept early
-    document.addEventListener('wheel', preventZoom, { passive: false, capture: true });
+    // Add the event listeners to the document
+    document.addEventListener('wheel', preventZoom, { passive: false });
     
     // Add event listeners for any map container if it exists
     const mapContainer = document.querySelector('.mapboxgl-map');
     if (mapContainer) {
-      const events = [
-        'mousedown', 'mouseup', 'mousemove',
-        'touchstart', 'touchmove', 'touchend',
-        'wheel', 'dblclick',
-        'dragstart', 'drag', 'dragend',
-        'gesturestart', 'gesturechange', 'gestureend'
-      ];
-      
-      // Add all event listeners with capture
-      events.forEach(eventType => {
-        mapContainer.addEventListener(eventType, preventMapMovement, { capture: true });
-      });
-
-      // Cleanup
-      return () => {
-        document.removeEventListener('wheel', preventZoom, { capture: true });
-        
-        // Remove all event listeners
-        events.forEach(eventType => {
-          mapContainer.removeEventListener(eventType, preventMapMovement, { capture: true });
-        });
-      };
+      mapContainer.addEventListener('mousedown', preventMapMovement, { capture: true });
+      mapContainer.addEventListener('touchstart', preventMapMovement, { capture: true });
+      mapContainer.addEventListener('wheel', preventMapMovement, { capture: true });
     }
-    
-    // Cleanup if mapContainer not found
-    return () => {
-      document.removeEventListener('wheel', preventZoom, { capture: true });
-    };
-  }, []);
 
-  // Add an effect to periodically check and force the map position
-  useEffect(() => {
-    if (!LOCK_MAP_POSITION || !mapRef.current) return;
-    
-    // Force map position every second to prevent any drift
-    const interval = setInterval(() => {
-      if (mapRef.current) {
-        const map = mapRef.current.getMap();
-        const currentCenter = map.getCenter();
-        const initialCenter = initialCenterRef.current;
-        const initialZoom = initialViewStateRef.current.zoom;
-        
-        if (
-          Math.abs(currentCenter.lng - initialCenter.lng) > 0.0001 || 
-          Math.abs(currentCenter.lat - initialCenter.lat) > 0.0001 ||
-          Math.abs(map.getZoom() - initialZoom) > 0.0001
-        ) {
-          console.log("Periodic reset of map position");
-          map.jumpTo({
-            center: initialCenter,
-            zoom: initialZoom
-          });
-        }
+    // Cleanup
+    return () => {
+      document.removeEventListener('wheel', preventZoom);
+      if (mapContainer) {
+        mapContainer.removeEventListener('mousedown', preventMapMovement);
+        mapContainer.removeEventListener('touchstart', preventMapMovement);
+        mapContainer.removeEventListener('wheel', preventMapMovement);
       }
-    }, 1000);
-    
-    return () => clearInterval(interval);
-  }, []);
+    };
+  }, [mapMovementLocked]);
 
   // Adjust zoom level based on screen size
   useEffect(() => {
@@ -982,7 +930,7 @@ const TexasSchoolDistrictsMap = () => {
         ...prev,
         width: window.innerWidth,
         height: window.innerHeight,
-        zoom: isMobile ? 2 : 4.5 // More zoomed out for both mobile and desktop
+        zoom: isMobile ? 4.8 : 5.5 // Lower zoom level for mobile
       }));
     };
     
@@ -1001,15 +949,6 @@ const TexasSchoolDistrictsMap = () => {
     if (!mapRef.current) return;
     
     const map = target;
-    
-    // Store initial center and force it to remain fixed
-    const initialCenter = {
-      lng: initialViewStateRef.current.longitude,
-      lat: initialViewStateRef.current.latitude
-    };
-    initialCenterRef.current = initialCenter;
-    
-    const initialZoom = initialViewStateRef.current.zoom;
     
     // Set district colors using feature state
     if (processedGeoJson && map.getSource('districts')) {
@@ -1035,31 +974,15 @@ const TexasSchoolDistrictsMap = () => {
     // Restrict the map to Texas bounds
     map.setMaxBounds(texasBounds);
     
-    if (LOCK_MAP_POSITION) {
-      // Completely disable all map interaction except clicking
-      map.dragRotate.disable();
-      map.touchZoomRotate.disable(); // Disable both rotation and touch zoom
-      map.scrollZoom.disable();      // Disable scroll zooming
-      map.boxZoom.disable();         // Disable box zooming
-      map.doubleClickZoom.disable(); // Disable double click zoom
-      map.keyboard.disable();        // Disable keyboard navigation
-      map.dragPan.disable();         // Explicitly disable panning
-      
-      // Add multiple listeners to catch any movement attempts
-      map.on('movestart', (e) => e.preventDefault());
-      map.on('dragstart', (e) => e.preventDefault());
-      map.on('zoomstart', (e) => e.preventDefault());
-      
-      // Override all map movement methods to be no-ops
-      map.jumpTo = () => map;
-      map.flyTo = () => map;
-      map.easeTo = () => map;
-      map.panTo = () => map;
-      map.panBy = () => map;
-      map.zoomTo = () => map;
-      map.setCenter = () => map;
-      map.setZoom = () => map;
-    }
+    // Completely disable all map interaction except clicking
+    map.dragRotate.disable();
+    map.touchZoomRotate.disable(); // Disable both rotation and touch zoom
+    map.scrollZoom.disable();      // Disable scroll zooming
+    map.boxZoom.disable();         // Disable box zooming
+    map.doubleClickZoom.disable(); // Disable double click zoom
+    map.keyboard.disable();        // Disable keyboard navigation
+    
+    // Removed map.flyTo to prevent zoom animation
   }, [processedGeoJson, districtColors, handleDistrictClick, handleDistrictHover, handleDistrictLeave, texasBounds]);
 
   // Update feature states when district colors change
@@ -1084,27 +1007,8 @@ const TexasSchoolDistrictsMap = () => {
 
   // Memoize the marker click handler
   const handleMarkerClick = useCallback((point: RandomPoint, x: number, y: number) => {
-    // Find the associated district with this point
-    if (geoJsonData) {
-      const district = geoJsonData.features.find(
-        feature => feature.properties && feature.properties.DISTRICT_I === point.districtId
-      );
-      
-      // Add Name20 property to the popupInfo if available
-      const name20 = district?.properties?.Name20 || point.districtName;
-      
-      setPopupInfo({ 
-        point: {
-          ...point,
-          districtDisplayName: name20
-        }, 
-        x, 
-        y 
-      });
-    } else {
-      setPopupInfo({ point, x, y });
-    }
-  }, [geoJsonData]);
+    setPopupInfo({ point, x, y });
+  }, []);
 
   // Replace the unused truncateName function with a direct implementation
   // for the district name display
@@ -1178,69 +1082,28 @@ const TexasSchoolDistrictsMap = () => {
               bearing: viewState.bearing,
               pitch: viewState.pitch
             }}
-            interactive={!LOCK_MAP_POSITION}
             onMove={(evt) => {
-              if (!LOCK_MAP_POSITION) return;
-              
-              // Just prevent the event, don't try to reset position
+              // Prevent all movement by simply not updating state
               if (evt.originalEvent) {
                 evt.originalEvent.stopPropagation();
                 if (evt.originalEvent.cancelable) {
                   evt.originalEvent.preventDefault();
                 }
-              }
-            }}
-            onZoom={(evt) => {
-              if (!LOCK_MAP_POSITION) return;
-              
-              // Force zoom back to initial value if it ever changes
-              if (mapRef.current) {
-                mapRef.current.setZoom(initialViewStateRef.current.zoom);
-              }
-              
-              // Prevent default
-              if (evt.originalEvent) {
-                evt.originalEvent.stopPropagation();
-                if (evt.originalEvent.cancelable) {
-                  evt.originalEvent.preventDefault();
-                }
-              }
-            }}
-            onDrag={(evt) => {
-              if (!LOCK_MAP_POSITION) return;
-              
-              // Prevent drag and reset position
-              if (evt.originalEvent) {
-                evt.originalEvent.stopPropagation();
-                if (evt.originalEvent.cancelable) {
-                  evt.originalEvent.preventDefault();
-                }
-              }
-              
-              // Force back to initial position
-              if (mapRef.current) {
-                mapRef.current.getMap().jumpTo({
-                  center: initialCenterRef.current,
-                  zoom: initialViewStateRef.current.zoom
-                });
               }
             }}
             style={{ height: '100%', width: '100%' }}
             mapStyle="mapbox://styles/mapbox/dark-v10"
             interactiveLayerIds={['districts']}
             onLoad={onMapLoad}
-            maxZoom={initialViewStateRef.current.zoom}  // Force max zoom to be initial zoom
-            minZoom={initialViewStateRef.current.zoom}  // Force min zoom to be initial zoom
+            maxZoom={9}
+            minZoom={4}
             dragRotate={false}
-            dragPan={!LOCK_MAP_POSITION}
+            dragPan={false}
             scrollZoom={false}
             boxZoom={false}
             doubleClickZoom={false}
             keyboard={false}
             touchZoomRotate={false}
-            touchPitch={false}
-            attributionControl={false}  // Remove attribution control which can sometimes trigger movement
-            cooperativeGestures={true}  // Enable cooperative gestures to prevent accidental panning
           >
             <Source
               id="districts"
@@ -1266,9 +1129,7 @@ const TexasSchoolDistrictsMap = () => {
                 className="school-popup"
               >
                 <div className="p-1 text-black">
-                  <h3 className="font-bold text-sm">
-                    {popupInfo.point.districtDisplayName || popupInfo.point.districtName}
-                  </h3>
+                  <h3 className="font-bold text-sm">{popupInfo.point.districtName}</h3>
                   <div className="text-xs mt-1">
                     <p>Strata School #{randomPoints.findIndex(p => 
                       p.lat === popupInfo.point.lat && 
