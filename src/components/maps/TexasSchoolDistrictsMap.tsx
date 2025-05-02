@@ -601,68 +601,56 @@ const TexasSchoolDistrictsMap = () => {
         });
       }
       
+      // Create the initial point for Carrollton which will always be included
+      const carrolltonPoint: RandomPoint = {
+        lat: initialSchoolLocation.latitude,
+        lng: initialSchoolLocation.longitude,
+        districtId: initialSchoolLocation.districtId,
+        districtName: initialSchoolLocation.districtName,
+        isCenter: true
+      };
+      
+      // Always add Carrollton to visible points and districts with schools
+      visiblePoints.push(carrolltonPoint);
+      newDistrictsWithSchools.push(initialSchoolLocation.districtId);
+      
       // Phase 1 (2025-2026): Add one school in the center of each district gradually
       // Phase 2 (2026-2027): Add 4 more schools per district gradually
       
       if (sliderYear <= 2025) {
-        // August 2025: Only 1 school using our specific initialSchoolLocation
-        // Create the first point at our specific location
-        const firstPoint: RandomPoint = {
-          lat: initialSchoolLocation.latitude,
-          lng: initialSchoolLocation.longitude,
-          districtId: initialSchoolLocation.districtId,
-          districtName: initialSchoolLocation.districtName,
-          isCenter: true
-        };
-        
-        visiblePoints = [firstPoint];
-        newDistrictsWithSchools.push(initialSchoolLocation.districtId);
-        console.log(`Setting initial school at ${initialSchoolLocation.latitude}, ${initialSchoolLocation.longitude}`);
+        // August 2025: Only Carrollton school (already added)
+        console.log(`Showing only Carrollton school at ${initialSchoolLocation.latitude}, ${initialSchoolLocation.longitude}`);
       } else if (sliderYear <= 2026) {
         // Between 2025 and 2026: Place one center school in each district gradually
-        const centerPoints = allPoints.filter(p => p.isCenter);
+        const centerPoints = allPoints.filter(p => p.isCenter && p.districtId !== initialSchoolLocation.districtId);
         
-        // Calculate how many center points to show (from 1 to totalDistricts)
+        // Calculate how many center points to show (from 0 to totalDistricts-1)
         const percentage = (sliderYear - 2025);
         const numCentersToShow = Math.min(
-          Math.max(1, Math.floor(1 + (totalDistricts - 1) * percentage)),
-          totalDistricts
+          Math.floor((totalDistricts - 1) * percentage),
+          totalDistricts - 1
         );
         
-        console.log(`Showing ${numCentersToShow} of ${centerPoints.length} center points`);
+        console.log(`Showing Carrollton + ${numCentersToShow} of ${centerPoints.length} center points`);
         
-        // Create a combined array with our specific first point, then others
-        let pointsToShow: RandomPoint[] = [];
-        
-        // Start with our specific initial point
-        const initialPoint: RandomPoint = {
-          lat: initialSchoolLocation.latitude,
-          lng: initialSchoolLocation.longitude,
-          districtId: initialSchoolLocation.districtId,
-          districtName: initialSchoolLocation.districtName,
-          isCenter: true
-        };
-        pointsToShow.push(initialPoint);
-        
-        // Then add other points that aren't in the initial district
-        const otherPoints = centerPoints.filter(p => p.districtId !== initialSchoolLocation.districtId);
-        pointsToShow = [...pointsToShow, ...otherPoints.slice(0, numCentersToShow - 1)];
-        
-        visiblePoints = pointsToShow;
+        // Add other center points that aren't Carrollton
+        visiblePoints = [...visiblePoints, ...centerPoints.slice(0, numCentersToShow)];
         
         // Track which districts have schools
         visiblePoints.forEach(point => {
-          newDistrictsWithSchools.push(point.districtId);
+          if (!newDistrictsWithSchools.includes(point.districtId)) {
+            newDistrictsWithSchools.push(point.districtId);
+          }
         });
       } else {
         // Between 2026 and 2027: All centers + gradually add 4 more points per district
         
-        // All center points are visible
-        const centerPoints = allPoints.filter(p => p.isCenter);
+        // All center points are visible (except Carrollton which is already added)
+        const centerPoints = allPoints.filter(p => p.isCenter && p.districtId !== initialSchoolLocation.districtId);
         const additionalPoints = allPoints.filter(p => !p.isCenter);
         
-        // All center points are included
-        visiblePoints = [...centerPoints];
+        // Add all center points
+        visiblePoints = [...visiblePoints, ...centerPoints];
         
         // Calculate what percentage of additional points to show
         const percentage = (sliderYear - 2026);
@@ -671,7 +659,7 @@ const TexasSchoolDistrictsMap = () => {
         // Add the additional points
         visiblePoints = [...visiblePoints, ...additionalPoints.slice(0, numAdditionalToShow)];
         
-        console.log(`Showing all ${centerPoints.length} centers + ${numAdditionalToShow} of ${additionalPoints.length} additional points`);
+        console.log(`Showing Carrollton + all ${centerPoints.length} centers + ${numAdditionalToShow} of ${additionalPoints.length} additional points`);
         
         // Track which districts have schools (should be all districts by now)
         const districtsWithPoints = new Set<string>();
@@ -801,17 +789,27 @@ const TexasSchoolDistrictsMap = () => {
     };
   }, [mapMovementLocked]);
 
-  // Update dimensions when window resizes
+  // Adjust zoom level based on screen size
   useEffect(() => {
     const handleResize = () => {
+      // Detect if we're on a mobile device (width < 768px)
+      const isMobile = window.innerWidth < 768;
+      
       setViewState(prev => ({
         ...prev,
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
+        zoom: isMobile ? 4.8 : 5.5 // Lower zoom level for mobile
       }));
     };
     
+    // Initial call
+    handleResize();
+    
+    // Add event listener
     window.addEventListener('resize', handleResize);
+    
+    // Cleanup
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -967,7 +965,7 @@ const TexasSchoolDistrictsMap = () => {
             interactiveLayerIds={['districts']}
             onLoad={onMapLoad}
             maxZoom={9}
-            minZoom={5}
+            minZoom={4}
             dragRotate={false}
             dragPan={false}
             scrollZoom={false}
@@ -1012,17 +1010,6 @@ const TexasSchoolDistrictsMap = () => {
           </Map>
         )}
       </div>
-
-      {/* District Info Card - Bottom left, modern glassy look, only when selectedDistrict */}
-      {selectedDistrict && (
-        <div className="absolute bottom-6 left-6 z-40 pointer-events-auto">
-          <div className="backdrop-blur-md bg-white/70 dark:bg-black/60 rounded-xl shadow-2xl px-6 py-4 min-w-[200px] max-w-xs border border-white/30 dark:border-black/30">
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white truncate" title={selectedDistrict.name}>
-              {selectedDistrict.name}
-            </h2>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
