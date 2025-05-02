@@ -99,7 +99,7 @@ const TexasSchoolDistrictsMap = () => {
   const [loading, setLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState<string>('Initializing map...');
   const [error, setError] = useState<string | null>(null);
-  const [sliderValue, setSliderValue] = useState(0); // Start at beginning (August 2025)
+  const [sliderValue, setSliderValue] = useState(4); // Start slightly to the right (August 2025)
   const [randomPoints, setRandomPoints] = useState<RandomPoint[]>([]);
   const [districtColors, setDistrictColors] = useState<Record<string, string>>({});
   const [sliderYear, setSliderYear] = useState(2025); // Start at 2025

@@ -359,13 +359,13 @@ const About = () => {
 
       {/* Texas Coverage Section */}
       <section className="relative min-h-screen bg-black">
-        <div className="container mx-auto px-6 md:px-4 py-16">
+        <div className="container mx-auto px-6 md:px-4 py-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="text-center mb-8"
           >
             <h2 className="text-4xl font-bold mb-8">CREATING AN EDUCATION POWERHOUSE</h2>
             <p className="text-xl text-gray-400 max-w-4xl mx-auto">
