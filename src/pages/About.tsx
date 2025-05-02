@@ -127,7 +127,7 @@ const About = () => {
 
       {/* Our Commitment Section */}
       <section id="about-content" className="min-h-screen flex items-center bg-black">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-6 md:px-4">
           <div className="flex flex-col justify-center space-y-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -183,7 +183,7 @@ const About = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/70 md:to-transparent" />
         </div>
         <div className="container mx-auto px-6 md:px-4 relative z-10">
-          <div className="max-w-4xl px-4">
+          <div className="max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -216,15 +216,15 @@ const About = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 px-4">
+            <h2 className="text-4xl md:text-5xl font-bold mb-8">
               THE STRATA SOLUTION
             </h2>
-            <p className="text-xl text-gray-400 max-w-4xl mx-auto px-4">
+            <p className="text-xl text-gray-400 max-w-4xl mx-auto">
               We will give every student in Texas the option to switch to a world-class education with Strata.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 px-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
             <SolutionCard
               title="Top 1% Academic Performance"
               description="Strata Schools are powered by 2 Hour Learning. We use personalized, mastery-based learning to bring students to the top 1-2% nationally with only two hours of studying daily."
@@ -256,7 +256,7 @@ const About = () => {
           <div className="absolute inset-0 bg-gradient-to-l from-black/90 via-black/80 to-black/70 md:to-transparent" />
         </div>
         <div className="container mx-auto px-6 md:px-4 relative z-10">
-          <div className="ml-auto max-w-2xl px-4">
+          <div className="ml-auto max-w-2xl">
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -301,7 +301,7 @@ const About = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/70 md:to-transparent" />
         </div>
         <div className="container mx-auto px-6 md:px-4 relative z-10">
-          <div className="max-w-2xl px-4">
+          <div className="max-w-2xl">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -337,7 +337,7 @@ const About = () => {
 
       {/* Timeline Section */}
       <section className="py-32 bg-black">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-6 md:px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -358,7 +358,7 @@ const About = () => {
 
       {/* Texas Coverage Section */}
       <section className="min-h-screen flex items-center bg-black">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-6 md:px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -382,7 +382,7 @@ const About = () => {
 
       {/* Email Signup Section */}
       <section className="py-20 bg-[#111111]">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-6 md:px-4">
           <div className="max-w-2xl mx-auto text-center">
             <h3 className="text-2xl font-bold mb-6">JOIN THE EDUCATIONAL REVOLUTION</h3>
             <form 
