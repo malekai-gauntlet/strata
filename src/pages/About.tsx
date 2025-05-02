@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import Timeline from '@/components/Timeline';
 import Navigation from '@/components/Navigation';
 import CountUpNumber from '@/components/CountUpNumber';
+import TexasSchoolDistrictsMap from '@/components/maps/TexasSchoolDistrictsMap';
 
 const timelineItems = [
   {
@@ -357,8 +358,8 @@ const About = () => {
       </section>
 
       {/* Texas Coverage Section */}
-      <section className="min-h-screen flex items-center bg-black">
-        <div className="container mx-auto px-6 md:px-4">
+      <section className="relative min-h-screen bg-black">
+        <div className="container mx-auto px-6 md:px-4 py-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -371,12 +372,11 @@ const About = () => {
               Our mission is to establish Strata Schools across every district in Texas, ensuring access to revolutionary education for all.
             </p>
           </motion.div>
-          <div className="aspect-video bg-white/5 rounded-lg">
-            {/* Placeholder for the interactive Texas map */}
-            <div className="w-full h-full flex items-center justify-center text-gray-500">
-              Interactive Texas Map Coming Soon
-            </div>
-          </div>
+        </div>
+        
+        {/* Full-width map container */}
+        <div className="w-full h-[calc(100vh-200px)] bg-white/5 overflow-hidden">
+          <TexasSchoolDistrictsMap />
         </div>
       </section>
 
