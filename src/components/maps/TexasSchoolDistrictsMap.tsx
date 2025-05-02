@@ -600,57 +600,190 @@ const TexasSchoolDistrictsMap = () => {
           }
         });
       }
-      
-      // Create the initial point for Carrollton which will always be included
-      const carrolltonPoint: RandomPoint = {
-        lat: initialSchoolLocation.latitude,
-        lng: initialSchoolLocation.longitude,
-        districtId: initialSchoolLocation.districtId,
-        districtName: initialSchoolLocation.districtName,
-        isCenter: true
-      };
-      
-      // Always add Carrollton to visible points and districts with schools
-      visiblePoints.push(carrolltonPoint);
-      newDistrictsWithSchools.push(initialSchoolLocation.districtId);
-      
-      // Phase 1 (2025-2026): Add one school in the center of each district gradually
-      // Phase 2 (2026-2027): Add 4 more schools per district gradually
-      
-      if (sliderYear <= 2025) {
-        // August 2025: Only Carrollton school (already added)
-        console.log(`Showing only Carrollton school at ${initialSchoolLocation.latitude}, ${initialSchoolLocation.longitude}`);
+
+      // Define initial schools for 2025
+      const initialSchools = [
+        // Dallas area
+        {
+          lat: 32.7767,
+          lng: -96.7970,
+          districtId: "057903",
+          districtName: "Dallas ISD",
+          isCenter: true
+        },
+        // North Dallas/Plano area
+        {
+          lat: 33.0198,
+          lng: -96.6989,
+          districtId: "043910",
+          districtName: "Plano ISD",
+          isCenter: true
+        },
+        // Austin area
+        {
+          lat: 30.2672,
+          lng: -97.7431,
+          districtId: "227901",
+          districtName: "Austin ISD",
+          isCenter: true
+        },
+        // Carrollton area
+        {
+          lat: 32.9751,
+          lng: -96.8897,
+          districtId: "057903",
+          districtName: "Carrollton-Farmers Branch ISD",
+          isCenter: true
+        },
+        // Richardson
+        {
+          lat: 32.9483,
+          lng: -96.7299,
+          districtId: "057916",
+          districtName: "Richardson ISD",
+          isCenter: true
+        },
+        // Irving
+        {
+          lat: 32.8140,
+          lng: -96.9489,
+          districtId: "057912",
+          districtName: "Irving ISD",
+          isCenter: true
+        },
+        // Garland
+        {
+          lat: 32.9126,
+          lng: -96.6389,
+          districtId: "057909",
+          districtName: "Garland ISD",
+          isCenter: true
+        },
+        // Mesquite
+        {
+          lat: 32.7668,
+          lng: -96.5992,
+          districtId: "057914",
+          districtName: "Mesquite ISD",
+          isCenter: true
+        }
+      ];
+
+      // Define January 2026 expansion schools
+      const expansionSchools = [
+        // Houston area
+        { lat: 29.7604, lng: -95.3698, districtId: "101912", districtName: "Houston ISD" },
+        { lat: 29.8405, lng: -95.4653, districtId: "101924", districtName: "Spring Branch ISD" },
+        { lat: 29.6857, lng: -95.2794, districtId: "101916", districtName: "Pasadena ISD" },
+        { lat: 29.9377, lng: -95.6772, districtId: "101907", districtName: "Cypress-Fairbanks ISD" },
+        { lat: 30.0371, lng: -95.4288, districtId: "101915", districtName: "Spring ISD" },
+        // San Antonio area
+        { lat: 29.4241, lng: -98.4936, districtId: "015907", districtName: "San Antonio ISD" },
+        { lat: 29.5693, lng: -98.6447, districtId: "015915", districtName: "Northside ISD" },
+        { lat: 29.4832, lng: -98.3995, districtId: "015910", districtName: "Northeast ISD" },
+        // Fort Worth area
+        { lat: 32.7555, lng: -97.3308, districtId: "220905", districtName: "Fort Worth ISD" },
+        { lat: 32.8998, lng: -97.2881, districtId: "220914", districtName: "Keller ISD" },
+        { lat: 32.6949, lng: -97.1209, districtId: "220901", districtName: "Arlington ISD" },
+        // El Paso
+        { lat: 31.7619, lng: -106.4850, districtId: "071902", districtName: "El Paso ISD" },
+        { lat: 31.8140, lng: -106.2485, districtId: "071909", districtName: "Ysleta ISD" },
+        // Corpus Christi
+        { lat: 27.8006, lng: -97.3964, districtId: "178904", districtName: "Corpus Christi ISD" },
+        // Lubbock
+        { lat: 33.5779, lng: -101.8552, districtId: "152901", districtName: "Lubbock ISD" },
+        // Amarillo
+        { lat: 35.2220, lng: -101.8313, districtId: "188901", districtName: "Amarillo ISD" },
+        // Waco
+        { lat: 31.5493, lng: -97.1467, districtId: "161914", districtName: "Waco ISD" },
+        // Tyler
+        { lat: 32.3513, lng: -95.3011, districtId: "212905", districtName: "Tyler ISD" },
+        // Beaumont
+        { lat: 30.0802, lng: -94.1266, districtId: "123910", districtName: "Beaumont ISD" },
+        // Midland
+        { lat: 31.9973, lng: -102.0779, districtId: "165901", districtName: "Midland ISD" },
+        // Odessa
+        { lat: 31.8457, lng: -102.3676, districtId: "068901", districtName: "Ector County ISD" },
+        // Additional Houston suburbs
+        { lat: 29.5852, lng: -95.6349, districtId: "079907", districtName: "Sugar Land ISD" },
+        { lat: 29.7858, lng: -95.8244, districtId: "079901", districtName: "Katy ISD" },
+        { lat: 30.1658, lng: -95.4494, districtId: "170902", districtName: "Conroe ISD" },
+        // Additional Dallas suburbs
+        { lat: 33.1507, lng: -96.8236, districtId: "043914", districtName: "Frisco ISD" },
+        { lat: 32.9342, lng: -96.4597, districtId: "057904", districtName: "Rockwall ISD" },
+        { lat: 33.0801, lng: -96.6989, districtId: "043919", districtName: "Allen ISD" },
+        { lat: 33.1971, lng: -96.6389, districtId: "043910", districtName: "McKinney ISD" },
+        // Additional Austin suburbs
+        { lat: 30.5083, lng: -97.6789, districtId: "246909", districtName: "Round Rock ISD" },
+        { lat: 30.3252, lng: -97.7581, districtId: "227904", districtName: "Leander ISD" },
+        { lat: 30.1658, lng: -97.7893, districtId: "227901", districtName: "Pflugerville ISD" },
+        // College Station
+        { lat: 30.6280, lng: -96.3344, districtId: "021901", districtName: "College Station ISD" },
+        // San Marcos
+        { lat: 29.8833, lng: -97.9414, districtId: "105902", districtName: "San Marcos CISD" },
+        // Georgetown
+        { lat: 30.6333, lng: -97.6789, districtId: "246904", districtName: "Georgetown ISD" },
+        // Temple
+        { lat: 31.0982, lng: -97.3428, districtId: "014909", districtName: "Temple ISD" },
+        // Killeen
+        { lat: 31.1171, lng: -97.7278, districtId: "014906", districtName: "Killeen ISD" },
+        // Victoria
+        { lat: 28.8053, lng: -97.0036, districtId: "235902", districtName: "Victoria ISD" },
+        // Longview
+        { lat: 32.5007, lng: -94.7405, districtId: "092903", districtName: "Longview ISD" },
+        // Texarkana
+        { lat: 33.4417, lng: -94.0376, districtId: "019907", districtName: "Texarkana ISD" },
+        // Sherman
+        { lat: 33.6357, lng: -96.6089, districtId: "091906", districtName: "Sherman ISD" },
+        // Denton
+        { lat: 33.2148, lng: -97.1331, districtId: "061901", districtName: "Denton ISD" },
+        // Abilene
+        { lat: 32.4487, lng: -99.7331, districtId: "221901", districtName: "Abilene ISD" },
+        // San Angelo
+        { lat: 31.4638, lng: -100.4370, districtId: "226901", districtName: "San Angelo ISD" },
+        // Bryan
+        { lat: 30.6744, lng: -96.3698, districtId: "021902", districtName: "Bryan ISD" },
+        // Wichita Falls
+        { lat: 33.9137, lng: -98.4934, districtId: "243905", districtName: "Wichita Falls ISD" },
+        // Laredo
+        { lat: 27.5306, lng: -99.4803, districtId: "240901", districtName: "Laredo ISD" },
+        // McAllen
+        { lat: 26.2034, lng: -98.2300, districtId: "108906", districtName: "McAllen ISD" },
+        // Brownsville
+        { lat: 25.9017, lng: -97.4975, districtId: "031901", districtName: "Brownsville ISD" },
+        // Harlingen
+        { lat: 26.1906, lng: -97.6961, districtId: "031903", districtName: "Harlingen CISD" },
+        // Mission
+        { lat: 26.2159, lng: -98.3252, districtId: "108908", districtName: "Mission CISD" },
+        // Edinburg
+        { lat: 26.3017, lng: -98.1633, districtId: "108904", districtName: "Edinburg CISD" },
+        // Pharr
+        { lat: 26.1947, lng: -98.1836, districtId: "108909", districtName: "Pharr-San Juan-Alamo ISD" }
+      ].map(school => ({ ...school, isCenter: true }));
+
+      if (sliderYear <= 2025.08) { // Before January 2026
+        // Show only the initial 8 schools
+        visiblePoints = initialSchools;
+        initialSchools.forEach(school => {
+          newDistrictsWithSchools.push(school.districtId);
+        });
       } else if (sliderYear <= 2026) {
-        // Between 2025 and 2026: Place one center school in each district gradually
-        const centerPoints = allPoints.filter(p => p.isCenter && p.districtId !== initialSchoolLocation.districtId);
-        
-        // Calculate how many center points to show (from 0 to totalDistricts-1)
-        const percentage = (sliderYear - 2025);
-        const numCentersToShow = Math.min(
-          Math.floor((totalDistricts - 1) * percentage),
-          totalDistricts - 1
-        );
-        
-        console.log(`Showing Carrollton + ${numCentersToShow} of ${centerPoints.length} center points`);
-        
-        // Add other center points that aren't Carrollton
-        visiblePoints = [...visiblePoints, ...centerPoints.slice(0, numCentersToShow)];
-        
-        // Track which districts have schools
-        visiblePoints.forEach(point => {
-          if (!newDistrictsWithSchools.includes(point.districtId)) {
-            newDistrictsWithSchools.push(point.districtId);
+        // After January 2026, show initial schools plus expansion schools
+        visiblePoints = [...initialSchools, ...expansionSchools];
+        [...initialSchools, ...expansionSchools].forEach(school => {
+          if (!newDistrictsWithSchools.includes(school.districtId)) {
+            newDistrictsWithSchools.push(school.districtId);
           }
         });
       } else {
-        // Between 2026 and 2027: All centers + gradually add 4 more points per district
-        
-        // All center points are visible (except Carrollton which is already added)
-        const centerPoints = allPoints.filter(p => p.isCenter && p.districtId !== initialSchoolLocation.districtId);
+        // After 2026: Add all center points and gradually add additional points
+        const centerPoints = allPoints.filter(p => p.isCenter && 
+          !initialSchools.some(is => is.districtId === p.districtId) &&
+          !expansionSchools.some(es => es.districtId === p.districtId));
         const additionalPoints = allPoints.filter(p => !p.isCenter);
         
-        // Add all center points
-        visiblePoints = [...visiblePoints, ...centerPoints];
+        // Add all center points plus initial and expansion schools
+        visiblePoints = [...initialSchools, ...expansionSchools, ...centerPoints];
         
         // Calculate what percentage of additional points to show
         const percentage = (sliderYear - 2026);
@@ -659,9 +792,7 @@ const TexasSchoolDistrictsMap = () => {
         // Add the additional points
         visiblePoints = [...visiblePoints, ...additionalPoints.slice(0, numAdditionalToShow)];
         
-        console.log(`Showing Carrollton + all ${centerPoints.length} centers + ${numAdditionalToShow} of ${additionalPoints.length} additional points`);
-        
-        // Track which districts have schools (should be all districts by now)
+        // Track which districts have schools
         const districtsWithPoints = new Set<string>();
         visiblePoints.forEach(point => {
           districtsWithPoints.add(point.districtId);
@@ -682,7 +813,7 @@ const TexasSchoolDistrictsMap = () => {
       setDistrictsWithSchools(newDistrictsWithSchools);
       setDistrictColors(newColors);
     }
-  }, [sliderYear, geoJsonData, allPoints, totalDistricts, initialSchoolLocation]);
+  }, [sliderYear, geoJsonData, allPoints, totalDistricts]);
 
   // Fix the processing of GeoJSON to ensure proper typing
   const processedGeoJson = useMemo<GeoJSON.FeatureCollection | null>(() => {
