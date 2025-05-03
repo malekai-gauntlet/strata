@@ -66,6 +66,26 @@ const MOBILE_POINT_LIMITS = {
   HIGH: 2000    // High-end devices
 };
 
+// GeoJSON simplification settings based on device capability
+const GEOJSON_SIMPLIFICATION = {
+  MOBILE: {
+    LOW: 0.01,     // Aggressive simplification for low-end mobile devices
+    MEDIUM: 0.005, // Medium simplification for mid-range mobile
+    HIGH: 0.002    // Light simplification for high-end mobile
+  },
+  DESKTOP: 0.0005  // Very light simplification for desktop
+};
+
+// Progressive loading batch sizes
+const PROGRESSIVE_LOADING = {
+  MOBILE: {
+    LOW: 50,     // Load 50 features at a time on low-end mobiles
+    MEDIUM: 100, // 100 features per batch on mid-range
+    HIGH: 200    // 200 features per batch on high-end
+  },
+  DESKTOP: 500   // Load 500 features at a time on desktop
+};
+
 // Add a constant to store the fixed coordinates in case we need to restore them
 const FIXED_COORDINATES = {
   // Mobile view settings
@@ -95,13 +115,54 @@ const isMobileDevice = () => {
          window.innerWidth < 768;
 };
 
+// Add connection API detection for connection type
+const getNetworkCondition = (): 'slow' | 'medium' | 'fast' => {
+  if (typeof navigator === 'undefined' || !('connection' in navigator)) {
+    return 'medium';
+  }
+  
+  // Fix TypeScript error with proper interface
+  interface NavigatorWithConnection extends Navigator {
+    connection?: {
+      effectiveType?: string;
+      downlink?: number;
+      saveData?: boolean;
+    };
+  }
+  
+  const connection = (navigator as NavigatorWithConnection).connection;
+  
+  if (connection) {
+    // Check for save-data mode first (user has explicitly requested data saving)
+    if (connection.saveData) {
+      return 'slow';
+    }
+    
+    const effectiveType = connection.effectiveType;
+    if (effectiveType === '2g' || effectiveType === 'slow-2g') return 'slow';
+    if (effectiveType === '3g') return 'medium';
+    if (effectiveType === '4g') return 'fast';
+    
+    const downlink = connection.downlink; // Mbps
+    if (downlink && downlink < 1) return 'slow';
+    if (downlink && downlink < 5) return 'medium';
+    return 'fast';
+  }
+  
+  return 'medium';
+};
+
 // Add device tier detection to determine point limit
 const getDeviceTier = (): 'LOW' | 'MEDIUM' | 'HIGH' => {
   if (typeof window === 'undefined') return 'MEDIUM';
   
   // Check for low memory indicator (if available)
   if ('deviceMemory' in navigator) {
-    const memory = (navigator as any).deviceMemory;
+    // Fix TypeScript error by using a properly typed interface
+    interface NavigatorWithMemory extends Navigator {
+      deviceMemory?: number;
+    }
+    const memory = (navigator as NavigatorWithMemory).deviceMemory;
     if (memory && memory < 4) return 'LOW';
     if (memory && memory >= 8) return 'HIGH';
   }
@@ -674,7 +735,122 @@ const TexasSchoolDistrictsMap = () => {
     return true;
   }, []);
 
-  // Modify the fetchData function to apply point validation
+  // Simple GeoJSON simplifier for preprocessing
+  const simplifyGeoJSON = (data: GeoJSON.FeatureCollection): GeoJSON.FeatureCollection => {
+    if (!data || !data.features) return data;
+    
+    const isMobile = isMobileDevice();
+    const deviceTier = getDeviceTier();
+    
+    // Skip simplification for desktop or if already simplified
+    if (!isMobile || data.features.length < 300) return data;
+    
+    // Choose simplification level based on device tier
+    const simplificationFactor = GEOJSON_SIMPLIFICATION.MOBILE[deviceTier];
+    
+    console.log(`Simplifying GeoJSON with factor ${simplificationFactor} for ${deviceTier} device`);
+    
+    // Create a copy to avoid mutating the original
+    const result = {
+      type: 'FeatureCollection',
+      features: data.features.map(feature => {
+        // Only process geometry if it exists
+        if (!feature.geometry) return feature;
+        
+        const simplifiedFeature = {...feature};
+        
+        // Simplify polygon coordinates
+        if (feature.geometry.type === 'Polygon') {
+          // Skip small polygons with few points
+          if (feature.geometry.coordinates[0].length <= 10) return feature;
+          
+          // Simplify by keeping every Nth point based on simplification factor
+          const skipFactor = Math.max(1, Math.round(feature.geometry.coordinates[0].length * simplificationFactor));
+          
+          // Ensure we keep first and last point to close the polygon
+          simplifiedFeature.geometry = {
+            ...feature.geometry,
+            coordinates: feature.geometry.coordinates.map(ring => {
+              // Always keep first and last point (identical in a valid polygon)
+              const first = ring[0];
+              const last = ring[ring.length - 1];
+              
+              // Filter points in the middle
+              const simplifiedPoints = [first];
+              for (let i = 1; i < ring.length - 1; i += skipFactor) {
+                simplifiedPoints.push(ring[i]);
+              }
+              simplifiedPoints.push(last);
+              
+              return simplifiedPoints;
+            })
+          };
+        } 
+        else if (feature.geometry.type === 'MultiPolygon') {
+          simplifiedFeature.geometry = {
+            ...feature.geometry,
+            coordinates: feature.geometry.coordinates.map(polygon => 
+              polygon.map(ring => {
+                // Skip simplification for small rings
+                if (ring.length <= 10) return ring;
+                
+                // Simplify by keeping every Nth point
+                const skipFactor = Math.max(1, Math.round(ring.length * simplificationFactor));
+                
+                // Always keep first and last point
+                const first = ring[0];
+                const last = ring[ring.length - 1];
+                
+                // Filter points in the middle
+                const simplifiedPoints = [first];
+                for (let i = 1; i < ring.length - 1; i += skipFactor) {
+                  simplifiedPoints.push(ring[i]);
+                }
+                simplifiedPoints.push(last);
+                
+                return simplifiedPoints;
+              })
+            )
+          };
+        }
+        
+        return simplifiedFeature;
+      })
+    } as GeoJSON.FeatureCollection;
+    
+    // Log reduction in point count
+    const originalPointCount = countPoints(data);
+    const simplifiedPointCount = countPoints(result);
+    console.log(`Reduced points from ${originalPointCount} to ${simplifiedPointCount} (${Math.round((simplifiedPointCount/originalPointCount)*100)}%)`);
+    
+    return result;
+  };
+  
+  // Helper to count total points in GeoJSON
+  const countPoints = (data: GeoJSON.FeatureCollection): number => {
+    let count = 0;
+    
+    data.features.forEach(feature => {
+      if (!feature.geometry) return;
+      
+      if (feature.geometry.type === 'Polygon') {
+        feature.geometry.coordinates.forEach(ring => {
+          count += ring.length;
+        });
+      } 
+      else if (feature.geometry.type === 'MultiPolygon') {
+        feature.geometry.coordinates.forEach(polygon => {
+          polygon.forEach(ring => {
+            count += ring.length;
+          });
+        });
+      }
+    });
+    
+    return count;
+  };
+
+  // Modify the fetchData function to apply point validation and preprocess GeoJSON for mobile
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -684,30 +860,165 @@ const TexasSchoolDistrictsMap = () => {
         // Check map version and clear cache if needed
         const isVersionValid = checkMapVersion();
         
-        // Try to get cached data from sessionStorage first
-        const cachedData = isVersionValid ? sessionStorage.getItem('texasDistrictsGeoJson') : null;
-        let geoJsonData;
+        // Get device-specific cache key based on tier and network condition
+        const isMobile = isMobileDevice();
+        const deviceTier = getDeviceTier();
+        const networkCondition = getNetworkCondition();
         
-        if (cachedData) {
-          console.log('Using cached GeoJSON data from session storage');
+        // Determine which file/detail level we're using for this device
+        let detailLevel = 'full';
+        if (isMobile) {
+          if (deviceTier === 'LOW' || networkCondition === 'slow') {
+            detailLevel = 'minimal';
+          } else if (deviceTier === 'MEDIUM') {
+            detailLevel = 'low';
+          } else {
+            detailLevel = 'medium';
+          }
+        } else if (networkCondition === 'slow') {
+          detailLevel = 'high';
+        }
+        
+        const sessionCacheKey = `texasDistrictsGeoJson_${detailLevel}_${MAP_VERSION}`;
+        const localCacheKey = `texasDistricts_persistent_${detailLevel}_${MAP_VERSION}`;
+        
+        // Try to get cached data from multiple sources
+        let geoJsonData;
+        let needsFullData = true; // Flag to indicate if we need to fetch the full data
+        
+        // Try sessionStorage first (fastest, has the fully processed data)
+        const sessionCachedData = isVersionValid ? sessionStorage.getItem(sessionCacheKey) : null;
+        
+        if (sessionCachedData) {
+          console.log(`Using cached GeoJSON data from session storage (${sessionCacheKey})`);
           setLoadingProgress('Loading cached data...');
-          geoJsonData = JSON.parse(cachedData);
-        } else {
+          geoJsonData = JSON.parse(sessionCachedData);
+          needsFullData = false; // We have the full data already
+        } 
+        // If not in session storage, try localStorage for a quick initial render
+        // This will be a simplified version we can show while fetching full data
+        else if (isMobile && isVersionValid) {
+          const localCachedData = localStorage.getItem(localCacheKey);
+          
+          if (localCachedData) {
+            console.log(`Using simplified GeoJSON from local storage for quick initial render (${localCacheKey})`);
+            setLoadingProgress('Loading simplified data while fetching full data...');
+            
+            // Parse and use the simplified data
+            const simplifiedData = JSON.parse(localCachedData);
+            geoJsonData = simplifiedData;
+            
+            // In parallel, start fetching the full data
+            needsFullData = true;
+            
+            // Show this data immediately to the user for a fast initial render
+            setGeoJsonData(simplifiedData);
+          } else {
+            // No cached data available, need to fetch everything
+            needsFullData = true;
+          }
+        }
+        
+        // If we need to fetch the full data (either no cache or just using simplified data)
+        if (needsFullData) {
           console.log('Fetching GeoJSON data from server');
           setLoadingProgress('Downloading map data...');
-          const response = await fetch('/data/Current_Districts_2025.geojson');
+          
+          // Determine which GeoJSON file to use based on device capability
+          let geoJsonUrl = '/data/Current_Districts_2025.geojson'; // Default for desktop
+          
+          if (isMobile) {
+            const networkCondition = getNetworkCondition();
+            const deviceTier = getDeviceTier();
+            
+            console.log(`Mobile device detected: ${deviceTier} tier with ${networkCondition} network`);
+            
+            // For low memory or slow connection, use the most optimized version
+            if (deviceTier === 'LOW' || networkCondition === 'slow') {
+              geoJsonUrl = '/data/mobile/districts_minimal.geojson';
+              console.log('Using minimal GeoJSON (most optimized) for low-end device or slow network');
+            } 
+            // For medium devices with better connection
+            else if (deviceTier === 'MEDIUM') {
+              geoJsonUrl = '/data/mobile/districts_low.geojson';
+              console.log('Using low detail GeoJSON for medium-tier device');
+            }
+            // For high-end devices
+            else {
+              geoJsonUrl = '/data/mobile/districts_medium.geojson';
+              console.log('Using medium detail GeoJSON for high-tier device');
+            }
+          } else {
+            // For desktop devices with slow connections
+            if (getNetworkCondition() === 'slow') {
+              geoJsonUrl = '/data/mobile/districts_high.geojson';
+              console.log('Using high detail GeoJSON for desktop with slow network');
+            }
+            console.log(`Using standard GeoJSON file: ${geoJsonUrl}`);
+          }
+          
+          // Fetch the appropriate file
+          let response = await fetch(geoJsonUrl);
           if (!response.ok) {
-            throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+            console.error(`Failed to fetch optimized data file (${geoJsonUrl}), trying fallback file`);
+            
+            // Try fallback to minimal version if the specific tier file fails
+            const fallbackResponse = await fetch('/data/mobile/districts_minimal.geojson');
+            if (!fallbackResponse.ok) {
+              throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+            }
+            
+            response = fallbackResponse; // Use the fallback response
           }
           setLoadingProgress('Processing GeoJSON data...');
-          geoJsonData = await response.json();
+          const rawData = await response.json();
           
-          // Cache the data in sessionStorage for future use
+          // Preprocess the GeoJSON data for mobile if needed
+          setLoadingProgress(isMobile ? 'Optimizing for mobile...' : 'Processing data...');
+          geoJsonData = simplifyGeoJSON(rawData);
+          
+          // Implement enhanced caching with both localStorage and sessionStorage
           try {
             setLoadingProgress('Caching data for faster reload...');
-            sessionStorage.setItem('texasDistrictsGeoJson', JSON.stringify(geoJsonData));
+            
+            // Try to store in sessionStorage first (for the current session)
+            try {
+              sessionStorage.setItem(sessionCacheKey, JSON.stringify(geoJsonData));
+              console.log(`Cached GeoJSON in sessionStorage with key: ${sessionCacheKey}`);
+            } catch (sessionError) {
+              console.warn(`Could not cache GeoJSON in sessionStorage (${sessionCacheKey}):`, sessionError);
+            }
+            
+            // For mobile, also try to store a simplified version in localStorage (persistent across sessions)
+            // This gives faster initial loads even after browser restarts
+            if (isMobile) {
+              // Create even more simplified version for persistent storage
+              // Use the same detail level we determined earlier
+              const persistentCacheKey = localCacheKey;
+              
+              // Store only essential district data (IDs, names, and coordinates) for quicker initial rendering
+              const minimalData = {
+                type: 'FeatureCollection',
+                features: geoJsonData.features.map(feature => ({
+                  type: 'Feature',
+                  properties: {
+                    DISTRICT_I: feature.properties?.DISTRICT_I || '',
+                    DISTRICT_N: feature.properties?.DISTRICT_N || '',
+                    Name20: feature.properties?.Name20 || '',
+                  },
+                  geometry: feature.geometry
+                }))
+              };
+              
+              try {
+                localStorage.setItem(persistentCacheKey, JSON.stringify(minimalData));
+                console.log(`Cached simplified GeoJSON in localStorage with key: ${persistentCacheKey}`);
+              } catch (localError) {
+                console.warn(`Could not cache simplified GeoJSON in localStorage (${persistentCacheKey}):`, localError);
+              }
+            }
           } catch (e) {
-            console.warn('Could not cache GeoJSON in sessionStorage (possibly too large):', e);
+            console.warn(`Could not perform caching operations (${sessionCacheKey}):`, e);
           }
         }
         
@@ -742,6 +1053,9 @@ const TexasSchoolDistrictsMap = () => {
           console.log(`Available district IDs (first 10): ${availableIds.join(', ')}`);
         }
         
+        // Implement progressive loading for mobile
+        const useProgressiveLoading = isMobile && getNetworkCondition() === 'slow';
+        
         // Process points using Web Worker if supported
         if (typeof Worker !== 'undefined') {
           setLoadingProgress('Initializing worker for point processing...');
@@ -749,6 +1063,14 @@ const TexasSchoolDistrictsMap = () => {
           try {
             // Create a new worker
             const worker = new Worker(new URL('../../workers/geoJsonWorker.ts', import.meta.url));
+            
+            // Pass device info to worker for optimizations
+            worker.postMessage({ 
+              type: 'init', 
+              isMobile, 
+              deviceTier: getDeviceTier(),
+              networkCondition: getNetworkCondition()
+            });
             
             // Set up message handling
             worker.onmessage = (event) => {
@@ -758,6 +1080,12 @@ const TexasSchoolDistrictsMap = () => {
                 setLoadingProgress(message);
               } else if (type === 'progress') {
                 setLoadingProgress(message);
+                
+                // Handle progressive loading for slow networks
+                if (useProgressiveLoading && data && data.progressiveData) {
+                  // Set partial data while still loading
+                  setGeoJsonData(data.progressiveData);
+                }
               } else if (type === 'cache') {
                 // Store the cached data for validation
                 try {
@@ -2004,11 +2332,14 @@ const TexasSchoolDistrictsMap = () => {
       )}
 
       {/* Performance message - Bottom Left - only on mobile when limiting points */}
-      {isMobile && sliderValue > 50 && (
+      {isMobile && (
         <div className="absolute bottom-4 left-4 z-30">
           <div className="text-white text-xs opacity-80 leading-relaxed font-bold">
-            Limited view<br />
-            for performance
+            {sliderValue > 50 ? (
+              <>Limited view<br />for performance</>
+            ) : (
+              <>Optimized map<br />for mobile</>
+            )}
           </div>
         </div>
       )}
