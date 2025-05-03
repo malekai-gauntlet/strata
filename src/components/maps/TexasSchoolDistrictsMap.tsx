@@ -1578,7 +1578,7 @@ const TexasSchoolDistrictsMap = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Enhanced wheel event prevention
+  // Enhanced event prevention for map interactions
   useEffect(() => {
     // Completely prevent wheel events for zoom
     const preventZoom = (e: WheelEvent) => {
@@ -1588,34 +1588,79 @@ const TexasSchoolDistrictsMap = () => {
       }
     };
 
-    // Prevent all map movement events
+    // Prevent map movement events, but allow page scrolling to continue
     const preventMapMovement = (e: Event) => {
       if (mapMovementLocked) {
+        // Only stop propagation, don't prevent default scrolling behavior
         e.stopPropagation();
-        if (e.cancelable) {
-          e.preventDefault();
-        }
       }
+    };
+    
+    // Fix for mobile rubberbanding: prevent touchmove on map container only
+    const preventTouchMove = (e: TouchEvent) => {
+      // Only prevent default if it's a map interaction (not page scroll)
+      if (mapMovementLocked && e.target && (e.target as Element).closest('.mapboxgl-map')) {
+        e.preventDefault();
+      }
+    };
+    
+    // Fix for body scroll when interacting with map
+    const preventBodyScroll = (e: TouchEvent) => {
+      // If touch starts on map, prevent body scroll temporarily
+      if (e.target && (e.target as Element).closest('.mapboxgl-map')) {
+        // Add a class to body to disable scrolling during map interaction
+        document.body.classList.add('map-interaction');
+      }
+    };
+    
+    // Reset body scroll when touch ends
+    const resetBodyScroll = () => {
+      document.body.classList.remove('map-interaction');
     };
 
     // Add the event listeners to the document
     document.addEventListener('wheel', preventZoom, { passive: false });
     
-    // Add event listeners for any map container if it exists
+    // Add event listeners for map container
     const mapContainer = document.querySelector('.mapboxgl-map');
     if (mapContainer) {
+      // Use capture: true to intercept events before they reach the map
       mapContainer.addEventListener('mousedown', preventMapMovement, { capture: true });
-      mapContainer.addEventListener('touchstart', preventMapMovement, { capture: true });
+      mapContainer.addEventListener('touchstart', preventBodyScroll, { capture: true });
+      mapContainer.addEventListener('touchmove', preventTouchMove, { capture: true, passive: false });
+      mapContainer.addEventListener('touchend', resetBodyScroll);
+      mapContainer.addEventListener('touchcancel', resetBodyScroll);
       mapContainer.addEventListener('wheel', preventMapMovement, { capture: true });
     }
+    
+    // Add global style for body during map interaction
+    const style = document.createElement('style');
+    style.textContent = `
+      body.map-interaction {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Store a reference to the style element for proper cleanup
 
     // Cleanup
     return () => {
       document.removeEventListener('wheel', preventZoom);
       if (mapContainer) {
         mapContainer.removeEventListener('mousedown', preventMapMovement);
-        mapContainer.removeEventListener('touchstart', preventMapMovement);
+        mapContainer.removeEventListener('touchstart', preventBodyScroll);
+        mapContainer.removeEventListener('touchmove', preventTouchMove);
+        mapContainer.removeEventListener('touchend', resetBodyScroll);
+        mapContainer.removeEventListener('touchcancel', resetBodyScroll);
         mapContainer.removeEventListener('wheel', preventMapMovement);
+      }
+      // Remove the style element on unmount
+      if (style.parentNode) {
+        document.head.removeChild(style);
       }
     };
   }, [mapMovementLocked]);
