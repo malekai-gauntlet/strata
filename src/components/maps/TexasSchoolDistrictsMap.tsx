@@ -1363,11 +1363,37 @@ const TexasSchoolDistrictsMap = () => {
     return properties.Name20 || properties.DISTRICT_N || 'Unknown District';
   }
 
-  // Add this function to get a formatted count string
-  const getFormattedCountInfo = useCallback((points: RandomPoint[], districtsWithSchools: string[]) => {
+  // Add this function to get a formatted count string and date
+  const getFormattedInfo = useCallback((points: RandomPoint[], districtsWithSchools: string[], sliderYear: number, sliderValue: number) => {
+    // Format the date based on slider value
+    const formatDate = (sliderValue: number) => {
+      // Map slider values directly to dates
+      // Slider 0 = August 2025
+      // Slider 50 = August 2026  
+      // Slider 100 = August 2027
+      
+      // Start with August 2025
+      const baseYear = 2025;
+      const baseMonth = 7; // 0-based month index (7 = August)
+      
+      // Calculate months to add (0-24 for the range)
+      const monthsToAdd = Math.floor((sliderValue / 100) * 24);
+      
+      // Calculate new year and month
+      const totalMonths = baseMonth + monthsToAdd;
+      const yearOffset = Math.floor(totalMonths / 12);
+      const newMonth = totalMonths % 12;
+      const newYear = baseYear + yearOffset;
+      
+      // Create date object and format
+      const date = new Date(newYear, newMonth, 1);
+      return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    };
+    
     return {
       schoolCount: points.length,
       districtCount: districtsWithSchools.length,
+      formattedDate: formatDate(sliderValue),
       formattedString: `${points.length.toLocaleString()} Strata Schools`
     };
   }, []);
@@ -1428,7 +1454,8 @@ const TexasSchoolDistrictsMap = () => {
       {/* School Count Display - Bottom Right with same styling */}
       <div className="absolute bottom-4 right-4 z-30 pointer-events-none">
         <div className="backdrop-blur-md bg-white/80 rounded-xl shadow-lg px-4 py-2 text-gray-800 font-medium">
-          {getFormattedCountInfo(randomPoints, districtsWithSchools).formattedString}
+          <div className="text-xs text-center mb-1">{getFormattedInfo(randomPoints, districtsWithSchools, sliderYear, sliderValue).formattedDate}</div>
+          <div>{getFormattedInfo(randomPoints, districtsWithSchools, sliderYear, sliderValue).formattedString}</div>
         </div>
       </div>
 
