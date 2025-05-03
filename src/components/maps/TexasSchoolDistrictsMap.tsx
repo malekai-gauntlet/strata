@@ -2006,7 +2006,7 @@ const TexasSchoolDistrictsMap = () => {
       {/* Performance message - Bottom Left - only on mobile when limiting points */}
       {isMobile && sliderValue > 50 && (
         <div className="absolute bottom-4 left-4 z-30">
-          <div className="text-white text-xs opacity-80 leading-relaxed">
+          <div className="text-white text-xs opacity-80 leading-relaxed font-bold">
             Limited view<br />
             for performance
           </div>
