@@ -143,6 +143,11 @@ const TexasSchoolDistrictsMap = () => {
   const [districtsWithSchools, setDistrictsWithSchools] = useState<string[]>([]);
   const mapRef = useRef<MapRef | null>(null);
   const [totalDistricts, setTotalDistricts] = useState(0);
+  // Add state for animation
+  const [isPlaying, setIsPlaying] = useState(false);
+  const animationRef = useRef<number | null>(null);
+  // Add a ref to ensure we don't have race conditions with isPlaying state
+  const isPlayingRef = useRef<boolean>(false);
   
   // Mapbox API key
   const mapboxApiKey = import.meta.env.VITE_MAPBOX_KEY;
@@ -158,9 +163,9 @@ const TexasSchoolDistrictsMap = () => {
   
   // Create a viewState that we'll control explicitly with the correct type definition
   const [viewState, setViewState] = useState<CustomViewState>({
-    longitude: -99.0,   // Adjusted center for Texas
-    latitude: 31.2,     // Adjusted center for Texas
-    zoom: window.innerWidth < 768 ? 2.0 : 5.0, // Initial zoom based on device size
+    longitude: window.innerWidth < 768 ? -99.0 : -99.0,   // Adjusted center for Texas - moved to match desktop longitude
+    latitude: window.innerWidth < 768 ? 32.0 : 31.2,     // Adjusted center for Texas - moved up for mobile
+    zoom: window.innerWidth < 768 ? 4.5 : 5.0, // Initial zoom based on device size
     bearing: 0,
     pitch: 0,
     padding: null,
@@ -170,9 +175,9 @@ const TexasSchoolDistrictsMap = () => {
   
   // Create a ref to store the initial view state so we can reset to it if needed
   const initialViewStateRef = useRef<CustomViewState>({
-    longitude: -99.0,   // Ensure fixed center for Texas
-    latitude: 31.2,     // Ensure fixed center for Texas
-    zoom: window.innerWidth < 768 ? 2.0 : 5.0, // Initial zoom based on device size
+    longitude: window.innerWidth < 768 ? -99.0 : -99.0,   // Ensure fixed center for Texas - moved to match desktop longitude
+    latitude: window.innerWidth < 768 ? 32.0 : 31.2,     // Ensure fixed center for Texas - moved up for mobile
+    zoom: window.innerWidth < 768 ? 4.5 : 5.0, // Initial zoom based on device size
     bearing: 0,
     pitch: 0,
     padding: null,
@@ -182,8 +187,8 @@ const TexasSchoolDistrictsMap = () => {
   
   // Add a ref to store the initial center position explicitly
   const initialCenterRef = useRef<{lng: number, lat: number}>({
-    lng: -99.0, // Fixed initial longitude
-    lat: 31.2   // Fixed initial latitude
+    lng: window.innerWidth < 768 ? -99.0 : -99.0, // Fixed initial longitude - moved to match desktop longitude
+    lat: window.innerWidth < 768 ? 32.0 : 31.2   // Fixed initial latitude - adjusted for mobile
   });
   
   // Store the true/false state of whether the map is allowed to move
@@ -870,7 +875,7 @@ const TexasSchoolDistrictsMap = () => {
     if (mapMovementLocked || LOCK_MAP_POSITION) {
       // Use the fixed initial state, don't derive from current state
       const isMobile = window.innerWidth < 768;
-      const zoom = isMobile ? 2.0 : 5.0;
+      const zoom = isMobile ? 4.2 : 5.0;
       
       // Only update width/height from current state
       const updatedViewState = {
@@ -907,7 +912,7 @@ const TexasSchoolDistrictsMap = () => {
     const isMobile = window.innerWidth < 768;
     const updatedViewState = {
       ...initialViewStateRef.current,
-      zoom: isMobile ? 2.0 : 5.0,
+      zoom: isMobile ? 4.2 : 5.0,
       width: window.innerWidth,
       height: window.innerHeight
     };
@@ -961,7 +966,7 @@ const TexasSchoolDistrictsMap = () => {
           if (typeof originalJumpTo === 'function') {
             originalJumpTo.call(map, {
               center: [initialCenterRef.current.lng, initialCenterRef.current.lat],
-              zoom: window.innerWidth < 768 ? 2.0 : 5.0,
+              zoom: window.innerWidth < 768 ? 4.5 : 5.0,
               animate: false // Ensure no animation
             });
           }
@@ -1030,7 +1035,7 @@ const TexasSchoolDistrictsMap = () => {
         ...initialViewStateRef.current,
         width: window.innerWidth,
         height: window.innerHeight,
-        zoom: isMobile ? 2.0 : 5.0 // 2.0 for mobile, 5.0 for web as requested
+        zoom: isMobile ? 4.2 : 5.0 // 4.2 for mobile, 5.0 for web as requested
       };
       
       // Update both state and ref to keep them in sync
@@ -1065,7 +1070,7 @@ const TexasSchoolDistrictsMap = () => {
     // Store initial center and force it to remain fixed
     // Get the latest zoom level based on screen size
     const isMobile = window.innerWidth < 768;
-    const initialZoom = isMobile ? 2.0 : 5.0;
+    const initialZoom = isMobile ? 4.2 : 5.0;
     
     // Force the map to the correct position/zoom using the original methods
     if (typeof originalJumpTo === 'function') {
@@ -1296,6 +1301,81 @@ const TexasSchoolDistrictsMap = () => {
     }
   }, [popupInfo]);
 
+  // Add animation logic for slider
+  const startAnimation = useCallback(() => {
+    if (animationRef.current !== null) {
+      console.log("Animation already running, not starting a new one");
+      return;
+    }
+    
+    console.log("Starting animation");
+    isPlayingRef.current = true;
+    setIsPlaying(true);
+    
+    const animate = () => {
+      if (!isPlayingRef.current) {
+        console.log("Animation stopped, not continuing");
+        return;
+      }
+      
+      setSliderValue(prevValue => {
+        const newValue = prevValue + 1;
+        if (newValue >= 100) {
+          console.log("Animation reached end, stopping");
+          stopAnimation();
+          return 100;
+        }
+        return newValue;
+      });
+      
+      // Use a direct timeout instead of nesting in requestAnimationFrame
+      animationRef.current = window.setTimeout(animate, 250);
+    };
+
+    // Start the first iteration directly with setTimeout
+    animationRef.current = window.setTimeout(animate, 250);
+  }, []);
+
+  const stopAnimation = useCallback(() => {
+    console.log("Stopping animation, current animationRef:", animationRef.current);
+    // Update the ref first to prevent any new animation frames from starting
+    isPlayingRef.current = false;
+    setIsPlaying(false);
+    
+    if (animationRef.current !== null) {
+      // Clear the timeout instead of cancelAnimationFrame
+      clearTimeout(animationRef.current);
+      animationRef.current = null;
+    }
+  }, []);
+
+  const togglePlayPause = useCallback(() => {
+    console.log("Toggle play/pause called, current state:", isPlaying, "ref state:", isPlayingRef.current);
+    
+    // Use the ref value for more reliable state checking
+    if (isPlayingRef.current) {
+      console.log("Stopping animation based on ref");
+      stopAnimation();
+    } else {
+      console.log("Starting animation based on ref");
+      // If we're at the end, start over
+      if (sliderValue >= 100) {
+        setSliderValue(0);
+      }
+      startAnimation();
+    }
+  }, [sliderValue, startAnimation, stopAnimation]);
+
+  // Clean up animation on unmount
+  useEffect(() => {
+    return () => {
+      if (animationRef.current !== null) {
+        clearTimeout(animationRef.current);
+        animationRef.current = null;
+      }
+    };
+  }, []);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-black">
@@ -1422,6 +1502,28 @@ const TexasSchoolDistrictsMap = () => {
             background-color: #000;
             border-radius: 5px;
           }
+
+          /* Play/Pause button styles */
+          .play-pause-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+          }
+          
+          .play-pause-btn:hover {
+            transform: scale(1.05);
+          }
+          
+          .play-pause-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+          }
         `}
       </style>
       
@@ -1456,6 +1558,24 @@ const TexasSchoolDistrictsMap = () => {
         </div>
       </div>
 
+      {/* Play/Pause Button - Bottom Left with same styling */}
+      <div className="absolute bottom-4 left-4 z-30">
+        <div 
+          className="backdrop-blur-md bg-white/80 rounded-xl shadow-lg px-4 py-2 text-gray-800 font-medium play-pause-btn cursor-pointer"
+          onClick={togglePlayPause}
+        >
+          {isPlaying ? (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path fillRule="evenodd" d="M6.75 5.25a.75.75 0 01.75-.75H9a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75H7.5a.75.75 0 01-.75-.75V5.25zm7 0a.75.75 0 01.75-.75h1.5a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75h-1.5a.75.75 0 01-.75-.75V5.25z" clipRule="evenodd" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
+            </svg>
+          )}
+        </div>
+      </div>
+
       {/* Map Container - Full width and height */}
       <div className="absolute inset-0 w-full h-full">
         {processedGeoJson && (
@@ -1465,7 +1585,7 @@ const TexasSchoolDistrictsMap = () => {
             initialViewState={{
               longitude: initialCenterRef.current.lng, // Use fixed initial center
               latitude: initialCenterRef.current.lat,  // Use fixed initial center
-              zoom: window.innerWidth < 768 ? 2.0 : 5.0,
+              zoom: window.innerWidth < 768 ? 4.5 : 5.0,
               bearing: 0,
               pitch: 0
             }}
@@ -1506,8 +1626,8 @@ const TexasSchoolDistrictsMap = () => {
             mapStyle="mapbox://styles/mapbox/dark-v10"
             interactiveLayerIds={['districts']}
             onLoad={onMapLoad}
-            maxZoom={window.innerWidth < 768 ? 2.0 : 5.0}  // Force max zoom to match device
-            minZoom={window.innerWidth < 768 ? 2.0 : 5.0}  // Force min zoom to match device
+            maxZoom={window.innerWidth < 768 ? 4.5 : 5.0}  // Force max zoom to match device
+            minZoom={window.innerWidth < 768 ? 4.5 : 5.0}  // Force min zoom to match device
             dragRotate={false}
             dragPan={false}
             scrollZoom={false}
