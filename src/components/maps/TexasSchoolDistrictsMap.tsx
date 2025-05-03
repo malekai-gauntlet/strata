@@ -130,7 +130,7 @@ const TexasSchoolDistrictsMap = () => {
   const [viewState, setViewState] = useState<CustomViewState>({
     longitude: -99.0,   // Adjusted center for Texas
     latitude: 31.2,     // Adjusted center for Texas
-    zoom: 5.1,          // More zoomed out view (was 5.5)
+    zoom: window.innerWidth < 768 ? 2.0 : 5.0, // Initial zoom based on device size
     bearing: 0,
     pitch: 0,
     padding: null,
@@ -139,12 +139,21 @@ const TexasSchoolDistrictsMap = () => {
   });
   
   // Create a ref to store the initial view state so we can reset to it if needed
-  const initialViewStateRef = useRef(viewState);
+  const initialViewStateRef = useRef<CustomViewState>({
+    longitude: -99.0,   // Ensure fixed center for Texas
+    latitude: 31.2,     // Ensure fixed center for Texas
+    zoom: window.innerWidth < 768 ? 2.0 : 5.0, // Initial zoom based on device size
+    bearing: 0,
+    pitch: 0,
+    padding: null,
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
   
   // Add a ref to store the initial center position explicitly
   const initialCenterRef = useRef<{lng: number, lat: number}>({
-    lng: viewState.longitude,
-    lat: viewState.latitude
+    lng: -99.0, // Fixed initial longitude
+    lat: 31.2   // Fixed initial latitude
   });
   
   // Store the true/false state of whether the map is allowed to move
@@ -610,7 +619,7 @@ const TexasSchoolDistrictsMap = () => {
         });
       }
 
-      // Define initial schools for 2025
+      // Define initial schools for 2025 (start of slider)
       const initialSchools = [
         // Dallas area
         {
@@ -678,7 +687,7 @@ const TexasSchoolDistrictsMap = () => {
         }
       ];
 
-      // Define January 2026 expansion schools
+      // Define January 2026 expansion schools (middle of slider)
       const expansionSchools = [
         // Houston area
         { lat: 29.7604, lng: -95.3698, districtId: "101912", districtName: "Houston ISD" },
@@ -769,49 +778,128 @@ const TexasSchoolDistrictsMap = () => {
         // Pharr
         { lat: 26.1947, lng: -98.1836, districtId: "108909", districtName: "Pharr-San Juan-Alamo ISD" }
       ].map(school => ({ ...school, isCenter: true }));
-
-      if (sliderYear <= 2025.08) { // Before January 2026
-        // Show only the initial 8 schools
-        visiblePoints = initialSchools;
-        initialSchools.forEach(school => {
-          newDistrictsWithSchools.push(school.districtId);
+      
+      // Extract all center points from allPoints (one per district)
+      const allCenterPoints = allPoints.filter(p => p.isCenter);
+      
+      // Extract all additional points (non-center points)
+      const allAdditionalPoints = allPoints.filter(p => !p.isCenter);
+      
+      // Create a map of districtId -> [array of points for that district]
+      const pointsByDistrict: Record<string, RandomPoint[]> = {};
+      
+      // Group all points by their district ID
+      allPoints.forEach(point => {
+        if (!pointsByDistrict[point.districtId]) {
+          pointsByDistrict[point.districtId] = [];
+        }
+        pointsByDistrict[point.districtId].push(point);
+      });
+      
+      // For each district, sort points so center point is first, then others
+      Object.keys(pointsByDistrict).forEach(districtId => {
+        pointsByDistrict[districtId].sort((a, b) => {
+          if (a.isCenter && !b.isCenter) return -1;
+          if (!a.isCenter && b.isCenter) return 1;
+          return 0;
         });
-      } else if (sliderYear <= 2026) {
-        // After January 2026, show initial schools plus expansion schools
-        visiblePoints = [...initialSchools, ...expansionSchools];
-        [...initialSchools, ...expansionSchools].forEach(school => {
-          if (!newDistrictsWithSchools.includes(school.districtId)) {
-            newDistrictsWithSchools.push(school.districtId);
+      });
+      
+      // Now implement a smooth, deterministic appearance of points based on the slider
+      if (sliderValue <= 50) {
+        // First half of slider: Gradually introduce one school per district (center points)
+        
+        // Start with initial schools
+        visiblePoints = [...initialSchools];
+        
+        // Calculate how many additional center points to show based on slider
+        // Slider 0 -> 0% of districts, Slider 50 -> 100% of districts
+        // But first 8 districts are always shown from initialSchools
+        
+        // Get remaining center points, excluding ones from the hardcoded lists
+        const remainingCenterPoints = allCenterPoints.filter(
+          p => !initialSchools.some(is => is.districtId === p.districtId) &&
+               !expansionSchools.some(es => es.districtId === p.districtId)
+        );
+        
+        // Calculate how many to show from the expansion schools list (50% of slider)
+        // At slider=0, show 0 expansion schools
+        // At slider=25, show 50% of expansion schools
+        // At slider=50, show 100% of expansion schools
+        const expansionPercentage = sliderValue / 50;
+        const expansionPointsToShow = Math.floor(expansionSchools.length * expansionPercentage);
+        
+        // Calculate how many to show from the remaining center points (other 50% of slider)
+        // At slider=0, show 0 remaining centers
+        // At slider=25, show 0 remaining centers
+        // At slider=50, show 100% of remaining centers
+        const remainingPercentage = Math.max(0, (sliderValue - 25) / 25);
+        const remainingPointsToShow = Math.min(
+          remainingCenterPoints.length,
+          Math.floor(remainingCenterPoints.length * remainingPercentage)
+        );
+        
+        // Add the calculated number of points from each category
+        visiblePoints = [
+          ...visiblePoints,
+          ...expansionSchools.slice(0, expansionPointsToShow),
+          ...remainingCenterPoints.slice(0, remainingPointsToShow)
+        ];
+        
+        // Track which districts have schools
+        visiblePoints.forEach(point => {
+          if (!newDistrictsWithSchools.includes(point.districtId)) {
+            newDistrictsWithSchools.push(point.districtId);
           }
         });
       } else {
-        // After 2026: Add all center points and gradually add additional points
-        const centerPoints = allPoints.filter(p => p.isCenter && 
-          !initialSchools.some(is => is.districtId === p.districtId) &&
-          !expansionSchools.some(es => es.districtId === p.districtId));
-        const additionalPoints = allPoints.filter(p => !p.isCenter);
+        // Second half of slider: All districts have their center point, gradually add additional points
         
-        // Add all center points plus initial and expansion schools
-        visiblePoints = [...initialSchools, ...expansionSchools, ...centerPoints];
+        // First, include all center points (one per district)
+        visiblePoints = [...allCenterPoints];
         
-        // Calculate what percentage of additional points to show
-        const percentage = (sliderYear - 2026);
-        const numAdditionalToShow = Math.floor(additionalPoints.length * percentage);
+        // Calculate percentage for additional points (3-4 per district)
+        // At slider=50, show 0 additional points
+        // At slider=100, show all additional points
+        const additionalPercentage = (sliderValue - 50) / 50;
         
-        // Add the additional points
-        visiblePoints = [...visiblePoints, ...additionalPoints.slice(0, numAdditionalToShow)];
-        
-        // Track which districts have schools
-        const districtsWithPoints = new Set<string>();
-        visiblePoints.forEach(point => {
-          districtsWithPoints.add(point.districtId);
+        // Group the additional points by their district
+        const additionalPointsByDistrict: Record<string, RandomPoint[]> = {};
+        allAdditionalPoints.forEach(point => {
+          if (!additionalPointsByDistrict[point.districtId]) {
+            additionalPointsByDistrict[point.districtId] = [];
+          }
+          additionalPointsByDistrict[point.districtId].push(point);
         });
         
-        // Convert set to array
-        newDistrictsWithSchools.push(...Array.from(districtsWithPoints));
+        // For each district with additional points...
+        Object.keys(additionalPointsByDistrict).forEach(districtId => {
+          const districtPoints = additionalPointsByDistrict[districtId];
+          
+          // Determine how many additional points to show for this district
+          const pointsToShowForDistrict = Math.min(
+            districtPoints.length,
+            Math.ceil(districtPoints.length * additionalPercentage)
+          );
+          
+          // Add the calculated number of points
+          if (pointsToShowForDistrict > 0) {
+            visiblePoints = [...visiblePoints, ...districtPoints.slice(0, pointsToShowForDistrict)];
+          }
+        });
+        
+        // Track which districts have schools
+        visiblePoints.forEach(point => {
+          if (!newDistrictsWithSchools.includes(point.districtId)) {
+            newDistrictsWithSchools.push(point.districtId);
+          }
+        });
       }
       
       // Make all districts with schools a light blue color
+      // This is where we turn districts blue - we do this for any district that has at least 
+      // one school point visible. The blue color (#2A4365) visually highlights districts 
+      // that have Strata schools, making it easy to see our coverage expansion over time.
       newDistrictsWithSchools.forEach(districtId => {
         newColors[districtId] = '#2A4365'; // Deep blue for districts with schools
       });
@@ -822,7 +910,7 @@ const TexasSchoolDistrictsMap = () => {
       setDistrictsWithSchools(newDistrictsWithSchools);
       setDistrictColors(newColors);
     }
-  }, [sliderYear, geoJsonData, allPoints, totalDistricts]);
+  }, [sliderValue, geoJsonData, allPoints, totalDistricts]);
 
   // Fix the processing of GeoJSON to ensure proper typing
   const processedGeoJson = useMemo<GeoJSON.FeatureCollection | null>(() => {
@@ -877,14 +965,114 @@ const TexasSchoolDistrictsMap = () => {
   // Add new effect to reset view state whenever slider changes
   useEffect(() => {
     // Reset the view state to the initial state whenever the slider changes
-    if (mapMovementLocked) {
-      setViewState(initialViewStateRef.current);
+    if (mapMovementLocked || LOCK_MAP_POSITION) {
+      // Use the fixed initial state, don't derive from current state
+      const isMobile = window.innerWidth < 768;
+      const zoom = isMobile ? 2.0 : 5.0;
+      
+      // Only update width/height from current state
+      const updatedViewState = {
+        ...initialViewStateRef.current,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        zoom: zoom
+      };
+      
+      setViewState(updatedViewState);
+      
+      // Force the map to this fixed position if already initialized
+      if (mapRef.current) {
+        try {
+          const map = mapRef.current.getMap();
+          // Use the original jumpTo implementation
+          const originalJumpTo = Object.getPrototypeOf(map).jumpTo;
+          if (typeof originalJumpTo === 'function') {
+            originalJumpTo.call(map, {
+              center: [initialCenterRef.current.lng, initialCenterRef.current.lat],
+              zoom: zoom
+            });
+          }
+        } catch (e) {
+          console.error("Failed to reset map position on slider change:", e);
+        }
+      }
     }
   }, [sliderValue, mapMovementLocked]);
 
   // Also add an effect to ensure view state is reset when component mounts
   useLayoutEffect(() => {
-    setViewState(initialViewStateRef.current);
+    // Update the initial view state with correct zoom based on screen size
+    const isMobile = window.innerWidth < 768;
+    const updatedViewState = {
+      ...initialViewStateRef.current,
+      zoom: isMobile ? 2.0 : 5.0,
+      width: window.innerWidth,
+      height: window.innerHeight
+    };
+    
+    // Set both the view state and update the ref
+    setViewState(updatedViewState);
+    
+    // Apply the initial position as soon as the map ref is available
+    if (mapRef.current) {
+      const map = mapRef.current.getMap();
+      // Cancel any ongoing animations
+      map.stop();
+      
+      // Immediately jump to the fixed position
+      try {
+        const originalJumpTo = Object.getPrototypeOf(map).jumpTo;
+        if (typeof originalJumpTo === 'function') {
+          originalJumpTo.call(map, {
+            center: [initialCenterRef.current.lng, initialCenterRef.current.lat],
+            zoom: updatedViewState.zoom,
+            animate: false // Ensure no animation
+          });
+        }
+      } catch (e) {
+        console.error("Failed to apply initial view state:", e);
+      }
+    }
+    
+    // Add a one-time cleanup to handle initial animations 
+    const timer = setTimeout(() => {
+      if (mapRef.current) {
+        const map = mapRef.current.getMap();
+        map.stop(); // Stop any animations
+      }
+    }, 100); // Short timeout to catch delayed animations
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
+  // Cancel any Map animations on component mount and slider changes
+  useEffect(() => {
+    const cancelAnimations = () => {
+      if (mapRef.current) {
+        const map = mapRef.current.getMap();
+        // Stop any ongoing animations
+        map.stop();
+        
+        // Force to our fixed position
+        try {
+          const originalJumpTo = Object.getPrototypeOf(map).jumpTo;
+          if (typeof originalJumpTo === 'function') {
+            originalJumpTo.call(map, {
+              center: [initialCenterRef.current.lng, initialCenterRef.current.lat],
+              zoom: window.innerWidth < 768 ? 2.0 : 5.0,
+              animate: false // Ensure no animation
+            });
+          }
+        } catch (e) {
+          console.error("Failed to cancel animations:", e);
+        }
+      }
+    };
+    
+    // Wait for map to stabilize before canceling animations
+    const timer = setTimeout(cancelAnimations, 50);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   // Enhanced wheel event prevention
@@ -978,12 +1166,21 @@ const TexasSchoolDistrictsMap = () => {
       // Detect if we're on a mobile device (width < 768px)
       const isMobile = window.innerWidth < 768;
       
-      setViewState(prev => ({
-        ...prev,
+      // Create updated view state with correct zoom level
+      const updatedViewState = {
+        ...initialViewStateRef.current,
         width: window.innerWidth,
         height: window.innerHeight,
-        zoom: isMobile ? 2 : 4.5 // More zoomed out for both mobile and desktop
-      }));
+        zoom: isMobile ? 2.0 : 5.0 // 2.0 for mobile, 5.0 for web as requested
+      };
+      
+      // Update both state and ref to keep them in sync
+      setViewState(updatedViewState);
+      initialViewStateRef.current = updatedViewState;
+      initialCenterRef.current = {
+        lng: updatedViewState.longitude,
+        lat: updatedViewState.latitude
+      };
     };
     
     // Initial call
@@ -996,20 +1193,28 @@ const TexasSchoolDistrictsMap = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Enhance the onMapLoad function to ensure zoom is disabled
+  // Fix for TypeScript errors with __proto__
   const onMapLoad = useCallback(({ target }: { target: mapboxgl.Map }) => {
     if (!mapRef.current) return;
     
     const map = target;
     
-    // Store initial center and force it to remain fixed
-    const initialCenter = {
-      lng: initialViewStateRef.current.longitude,
-      lat: initialViewStateRef.current.latitude
-    };
-    initialCenterRef.current = initialCenter;
+    // Store the original methods before we override them
+    const originalJumpTo = Object.getPrototypeOf(map).jumpTo;
+    const originalSetZoom = Object.getPrototypeOf(map).setZoom;
     
-    const initialZoom = initialViewStateRef.current.zoom;
+    // Store initial center and force it to remain fixed
+    // Get the latest zoom level based on screen size
+    const isMobile = window.innerWidth < 768;
+    const initialZoom = isMobile ? 2.0 : 5.0;
+    
+    // Force the map to the correct position/zoom using the original methods
+    if (typeof originalJumpTo === 'function') {
+      originalJumpTo.call(map, {
+        center: [initialCenterRef.current.lng, initialCenterRef.current.lat],
+        zoom: initialZoom
+      });
+    }
     
     // Set district colors using feature state
     if (processedGeoJson && map.getSource('districts')) {
@@ -1046,19 +1251,75 @@ const TexasSchoolDistrictsMap = () => {
       map.dragPan.disable();         // Explicitly disable panning
       
       // Add multiple listeners to catch any movement attempts
-      map.on('movestart', (e) => e.preventDefault());
-      map.on('dragstart', (e) => e.preventDefault());
-      map.on('zoomstart', (e) => e.preventDefault());
+      map.on('movestart', (e) => {
+        // Handle movestart by stopping propagation
+        if (e.originalEvent) {
+          e.originalEvent.stopPropagation();
+          if (e.originalEvent.cancelable) {
+            e.originalEvent.preventDefault();
+          }
+        }
+        // Force map back to original position
+        if (typeof originalJumpTo === 'function') {
+          originalJumpTo.call(map, {
+            center: [initialCenterRef.current.lng, initialCenterRef.current.lat],
+            zoom: initialZoom
+          });
+        }
+      });
+      
+      map.on('dragstart', (e) => {
+        // Handle dragstart by stopping propagation
+        if (e.originalEvent) {
+          e.originalEvent.stopPropagation();
+          if (e.originalEvent.cancelable) {
+            e.originalEvent.preventDefault();
+          }
+        }
+        // Cancel the drag operation
+        map.stop();
+      });
+      
+      map.on('zoomstart', () => {
+        // Force back to correct zoom level without using preventDefault
+        if (typeof originalSetZoom === 'function') {
+          originalSetZoom.call(map, initialZoom);
+        }
+        map.stop();
+      });
       
       // Override all map movement methods to be no-ops
-      map.jumpTo = () => map;
+      map.jumpTo = (options) => {
+        // Allow only our internal jumps that match our initial state
+        if (
+          options && 
+          (
+            options.zoom === initialZoom ||
+            (options.center && 
+             options.center[0] === initialCenterRef.current.lng && 
+             options.center[1] === initialCenterRef.current.lat)
+          )
+        ) {
+          if (typeof originalJumpTo === 'function') {
+            return originalJumpTo.call(map, options);
+          }
+        }
+        return map;
+      };
+      
       map.flyTo = () => map;
       map.easeTo = () => map;
       map.panTo = () => map;
       map.panBy = () => map;
       map.zoomTo = () => map;
       map.setCenter = () => map;
-      map.setZoom = () => map;
+      map.setZoom = (zoom) => {
+        // Only allow setting zoom to our initial zoom
+        if (zoom === initialZoom && typeof originalSetZoom === 'function') {
+          return originalSetZoom.call(map, zoom);
+        }
+        return map;
+      };
     }
   }, [processedGeoJson, districtColors, handleDistrictClick, handleDistrictHover, handleDistrictLeave, texasBounds]);
 
@@ -1112,6 +1373,15 @@ const TexasSchoolDistrictsMap = () => {
     return properties.Name20 || properties.DISTRICT_N || 'Unknown District';
   }
 
+  // Add this function to get a formatted count string
+  const getFormattedCountInfo = useCallback((points: RandomPoint[], districtsWithSchools: string[]) => {
+    return {
+      schoolCount: points.length,
+      districtCount: districtsWithSchools.length,
+      formattedString: `${points.length.toLocaleString()} Schools / ${districtsWithSchools.length.toLocaleString()} Districts`
+    };
+  }, []);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-black">
@@ -1164,6 +1434,13 @@ const TexasSchoolDistrictsMap = () => {
           </div>
         </div>
       </div>
+      
+      {/* School Count Display - Bottom Right with same styling */}
+      <div className="absolute bottom-4 right-4 z-30 pointer-events-none">
+        <div className="backdrop-blur-md bg-white/80 rounded-xl shadow-lg px-4 py-2 text-gray-800 font-medium">
+          {getFormattedCountInfo(randomPoints, districtsWithSchools).formattedString}
+        </div>
+      </div>
 
       {/* Map Container - Full width and height */}
       <div className="absolute inset-0 w-full h-full">
@@ -1172,11 +1449,11 @@ const TexasSchoolDistrictsMap = () => {
             ref={mapRef}
             mapboxAccessToken={mapboxApiKey}
             initialViewState={{
-              longitude: viewState.longitude,
-              latitude: viewState.latitude,
-              zoom: viewState.zoom,
-              bearing: viewState.bearing,
-              pitch: viewState.pitch
+              longitude: initialCenterRef.current.lng, // Use fixed initial center
+              latitude: initialCenterRef.current.lat,  // Use fixed initial center
+              zoom: window.innerWidth < 768 ? 2.0 : 5.0,
+              bearing: 0,
+              pitch: 0
             }}
             interactive={!LOCK_MAP_POSITION}
             onMove={(evt) => {
@@ -1192,11 +1469,6 @@ const TexasSchoolDistrictsMap = () => {
             }}
             onZoom={(evt) => {
               if (!LOCK_MAP_POSITION) return;
-              
-              // Force zoom back to initial value if it ever changes
-              if (mapRef.current) {
-                mapRef.current.setZoom(initialViewStateRef.current.zoom);
-              }
               
               // Prevent default
               if (evt.originalEvent) {
@@ -1216,21 +1488,13 @@ const TexasSchoolDistrictsMap = () => {
                   evt.originalEvent.preventDefault();
                 }
               }
-              
-              // Force back to initial position
-              if (mapRef.current) {
-                mapRef.current.getMap().jumpTo({
-                  center: initialCenterRef.current,
-                  zoom: initialViewStateRef.current.zoom
-                });
-              }
             }}
             style={{ height: '100%', width: '100%' }}
             mapStyle="mapbox://styles/mapbox/dark-v10"
             interactiveLayerIds={['districts']}
             onLoad={onMapLoad}
-            maxZoom={initialViewStateRef.current.zoom}  // Force max zoom to be initial zoom
-            minZoom={initialViewStateRef.current.zoom}  // Force min zoom to be initial zoom
+            maxZoom={window.innerWidth < 768 ? 2.0 : 5.0}  // Force max zoom to match device
+            minZoom={window.innerWidth < 768 ? 2.0 : 5.0}  // Force min zoom to match device
             dragRotate={false}
             dragPan={!LOCK_MAP_POSITION}
             scrollZoom={false}
