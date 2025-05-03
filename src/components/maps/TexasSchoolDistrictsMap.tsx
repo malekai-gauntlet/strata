@@ -35,6 +35,7 @@ interface RandomPoint {
   lng: number;
   districtId: string;
   districtName: string;
+  districtDisplayName?: string;
   isCenter?: boolean; // indicates if this is the center point of a district
 }
 
@@ -53,6 +54,8 @@ interface CustomViewState {
 // Use a consistent dot size for all school markers
 const SCHOOL_DOT_SIZE = 10; // Size in pixels
 const MIN_DOT_DISTANCE = 15; // Minimum distance between dots in pixels
+// Flag to completely disable map movement
+const LOCK_MAP_POSITION = true;
 
 // Modify the SchoolMarkers component to use consistent sizes
 const SchoolMarkers = React.memo(({ points, onPointClick }: { 
@@ -1370,6 +1373,55 @@ const TexasSchoolDistrictsMap = () => {
           .mapboxgl-popup-content > div {
             animation: fadeIn 0.15s ease-out;
           }
+          
+          /* Hide Mapbox attribution */
+          .mapboxgl-ctrl-attrib, 
+          .mapboxgl-ctrl-bottom-right, 
+          .mapboxgl-ctrl-logo {
+            display: none !important;
+          }
+          
+          /* Custom slider styling */
+          input[type="range"] {
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 5px;
+            background: #e2e8f0;
+            outline: none;
+          }
+          
+          /* Webkit (Chrome, Safari, Edge) thumb styling */
+          input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #000;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+          }
+          
+          /* Mozilla (Firefox) thumb styling */
+          input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #000;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+          }
+          
+          /* Track color to left of thumb in Chrome/Safari/Edge */
+          input[type="range"] {
+            background: linear-gradient(to right, #000 0%, #000 calc(var(--progress-percent) * 100%), #e2e8f0 calc(var(--progress-percent) * 100%), #e2e8f0 100%);
+          }
+          
+          /* Track color to left of thumb in Firefox */
+          input[type="range"]::-moz-range-progress {
+            background-color: #000;
+            border-radius: 5px;
+          }
         `}
       </style>
       
@@ -1382,10 +1434,11 @@ const TexasSchoolDistrictsMap = () => {
             max="100"
             value={sliderValue}
             onChange={(e) => setSliderValue(parseInt(e.target.value))}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-black"
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
             style={{ 
-              boxShadow: '0 2px 16px 0 rgba(0,0,0,0.10)'
-            }}
+              boxShadow: '0 2px 16px 0 rgba(0,0,0,0.10)',
+              '--progress-percent': sliderValue / 100
+            } as React.CSSProperties}
           />
           <div className="flex justify-between text-xs text-gray-800 font-medium mt-1 px-1">
             <span>Aug 2025</span>
@@ -1462,6 +1515,8 @@ const TexasSchoolDistrictsMap = () => {
             doubleClickZoom={false}
             keyboard={false}
             touchZoomRotate={false}
+            touchPitch={false}
+            attributionControl={false}  // Explicitly disable attribution control
           >
             <Source
               id="districts"
