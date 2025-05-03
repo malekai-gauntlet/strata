@@ -81,15 +81,32 @@ const MIN_DOT_DISTANCE = 15; // Minimum distance between dots in pixels
 // Flag to completely disable map movement
 const LOCK_MAP_POSITION = true;
 
-// Modify the SchoolMarkers component to create randomly flickering schools
+// Add mobile detection functionality
+const isMobileDevice = () => {
+  if (typeof window === 'undefined') return false;
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+         window.innerWidth < 768;
+};
+
+// Add a flag for mobile optimizations
+const OPTIMIZE_FOR_MOBILE = true;
+
+// Modify the SchoolMarkers component to render all points but disable animations on mobile
 const SchoolMarkers = React.memo(({ points, onPointClick }: { 
   points: RandomPoint[],
   onPointClick: (point: RandomPoint, x: number, y: number) => void
 }) => {
   const [activeIndices, setActiveIndices] = useState<number[]>([]);
-  
-  // Effect to control the random flickering of schools
+  const isMobile = isMobileDevice();
+
+  // Effect to control the random flickering of schools - disabled on mobile
   useEffect(() => {
+    // Skip animations on mobile devices
+    if (isMobile) {
+      return;
+    }
+    
+    // Desktop animation logic - unchanged
     let timeoutIds: NodeJS.Timeout[] = [];
     
     const startRandomFlickering = () => {
@@ -149,8 +166,9 @@ const SchoolMarkers = React.memo(({ points, onPointClick }: {
     return () => {
       timeoutIds.forEach(id => clearTimeout(id));
     };
-  }, [points]);
+  }, [points, isMobile]);
   
+  // Render ALL points on mobile, no filtering
   return (
     <>
       {points.map((point, index) => (
@@ -168,13 +186,16 @@ const SchoolMarkers = React.memo(({ points, onPointClick }: {
           }}
         >
           <div 
-            className={`beacon-container ${activeIndices.includes(index) ? 'active' : ''}`}
+            className={`beacon-container ${!isMobile && activeIndices.includes(index) ? 'active' : ''}`}
           >
-            <div className="beacon-pulse"></div>
+            {/* Only include beacon pulse element on desktop */}
+            {!isMobile && <div className="beacon-pulse"></div>}
             <div className="beacon-dot"
               style={{
                 width: `${SCHOOL_DOT_SIZE}px`,
                 height: `${SCHOOL_DOT_SIZE}px`,
+                // Static higher opacity on mobile
+                opacity: isMobile ? 0.8 : undefined
               }}
             />
           </div>
@@ -184,6 +205,7 @@ const SchoolMarkers = React.memo(({ points, onPointClick }: {
   );
 });
 
+// Add displayName back to component
 SchoolMarkers.displayName = 'SchoolMarkers';
 
 // Create a simple, elegant popup component 
@@ -1629,6 +1651,10 @@ const TexasSchoolDistrictsMap = () => {
     };
   }, []);
 
+  // Add mobile detection to component
+  const isMobile = isMobileDevice();
+  
+  // Add loading and error handlers
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-black">
@@ -1653,192 +1679,203 @@ const TexasSchoolDistrictsMap = () => {
       </div>
     );
   }
-
+  
+  // Replace the entire return statement
   return (
     <div className="relative w-full h-full">
       {/* Add global styles for popups */}
-      <style>
-        {`
-          /* Global popup styles */
-          .mapboxgl-popup {
-            z-index: 100;
-          }
-          
-          .mapboxgl-popup-content {
-            padding: 0 !important;
-            overflow: visible !important;
-            background: transparent !important;
-            box-shadow: none !important;
-          }
-          
-          .mapboxgl-popup-tip {
-            border-top-color: white !important;
-            border-width: 8px !important;
-            filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
-          }
-          
-          /* Subtle animation */
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          
-          /* Make close button subtle */
-          .mapboxgl-popup-close-button {
-            font-size: 16px !important;
-            color: #bbb !important;
-            top: 2px !important;
-            right: 4px !important;
-            background: transparent !important;
-            border: none !important;
-            padding: 4px !important;
-            line-height: 1 !important;
-            opacity: 0.6 !important;
-          }
-          
-          .mapboxgl-popup-close-button:hover {
-            color: #666 !important;
-            background: transparent !important;
-            opacity: 1 !important;
-          }
-          
-          /* Add subtle animation to popup */
-          .mapboxgl-popup-content > div {
-            animation: fadeIn 0.15s ease-out;
-          }
-          
-          /* Hide Mapbox attribution */
-          .mapboxgl-ctrl-attrib, 
-          .mapboxgl-ctrl-bottom-right, 
-          .mapboxgl-ctrl-logo {
-            display: none !important;
-          }
-          
-          /* Custom slider styling */
-          input[type="range"] {
-            -webkit-appearance: none;
-            height: 8px;
-            border-radius: 5px;
-            background: #e2e8f0;
-            outline: none;
-          }
-          
-          /* Webkit (Chrome, Safari, Edge) thumb styling */
-          input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #000;
-            cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-          }
-          
-          /* Mozilla (Firefox) thumb styling */
-          input[type="range"]::-moz-range-thumb {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #000;
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-          }
-          
-          /* Track color to left of thumb in Chrome/Safari/Edge */
-          input[type="range"] {
-            background: linear-gradient(to right, #000 0%, #000 calc(var(--progress-percent) * 100%), #e2e8f0 calc(var(--progress-percent) * 100%), #e2e8f0 100%);
-          }
-          
-          /* Track color to left of thumb in Firefox */
-          input[type="range"]::-moz-range-progress {
-            background-color: #000;
-            border-radius: 5px;
-          }
+      <style>{`
+        /* Global popup styles */
+        .mapboxgl-popup {
+          z-index: 100;
+        }
+        
+        .mapboxgl-popup-content {
+          padding: 0 !important;
+          overflow: visible !important;
+          background: transparent !important;
+          box-shadow: none !important;
+        }
+        
+        .mapboxgl-popup-tip {
+          border-top-color: white !important;
+          border-width: 8px !important;
+          filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
+        }
+        
+        /* Subtle animation */
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(6px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Make close button subtle */
+        .mapboxgl-popup-close-button {
+          font-size: 16px !important;
+          color: #bbb !important;
+          top: 2px !important;
+          right: 4px !important;
+          background: transparent !important;
+          border: none !important;
+          padding: 4px !important;
+          line-height: 1 !important;
+          opacity: 0.6 !important;
+        }
+        
+        .mapboxgl-popup-close-button:hover {
+          color: #666 !important;
+          background: transparent !important;
+          opacity: 1 !important;
+        }
+        
+        /* Add subtle animation to popup */
+        .mapboxgl-popup-content > div {
+          animation: fadeIn 0.15s ease-out;
+        }
+        
+        /* Hide Mapbox attribution */
+        .mapboxgl-ctrl-attrib, 
+        .mapboxgl-ctrl-bottom-right, 
+        .mapboxgl-ctrl-logo {
+          display: none !important;
+        }
+        
+        /* Custom slider styling */
+        input[type="range"] {
+          -webkit-appearance: none;
+          height: 8px;
+          border-radius: 5px;
+          background: #e2e8f0;
+          outline: none;
+        }
+        
+        /* Webkit (Chrome, Safari, Edge) thumb styling */
+        input[type="range"]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #000;
+          cursor: pointer;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        /* Mozilla (Firefox) thumb styling */
+        input[type="range"]::-moz-range-thumb {
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #000;
+          cursor: pointer;
+          border: none;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        /* Track color to left of thumb in Chrome/Safari/Edge */
+        input[type="range"] {
+          background: linear-gradient(to right, #000 0%, #000 calc(var(--progress-percent) * 100%), #e2e8f0 calc(var(--progress-percent) * 100%), #e2e8f0 100%);
+        }
+        
+        /* Track color to left of thumb in Firefox */
+        input[type="range"]::-moz-range-progress {
+          background-color: #000;
+          border-radius: 5px;
+        }
 
-          /* Play/Pause button styles */
-          .play-pause-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
+        /* Play/Pause button styles */
+        .play-pause-btn {
+          width: 60px;
+          height: 60px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        
+        .play-pause-btn:hover {
+          transform: scale(1.05);
+        }
+        
+        .play-pause-btn svg {
+          width: 24px;
+          height: 24px;
+          fill: currentColor;
+        }
+        
+        /* Beacon effect styles */
+        .beacon-container {
+          position: relative;
+          width: ${SCHOOL_DOT_SIZE}px;
+          height: ${SCHOOL_DOT_SIZE}px;
+          opacity: 0.75; /* Increase from 0.6 to 0.75 for even brighter default state */
+          transition: opacity 0.3s ease;
+        }
+        
+        .beacon-dot {
+          position: absolute;
+          top: 0;
+          left: 0;
+          border-radius: 50%;
+          background-color: white;
+          border: 1.5px solid rgba(51, 51, 51, 0.7);
+          z-index: 2;
+          transition: all 0.3s ease; /* Smooth transition for glowing effect */
+        }
+        
+        .beacon-pulse {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          background-color: rgba(255, 255, 255, 0.2); /* Brighter background */
+          z-index: 1;
+          transform: scale(1);
+          opacity: 0;
+        }
+        
+        /* When container is active, activate the dot and pulse */
+        .beacon-container.active .beacon-dot {
+          box-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 24px rgba(255, 255, 255, 0.6); /* Even brighter glow */
+        }
+        
+        .beacon-container.active .beacon-pulse {
+          animation: pulse 2s forwards;
+        }
+        
+        /* Pulse animation for the glowing effect */
+        @keyframes pulse {
+          0% {
+            transform: scale(1);
+            opacity: 0.9; /* Increase from 0.8 to 0.9 */
           }
-          
-          .play-pause-btn:hover {
-            transform: scale(1.05);
+          50% {
+            transform: scale(2);
+            opacity: 0.4; /* Increase from 0.3 to 0.4 */
           }
-          
-          .play-pause-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
+          100% {
+            transform: scale(2.5);
+            opacity: 0;
           }
-          
-          /* Beacon effect styles */
+        }
+        
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
           .beacon-container {
-            position: relative;
-            width: ${SCHOOL_DOT_SIZE}px;
-            height: ${SCHOOL_DOT_SIZE}px;
-            opacity: 0.75; /* Increase from 0.6 to 0.75 for even brighter default state */
-            transition: opacity 0.3s ease;
-          }
-          
-          .beacon-dot {
-            position: absolute;
-            top: 0;
-            left: 0;
-            border-radius: 50%;
-            background-color: white;
-            border: 1.5px solid rgba(51, 51, 51, 0.7);
-            z-index: 2;
-            transition: all 0.3s ease; /* Smooth transition for glowing effect */
+            opacity: 0.8 !important; /* Force higher opacity on mobile */
+            animation: none !important; /* Disable animations */
           }
           
           .beacon-pulse {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.2); /* Brighter background */
-            z-index: 1;
-            transform: scale(1);
-            opacity: 0;
+            display: none !important; /* Hide pulse effects on mobile */
           }
-          
-          /* When container is active, activate the dot and pulse */
-          .beacon-container.active .beacon-dot {
-            box-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 24px rgba(255, 255, 255, 0.6); /* Even brighter glow */
-          }
-          
-          .beacon-container.active .beacon-pulse {
-            animation: pulse 2s forwards;
-          }
-          
-          /* Pulse animation for the glowing effect */
-          @keyframes pulse {
-            0% {
-              transform: scale(1);
-              opacity: 0.9; /* Increase from 0.8 to 0.9 */
-            }
-            50% {
-              transform: scale(2);
-              opacity: 0.4; /* Increase from 0.3 to 0.4 */
-            }
-            100% {
-              transform: scale(2.5);
-              opacity: 0;
-            }
-          }
-        `}
-      </style>
+        }
+      `}</style>
       
-      {/* Timeline Bar - Modern WHITE with BLACK text */}
+      {/* Timeline Bar - always show, even on mobile */}
       <div className="absolute top-0 left-0 w-full z-30 flex flex-col items-center pointer-events-none">
         <div className="backdrop-blur-md bg-white/80 rounded-b-xl shadow-lg px-6 pt-4 pb-2 w-full max-w-2xl mx-auto pointer-events-auto">
           <input
@@ -1869,23 +1906,25 @@ const TexasSchoolDistrictsMap = () => {
         </div>
       </div>
 
-      {/* Play/Pause Button - Bottom Left with same styling */}
-      <div className="absolute bottom-4 left-4 z-30">
-        <div 
-          className="backdrop-blur-md bg-white/80 rounded-xl shadow-lg px-4 py-2 text-gray-800 font-medium play-pause-btn cursor-pointer"
-          onClick={togglePlayPause}
-        >
-          {isPlaying ? (
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-              <path fillRule="evenodd" d="M6.75 5.25a.75.75 0 01.75-.75H9a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75H7.5a.75.75 0 01-.75-.75V5.25zm7 0a.75.75 0 01.75-.75h1.5a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75h-1.5a.75.75 0 01-.75-.75V5.25z" clipRule="evenodd" />
-            </svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-              <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
-            </svg>
-          )}
+      {/* Play/Pause Button - Bottom Left with same styling - hide on mobile */}
+      {!isMobile && (
+        <div className="absolute bottom-4 left-4 z-30">
+          <div 
+            className="backdrop-blur-md bg-white/80 rounded-xl shadow-lg px-4 py-2 text-gray-800 font-medium play-pause-btn cursor-pointer"
+            onClick={togglePlayPause}
+          >
+            {isPlaying ? (
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path fillRule="evenodd" d="M6.75 5.25a.75.75 0 01.75-.75H9a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75H7.5a.75.75 0 01-.75-.75V5.25zm7 0a.75.75 0 01.75-.75h1.5a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75h-1.5a.75.75 0 01-.75-.75V5.25z" clipRule="evenodd" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
+              </svg>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Map Container - Full width and height */}
       <div className="absolute inset-0 w-full h-full">
@@ -1957,6 +1996,9 @@ const TexasSchoolDistrictsMap = () => {
               type="geojson"
               data={processedGeoJson}
               generateId={true}
+              // Add mobile optimizations for GeoJSON data
+              buffer={isMobile ? 16 : 128}
+              tolerance={isMobile ? 1 : 0.375}
             >
               <Layer {...districtLayer} />
               <Layer {...districtOutlineLayer} />
