@@ -369,7 +369,7 @@ const About = () => {
           >
             <h2 className="text-4xl font-bold mb-8">CREATING AN EDUCATION POWERHOUSE</h2>
             <p className="text-xl text-gray-400 max-w-4xl mx-auto">
-              Our mission is to establish Strata Schools across every district, providing every Texas child with a choice for world-class education
+              Our mission is to establish Strata Schools across every Texas district, providing each family with the choice of a world-class education.
             </p>
           </motion.div>
         </div>
@@ -384,7 +384,7 @@ const About = () => {
       <section className="py-20 bg-[#111111]">
         <div className="container mx-auto px-6 md:px-4">
           <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-2xl font-bold mb-6">JOIN THE EDUCATIONAL REVOLUTION</h3>
+            <h3 className="text-2xl font-bold mb-6">JOIN THE EDUCATION REVOLUTION</h3>
             <form 
               action={import.meta.env.DEV 
                 ? "/api/mock-subscribe" 

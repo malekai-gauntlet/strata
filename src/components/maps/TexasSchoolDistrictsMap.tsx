@@ -35,7 +35,6 @@ interface RandomPoint {
   lng: number;
   districtId: string;
   districtName: string;
-  districtDisplayName?: string;
   isCenter?: boolean; // indicates if this is the center point of a district
 }
 
@@ -54,8 +53,6 @@ interface CustomViewState {
 // Use a consistent dot size for all school markers
 const SCHOOL_DOT_SIZE = 10; // Size in pixels
 const MIN_DOT_DISTANCE = 15; // Minimum distance between dots in pixels
-// Flag to completely disable map movement
-const LOCK_MAP_POSITION = true;
 
 // Modify the SchoolMarkers component to use consistent sizes
 const SchoolMarkers = React.memo(({ points, onPointClick }: { 
@@ -979,88 +976,45 @@ const TexasSchoolDistrictsMap = () => {
 
   // Enhanced wheel event prevention
   useEffect(() => {
-    if (!LOCK_MAP_POSITION) return;
-    
     // Completely prevent wheel events for zoom
     const preventZoom = (e: WheelEvent) => {
       // Always prevent wheel events when ctrl key is pressed (zoom gesture)
-      if (e.ctrlKey || e.metaKey) {
+      if (e.ctrlKey) {
         e.preventDefault();
       }
     };
 
-    // More aggressive prevention of map movement events
+    // Prevent all map movement events
     const preventMapMovement = (e: Event) => {
-      e.stopPropagation();
-      if (e.cancelable) {
-        e.preventDefault();
+      if (mapMovementLocked) {
+        e.stopPropagation();
+        if (e.cancelable) {
+          e.preventDefault();
+        }
       }
     };
 
-    // Add the event listeners to the document with capture to intercept early
-    document.addEventListener('wheel', preventZoom, { passive: false, capture: true });
+    // Add the event listeners to the document
+    document.addEventListener('wheel', preventZoom, { passive: false });
     
     // Add event listeners for any map container if it exists
     const mapContainer = document.querySelector('.mapboxgl-map');
     if (mapContainer) {
-      const events = [
-        'mousedown', 'mouseup', 'mousemove',
-        'touchstart', 'touchmove', 'touchend',
-        'wheel', 'dblclick',
-        'dragstart', 'drag', 'dragend',
-        'gesturestart', 'gesturechange', 'gestureend'
-      ];
-      
-      // Add all event listeners with capture
-      events.forEach(eventType => {
-        mapContainer.addEventListener(eventType, preventMapMovement, { capture: true });
-      });
-
-      // Cleanup
-      return () => {
-        document.removeEventListener('wheel', preventZoom, { capture: true });
-        
-        // Remove all event listeners
-        events.forEach(eventType => {
-          mapContainer.removeEventListener(eventType, preventMapMovement, { capture: true });
-        });
-      };
+      mapContainer.addEventListener('mousedown', preventMapMovement, { capture: true });
+      mapContainer.addEventListener('touchstart', preventMapMovement, { capture: true });
+      mapContainer.addEventListener('wheel', preventMapMovement, { capture: true });
     }
-    
-    // Cleanup if mapContainer not found
-    return () => {
-      document.removeEventListener('wheel', preventZoom, { capture: true });
-    };
-  }, []);
 
-  // Add an effect to periodically check and force the map position
-  useEffect(() => {
-    if (!LOCK_MAP_POSITION || !mapRef.current) return;
-    
-    // Force map position every second to prevent any drift
-    const interval = setInterval(() => {
-      if (mapRef.current) {
-        const map = mapRef.current.getMap();
-        const currentCenter = map.getCenter();
-        const initialCenter = initialCenterRef.current;
-        const initialZoom = initialViewStateRef.current.zoom;
-        
-        if (
-          Math.abs(currentCenter.lng - initialCenter.lng) > 0.0001 || 
-          Math.abs(currentCenter.lat - initialCenter.lat) > 0.0001 ||
-          Math.abs(map.getZoom() - initialZoom) > 0.0001
-        ) {
-          console.log("Periodic reset of map position");
-          map.jumpTo({
-            center: initialCenter,
-            zoom: initialZoom
-          });
-        }
+    // Cleanup
+    return () => {
+      document.removeEventListener('wheel', preventZoom);
+      if (mapContainer) {
+        mapContainer.removeEventListener('mousedown', preventMapMovement);
+        mapContainer.removeEventListener('touchstart', preventMapMovement);
+        mapContainer.removeEventListener('wheel', preventMapMovement);
       }
-    }, 1000);
-    
-    return () => clearInterval(interval);
-  }, []);
+    };
+  }, [mapMovementLocked]);
 
   // Adjust zoom level based on screen size
   useEffect(() => {
@@ -1462,7 +1416,6 @@ const TexasSchoolDistrictsMap = () => {
               bearing: 0,
               pitch: 0
             }}
-            interactive={!LOCK_MAP_POSITION}
             onMove={(evt) => {
               if (!LOCK_MAP_POSITION) return;
               
@@ -1503,15 +1456,12 @@ const TexasSchoolDistrictsMap = () => {
             maxZoom={window.innerWidth < 768 ? 2.0 : 5.0}  // Force max zoom to match device
             minZoom={window.innerWidth < 768 ? 2.0 : 5.0}  // Force min zoom to match device
             dragRotate={false}
-            dragPan={!LOCK_MAP_POSITION}
+            dragPan={false}
             scrollZoom={false}
             boxZoom={false}
             doubleClickZoom={false}
             keyboard={false}
             touchZoomRotate={false}
-            touchPitch={false}
-            attributionControl={false}  // Remove attribution control which can sometimes trigger movement
-            cooperativeGestures={true}  // Enable cooperative gestures to prevent accidental panning
           >
             <Source
               id="districts"
