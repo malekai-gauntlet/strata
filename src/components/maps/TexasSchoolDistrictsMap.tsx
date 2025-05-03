@@ -621,163 +621,50 @@ const TexasSchoolDistrictsMap = () => {
 
       // Define initial schools for 2025 (start of slider)
       const initialSchools = [
-        // Dallas area
-        {
-          lat: 32.7767,
-          lng: -96.7970,
-          districtId: "057903",
-          districtName: "Dallas ISD",
-          isCenter: true
-        },
-        // North Dallas/Plano area
-        {
-          lat: 33.0198,
-          lng: -96.6989,
-          districtId: "043910",
-          districtName: "Plano ISD",
-          isCenter: true
-        },
-        // Austin area
-        {
-          lat: 30.2672,
-          lng: -97.7431,
-          districtId: "227901",
-          districtName: "Austin ISD",
-          isCenter: true
-        },
-        // Carrollton area
+        // Carrollton area - our very first school
         {
           lat: 32.9751,
           lng: -96.8897,
           districtId: "057903",
           districtName: "Carrollton-Farmers Branch ISD",
           isCenter: true
-        },
-        // Richardson
-        {
-          lat: 32.9483,
-          lng: -96.7299,
-          districtId: "057916",
-          districtName: "Richardson ISD",
-          isCenter: true
-        },
-        // Irving
-        {
-          lat: 32.8140,
-          lng: -96.9489,
-          districtId: "057912",
-          districtName: "Irving ISD",
-          isCenter: true
-        },
-        // Garland
-        {
-          lat: 32.9126,
-          lng: -96.6389,
-          districtId: "057909",
-          districtName: "Garland ISD",
-          isCenter: true
-        },
-        // Mesquite
-        {
-          lat: 32.7668,
-          lng: -96.5992,
-          districtId: "057914",
-          districtName: "Mesquite ISD",
-          isCenter: true
         }
       ];
 
-      // Define January 2026 expansion schools (middle of slider)
+      // Define January 2026 expansion schools (spike at slider value ~20-25)
       const expansionSchools = [
+        // Dallas area
+        { lat: 32.7767, lng: -96.7970, districtId: "057903", districtName: "Dallas ISD", isCenter: true },
+        // North Dallas/Plano area
+        { lat: 33.0198, lng: -96.6989, districtId: "043910", districtName: "Plano ISD", isCenter: true },
+        // Austin area
+        { lat: 30.2672, lng: -97.7431, districtId: "227901", districtName: "Austin ISD", isCenter: true },
+        // Richardson
+        { lat: 32.9483, lng: -96.7299, districtId: "057916", districtName: "Richardson ISD", isCenter: true },
+        // Irving
+        { lat: 32.8140, lng: -96.9489, districtId: "057912", districtName: "Irving ISD", isCenter: true },
+        // Garland
+        { lat: 32.9126, lng: -96.6389, districtId: "057909", districtName: "Garland ISD", isCenter: true },
+        // Mesquite
+        { lat: 32.7668, lng: -96.5992, districtId: "057914", districtName: "Mesquite ISD", isCenter: true },
         // Houston area
-        { lat: 29.7604, lng: -95.3698, districtId: "101912", districtName: "Houston ISD" },
-        { lat: 29.8405, lng: -95.4653, districtId: "101924", districtName: "Spring Branch ISD" },
-        { lat: 29.6857, lng: -95.2794, districtId: "101916", districtName: "Pasadena ISD" },
-        { lat: 29.9377, lng: -95.6772, districtId: "101907", districtName: "Cypress-Fairbanks ISD" },
-        { lat: 30.0371, lng: -95.4288, districtId: "101915", districtName: "Spring ISD" },
+        { lat: 29.7604, lng: -95.3698, districtId: "101912", districtName: "Houston ISD", isCenter: true },
+        { lat: 29.8405, lng: -95.4653, districtId: "101924", districtName: "Spring Branch ISD", isCenter: true },
+        { lat: 29.6857, lng: -95.2794, districtId: "101916", districtName: "Pasadena ISD", isCenter: true },
+        { lat: 29.9377, lng: -95.6772, districtId: "101907", districtName: "Cypress-Fairbanks ISD", isCenter: true },
+        { lat: 30.0371, lng: -95.4288, districtId: "101915", districtName: "Spring ISD", isCenter: true },
         // San Antonio area
-        { lat: 29.4241, lng: -98.4936, districtId: "015907", districtName: "San Antonio ISD" },
-        { lat: 29.5693, lng: -98.6447, districtId: "015915", districtName: "Northside ISD" },
-        { lat: 29.4832, lng: -98.3995, districtId: "015910", districtName: "Northeast ISD" },
+        { lat: 29.4241, lng: -98.4936, districtId: "015907", districtName: "San Antonio ISD", isCenter: true },
+        { lat: 29.5693, lng: -98.6447, districtId: "015915", districtName: "Northside ISD", isCenter: true },
+        { lat: 29.4832, lng: -98.3995, districtId: "015910", districtName: "Northeast ISD", isCenter: true },
         // Fort Worth area
-        { lat: 32.7555, lng: -97.3308, districtId: "220905", districtName: "Fort Worth ISD" },
-        { lat: 32.8998, lng: -97.2881, districtId: "220914", districtName: "Keller ISD" },
-        { lat: 32.6949, lng: -97.1209, districtId: "220901", districtName: "Arlington ISD" },
+        { lat: 32.7555, lng: -97.3308, districtId: "220905", districtName: "Fort Worth ISD", isCenter: true },
+        { lat: 32.8998, lng: -97.2881, districtId: "220914", districtName: "Keller ISD", isCenter: true },
+        { lat: 32.6949, lng: -97.1209, districtId: "220901", districtName: "Arlington ISD", isCenter: true },
         // El Paso
-        { lat: 31.7619, lng: -106.4850, districtId: "071902", districtName: "El Paso ISD" },
-        { lat: 31.8140, lng: -106.2485, districtId: "071909", districtName: "Ysleta ISD" },
-        // Corpus Christi
-        { lat: 27.8006, lng: -97.3964, districtId: "178904", districtName: "Corpus Christi ISD" },
-        // Lubbock
-        { lat: 33.5779, lng: -101.8552, districtId: "152901", districtName: "Lubbock ISD" },
-        // Amarillo
-        { lat: 35.2220, lng: -101.8313, districtId: "188901", districtName: "Amarillo ISD" },
-        // Waco
-        { lat: 31.5493, lng: -97.1467, districtId: "161914", districtName: "Waco ISD" },
-        // Tyler
-        { lat: 32.3513, lng: -95.3011, districtId: "212905", districtName: "Tyler ISD" },
-        // Beaumont
-        { lat: 30.0802, lng: -94.1266, districtId: "123910", districtName: "Beaumont ISD" },
-        // Midland
-        { lat: 31.9973, lng: -102.0779, districtId: "165901", districtName: "Midland ISD" },
-        // Odessa
-        { lat: 31.8457, lng: -102.3676, districtId: "068901", districtName: "Ector County ISD" },
-        // Additional Houston suburbs
-        { lat: 29.5852, lng: -95.6349, districtId: "079907", districtName: "Sugar Land ISD" },
-        { lat: 29.7858, lng: -95.8244, districtId: "079901", districtName: "Katy ISD" },
-        { lat: 30.1658, lng: -95.4494, districtId: "170902", districtName: "Conroe ISD" },
-        // Additional Dallas suburbs
-        { lat: 33.1507, lng: -96.8236, districtId: "043914", districtName: "Frisco ISD" },
-        { lat: 32.9342, lng: -96.4597, districtId: "057904", districtName: "Rockwall ISD" },
-        { lat: 33.0801, lng: -96.6989, districtId: "043919", districtName: "Allen ISD" },
-        { lat: 33.1971, lng: -96.6389, districtId: "043910", districtName: "McKinney ISD" },
-        // Additional Austin suburbs
-        { lat: 30.5083, lng: -97.6789, districtId: "246909", districtName: "Round Rock ISD" },
-        { lat: 30.3252, lng: -97.7581, districtId: "227904", districtName: "Leander ISD" },
-        { lat: 30.1658, lng: -97.7893, districtId: "227901", districtName: "Pflugerville ISD" },
-        // College Station
-        { lat: 30.6280, lng: -96.3344, districtId: "021901", districtName: "College Station ISD" },
-        // San Marcos
-        { lat: 29.8833, lng: -97.9414, districtId: "105902", districtName: "San Marcos CISD" },
-        // Georgetown
-        { lat: 30.6333, lng: -97.6789, districtId: "246904", districtName: "Georgetown ISD" },
-        // Temple
-        { lat: 31.0982, lng: -97.3428, districtId: "014909", districtName: "Temple ISD" },
-        // Killeen
-        { lat: 31.1171, lng: -97.7278, districtId: "014906", districtName: "Killeen ISD" },
-        // Victoria
-        { lat: 28.8053, lng: -97.0036, districtId: "235902", districtName: "Victoria ISD" },
-        // Longview
-        { lat: 32.5007, lng: -94.7405, districtId: "092903", districtName: "Longview ISD" },
-        // Texarkana
-        { lat: 33.4417, lng: -94.0376, districtId: "019907", districtName: "Texarkana ISD" },
-        // Sherman
-        { lat: 33.6357, lng: -96.6089, districtId: "091906", districtName: "Sherman ISD" },
-        // Denton
-        { lat: 33.2148, lng: -97.1331, districtId: "061901", districtName: "Denton ISD" },
-        // Abilene
-        { lat: 32.4487, lng: -99.7331, districtId: "221901", districtName: "Abilene ISD" },
-        // San Angelo
-        { lat: 31.4638, lng: -100.4370, districtId: "226901", districtName: "San Angelo ISD" },
-        // Bryan
-        { lat: 30.6744, lng: -96.3698, districtId: "021902", districtName: "Bryan ISD" },
-        // Wichita Falls
-        { lat: 33.9137, lng: -98.4934, districtId: "243905", districtName: "Wichita Falls ISD" },
-        // Laredo
-        { lat: 27.5306, lng: -99.4803, districtId: "240901", districtName: "Laredo ISD" },
-        // McAllen
-        { lat: 26.2034, lng: -98.2300, districtId: "108906", districtName: "McAllen ISD" },
-        // Brownsville
-        { lat: 25.9017, lng: -97.4975, districtId: "031901", districtName: "Brownsville ISD" },
-        // Harlingen
-        { lat: 26.1906, lng: -97.6961, districtId: "031903", districtName: "Harlingen CISD" },
-        // Mission
-        { lat: 26.2159, lng: -98.3252, districtId: "108908", districtName: "Mission CISD" },
-        // Edinburg
-        { lat: 26.3017, lng: -98.1633, districtId: "108904", districtName: "Edinburg CISD" },
-        // Pharr
-        { lat: 26.1947, lng: -98.1836, districtId: "108909", districtName: "Pharr-San Juan-Alamo ISD" }
-      ].map(school => ({ ...school, isCenter: true }));
+        { lat: 31.7619, lng: -106.4850, districtId: "071902", districtName: "El Paso ISD", isCenter: true },
+        { lat: 31.8140, lng: -106.2485, districtId: "071909", districtName: "Ysleta ISD", isCenter: true }
+      ];
       
       // Extract all center points from allPoints (one per district)
       const allCenterPoints = allPoints.filter(p => p.isCenter);
@@ -805,96 +692,91 @@ const TexasSchoolDistrictsMap = () => {
         });
       });
       
-      // Now implement a smooth, deterministic appearance of points based on the slider
-      if (sliderValue <= 50) {
-        // First half of slider: Gradually introduce one school per district (center points)
+      // Calculate the total points that should be visible based on slider value
+      const calculateVisiblePointCount = (sliderValue: number): number => {
+        // August 2025 to January 2026 (slider = 0-20): Always 1 school
+        if (sliderValue <= 20) {
+          return 1;
+        }
         
-        // Start with initial schools
-        visiblePoints = [...initialSchools];
+        // January 2026 spike (slider = 20-25): Spike from 1 to ~50 schools
+        if (sliderValue > 20 && sliderValue <= 25) {
+          // Rapid increase from 1 to 50 schools
+          return Math.floor(1 + ((sliderValue - 20) / 5) * 49);
+        }
         
-        // Calculate how many additional center points to show based on slider
-        // Slider 0 -> 0% of districts, Slider 50 -> 100% of districts
-        // But first 8 districts are always shown from initialSchools
+        // From January 2026 to August 2026 (slider = 25-50): 50 to 1200 schools
+        if (sliderValue > 25 && sliderValue <= 50) {
+          // Gradual increase from 50 to 1200
+          return Math.floor(50 + ((sliderValue - 25) / 25) * (1200 - 50));
+        }
         
-        // Get remaining center points, excluding ones from the hardcoded lists
-        const remainingCenterPoints = allCenterPoints.filter(
-          p => !initialSchools.some(is => is.districtId === p.districtId) &&
-               !expansionSchools.some(es => es.districtId === p.districtId)
-        );
+        // From August 2026 to August 2027 (slider = 50-100): 1200 to 5000 schools
+        if (sliderValue > 50) {
+          // Gradual increase from 1200 to 5000
+          return Math.floor(1200 + ((sliderValue - 50) / 50) * (5000 - 1200));
+        }
         
-        // Calculate how many to show from the expansion schools list (50% of slider)
-        // At slider=0, show 0 expansion schools
-        // At slider=25, show 50% of expansion schools
-        // At slider=50, show 100% of expansion schools
-        const expansionPercentage = sliderValue / 50;
-        const expansionPointsToShow = Math.floor(expansionSchools.length * expansionPercentage);
+        return 1; // Default fallback
+      };
+      
+      // Calculate the target number of points to show
+      const targetPointCount = calculateVisiblePointCount(sliderValue);
+      
+      // Now implement a smooth, deterministic appearance of points
+      if (sliderValue === 0) {
+        // At August 2025, only show the initial single school
+        visiblePoints = initialSchools;
+      } else if (sliderValue <= 25) {
+        // January 2026 spike - show the expansion schools (about 50 schools)
+        // Gradually add schools from expansionSchools as slider approaches 25
+        const pointsToShow = Math.min(expansionSchools.length, 
+          Math.floor((sliderValue / 25) * expansionSchools.length));
         
-        // Calculate how many to show from the remaining center points (other 50% of slider)
-        // At slider=0, show 0 remaining centers
-        // At slider=25, show 0 remaining centers
-        // At slider=50, show 100% of remaining centers
-        const remainingPercentage = Math.max(0, (sliderValue - 25) / 25);
-        const remainingPointsToShow = Math.min(
-          remainingCenterPoints.length,
-          Math.floor(remainingCenterPoints.length * remainingPercentage)
-        );
-        
-        // Add the calculated number of points from each category
         visiblePoints = [
-          ...visiblePoints,
-          ...expansionSchools.slice(0, expansionPointsToShow),
-          ...remainingCenterPoints.slice(0, remainingPointsToShow)
+          ...initialSchools,
+          ...expansionSchools.slice(0, pointsToShow)
         ];
-        
-        // Track which districts have schools
-        visiblePoints.forEach(point => {
-          if (!newDistrictsWithSchools.includes(point.districtId)) {
-            newDistrictsWithSchools.push(point.districtId);
-          }
-        });
       } else {
-        // Second half of slider: All districts have their center point, gradually add additional points
+        // After January 2026, start filling in with center points from all districts, then additional points
         
-        // First, include all center points (one per district)
-        visiblePoints = [...allCenterPoints];
+        // All expansion schools are visible
+        visiblePoints = [...initialSchools, ...expansionSchools];
         
-        // Calculate percentage for additional points (3-4 per district)
-        // At slider=50, show 0 additional points
-        // At slider=100, show all additional points
-        const additionalPercentage = (sliderValue - 50) / 50;
+        // Get remaining center points
+        const remainingCenterPoints = allCenterPoints.filter(
+          p => !initialSchools.some(is => is.districtId === p.districtId && is.lng === p.lng && is.lat === p.lat) &&
+               !expansionSchools.some(es => es.districtId === p.districtId && es.lng === p.lng && es.lat === p.lat)
+        );
         
-        // Group the additional points by their district
-        const additionalPointsByDistrict: Record<string, RandomPoint[]> = {};
-        allAdditionalPoints.forEach(point => {
-          if (!additionalPointsByDistrict[point.districtId]) {
-            additionalPointsByDistrict[point.districtId] = [];
-          }
-          additionalPointsByDistrict[point.districtId].push(point);
-        });
-        
-        // For each district with additional points...
-        Object.keys(additionalPointsByDistrict).forEach(districtId => {
-          const districtPoints = additionalPointsByDistrict[districtId];
+        // Calculate how many additional center points to add
+        let pointsNeeded = targetPointCount - visiblePoints.length;
+        if (pointsNeeded > 0) {
+          // Add as many center points as needed, up to the max available
+          const centerPointsToAdd = Math.min(pointsNeeded, remainingCenterPoints.length);
+          visiblePoints = [...visiblePoints, ...remainingCenterPoints.slice(0, centerPointsToAdd)];
           
-          // Determine how many additional points to show for this district
-          const pointsToShowForDistrict = Math.min(
-            districtPoints.length,
-            Math.ceil(districtPoints.length * additionalPercentage)
-          );
+          // Recalculate points still needed
+          pointsNeeded = targetPointCount - visiblePoints.length;
           
-          // Add the calculated number of points
-          if (pointsToShowForDistrict > 0) {
-            visiblePoints = [...visiblePoints, ...districtPoints.slice(0, pointsToShowForDistrict)];
+          // If we still need more points, start adding additional (non-center) points
+          if (pointsNeeded > 0) {
+            visiblePoints = [...visiblePoints, ...allAdditionalPoints.slice(0, pointsNeeded)];
           }
-        });
-        
-        // Track which districts have schools
-        visiblePoints.forEach(point => {
-          if (!newDistrictsWithSchools.includes(point.districtId)) {
-            newDistrictsWithSchools.push(point.districtId);
-          }
-        });
+        }
       }
+      
+      // Ensure we don't exceed the target count (should not happen, but just in case)
+      if (visiblePoints.length > targetPointCount) {
+        visiblePoints = visiblePoints.slice(0, targetPointCount);
+      }
+      
+      // Track which districts have schools
+      visiblePoints.forEach(point => {
+        if (!newDistrictsWithSchools.includes(point.districtId)) {
+          newDistrictsWithSchools.push(point.districtId);
+        }
+      });
       
       // Update state
       console.log(`Setting ${visiblePoints.length} visible points across ${newDistrictsWithSchools.length} districts`);
@@ -1394,7 +1276,9 @@ const TexasSchoolDistrictsMap = () => {
       schoolCount: points.length,
       districtCount: districtsWithSchools.length,
       formattedDate: formatDate(sliderValue),
-      formattedString: `${points.length.toLocaleString()} Strata Schools`
+      formattedString: points.length === 1 
+        ? "1 Strata School" 
+        : `${points.length.toLocaleString()} Strata Schools`
     };
   }, []);
 
