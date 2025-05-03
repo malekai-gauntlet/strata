@@ -63,9 +63,9 @@ const COORDINATE_ERROR_THRESHOLD = 0.001; // Approximately 100 meters
 const FIXED_COORDINATES = {
   // Mobile view settings
   mobile: {
-    longitude: -101.0, // Fixed longitude for mobile
-    latitude: 32.0,    // Fixed latitude for mobile
-    zoom: 4.2          // Fixed zoom for mobile
+    longitude: -99.0, // Shifted from -101.0 to -103.5 (move right on the map)
+    latitude: 31.2,    // Keep the same latitude
+    zoom: 4.2          // Keep the same zoom level
   },
   // Desktop view settings 
   desktop: {
