@@ -96,6 +96,36 @@ const SchoolMarkers = React.memo(({ points, onPointClick }: {
 
 SchoolMarkers.displayName = 'SchoolMarkers';
 
+// Create a simple, elegant popup component 
+const CustomPopupContent = ({ districtName, schoolNumber }: { districtName: string, schoolNumber: number }) => {
+  return (
+    <div style={{ 
+      padding: '10px 14px',
+      backgroundColor: 'white',
+      borderRadius: '6px',
+      width: '190px',
+      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+    }}>
+      <h3 style={{ 
+        fontWeight: '600', 
+        fontSize: '14px',
+        marginBottom: '3px',
+        color: '#222',
+      }}>
+        {districtName}
+      </h3>
+      <p style={{ 
+        margin: 0,
+        fontSize: '12px', 
+        color: '#777',
+      }}>
+        Strata School #{schoolNumber}
+      </p>
+    </div>
+  );
+};
+
 const TexasSchoolDistrictsMap = () => {
   const [geoJsonData, setGeoJsonData] = useState<GeoJSON.FeatureCollection | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<SelectedDistrict | null>(null);
@@ -327,7 +357,7 @@ const TexasSchoolDistrictsMap = () => {
 
   // Modify the organizePointsByDistrict function to use the updated getRandomPointInPolygon
   const organizePointsByDistrict = useCallback((data: GeoJSON.FeatureCollection) => {
-    console.log("Organizing points by district with CPU fallback method");
+    console.log("Organizing points by district");
     
     const pointsByDistrict: Record<string, RandomPoint[]> = {};
     const centerPoints: RandomPoint[] = [];
@@ -536,7 +566,7 @@ const TexasSchoolDistrictsMap = () => {
     
     // Fallback method using main thread processing
     const fallbackToMainThreadProcessing = (data: GeoJSON.FeatureCollection) => {
-      setLoadingProgress('Processing points (fallback method)...');
+      setLoadingProgress('Processing points...');
       setTimeout(() => {
         try {
           const { allOrderedPoints } = organizePointsByDistrict(data);
@@ -1215,7 +1245,7 @@ const TexasSchoolDistrictsMap = () => {
     }
   }, [districtColors, processedGeoJson]);
 
-  // Memoize the marker click handler
+  // Simplify the marker click handler
   const handleMarkerClick = useCallback((point: RandomPoint, x: number, y: number) => {
     // Find the associated district with this point
     if (geoJsonData) {
@@ -1223,16 +1253,16 @@ const TexasSchoolDistrictsMap = () => {
         feature => feature.properties && feature.properties.DISTRICT_I === point.districtId
       );
       
-      // Add Name20 property to the popupInfo if available
-      const name20 = district?.properties?.Name20 || point.districtName;
+      // Get district name from properties or use existing
+      const districtName = district?.properties?.Name20 || point.districtName;
       
-      setPopupInfo({ 
+      setPopupInfo({
         point: {
           ...point,
-          districtDisplayName: name20
-        }, 
-        x, 
-        y 
+          districtDisplayName: districtName
+        },
+        x,
+        y
       });
     } else {
       setPopupInfo({ point, x, y });
@@ -1282,19 +1312,42 @@ const TexasSchoolDistrictsMap = () => {
     };
   }, []);
 
+  // Add an effect to manipulate the DOM directly for popups if necessary
+  useEffect(() => {
+    if (popupInfo) {
+      // Small timeout to ensure the popup has rendered
+      const timeoutId = setTimeout(() => {
+        // Get all popup divs
+        const popupElements = document.querySelectorAll('.mapboxgl-popup-content');
+        
+        // Loop through each popup
+        popupElements.forEach(popupElement => {
+          // Find any unwanted content that might be district IDs
+          const possibleDistrictIdElements = popupElement.querySelectorAll('div:not([style])');
+          
+          // Remove any elements that are likely showing district IDs
+          possibleDistrictIdElements.forEach(element => {
+            if (element.textContent && /^\d+$/.test(element.textContent.trim())) {
+              // Use proper type assertion for HTMLElement
+              (element as HTMLElement).style.display = 'none';
+            }
+          });
+        });
+      }, 50);
+      
+      return () => clearTimeout(timeoutId);
+    }
+  }, [popupInfo]);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-black">
-        <div className="text-center p-8 bg-black rounded-lg max-w-md">
-          {/* Modern sleek spinner */}
-          <div className="relative mx-auto w-20 h-20">
-            <div className="absolute top-0 left-0 right-0 bottom-0 rounded-full border-4 border-gray-800"></div>
-            <div className="absolute top-0 left-0 right-0 bottom-0 rounded-full border-4 border-t-white animate-spin"></div>
+        <div className="text-center p-8 max-w-md">
+          {/* Simple clean spinner */}
+          <div className="relative mx-auto w-16 h-16 mb-6">
+            <div className="absolute top-0 left-0 right-0 bottom-0 rounded-full border-4 border-t-white animate-spin opacity-80"></div>
           </div>
-          <p className="mt-6 text-xl font-light tracking-wider text-white">{loadingProgress}</p>
-          <div className="w-full bg-gray-800 rounded-full h-1.5 mt-6">
-            <div className="bg-white h-1.5 rounded-full animate-pulse w-full"></div>
-          </div>
+          <p className="text-lg font-light tracking-wider text-white opacity-80">{loadingProgress}</p>
         </div>
       </div>
     );
@@ -1313,6 +1366,59 @@ const TexasSchoolDistrictsMap = () => {
 
   return (
     <div className="relative w-full h-full">
+      {/* Add global styles for popups */}
+      <style>
+        {`
+          /* Global popup styles */
+          .mapboxgl-popup {
+            z-index: 100;
+          }
+          
+          .mapboxgl-popup-content {
+            padding: 0 !important;
+            overflow: visible !important;
+            background: transparent !important;
+            box-shadow: none !important;
+          }
+          
+          .mapboxgl-popup-tip {
+            border-top-color: white !important;
+            border-width: 8px !important;
+            filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
+          }
+          
+          /* Subtle animation */
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          
+          /* Make close button subtle */
+          .mapboxgl-popup-close-button {
+            font-size: 16px !important;
+            color: #bbb !important;
+            top: 2px !important;
+            right: 4px !important;
+            background: transparent !important;
+            border: none !important;
+            padding: 4px !important;
+            line-height: 1 !important;
+            opacity: 0.6 !important;
+          }
+          
+          .mapboxgl-popup-close-button:hover {
+            color: #666 !important;
+            background: transparent !important;
+            opacity: 1 !important;
+          }
+          
+          /* Add subtle animation to popup */
+          .mapboxgl-popup-content > div {
+            animation: fadeIn 0.15s ease-out;
+          }
+        `}
+      </style>
+      
       {/* Timeline Bar - Modern WHITE with BLACK text */}
       <div className="absolute top-0 left-0 w-full z-30 flex flex-col items-center pointer-events-none">
         <div className="backdrop-blur-md bg-white/80 rounded-b-xl shadow-lg px-6 pt-4 pb-2 w-full max-w-2xl mx-auto pointer-events-auto">
@@ -1426,20 +1532,16 @@ const TexasSchoolDistrictsMap = () => {
                 latitude={popupInfo.point.lat}
                 anchor="bottom"
                 onClose={() => setPopupInfo(null)}
-                closeButton={true}
+                closeButton={false}
                 closeOnClick={true}
-                className="school-popup"
+                offset={10}
               >
-                <div className="p-1 text-black">
-                  <h3 className="font-bold text-sm">
-                    {popupInfo.point.districtDisplayName || popupInfo.point.districtName}
-                  </h3>
-                  <div className="text-xs mt-1">
-                    <p>Strata School #{randomPoints.findIndex(p => 
-                      p.lat === popupInfo.point.lat && 
-                      p.lng === popupInfo.point.lng) + 1}</p>
-                  </div>
-                </div>
+                <CustomPopupContent 
+                  districtName={popupInfo.point.districtDisplayName || popupInfo.point.districtName}
+                  schoolNumber={randomPoints.findIndex(p => 
+                    p.lat === popupInfo.point.lat && 
+                    p.lng === popupInfo.point.lng) + 1}
+                />
               </Popup>
             )}
           </Map>
