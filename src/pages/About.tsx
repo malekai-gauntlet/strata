@@ -73,17 +73,24 @@ const About = () => {
           </motion.div>
         </div>
 
-        <div className="container mx-auto px-6 md:px-4 relative z-10">
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight drop-shadow-[0_4px_4px_rgba(0,0,0,0.4)]">
-              TRANSFORMING TEXAS EDUCATION
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 tracking-tight drop-shadow-[0_4px_4px_rgba(0,0,0,0.4)]">
+              <span className="sm:hidden">
+                TRANSFORMING<br />
+                TEXAS<br />
+                EDUCATION
+              </span>
+              <span className="hidden sm:inline">
+                TRANSFORMING TEXAS EDUCATION
+              </span>
             </h1>
-            <p className="text-xl md:text-2xl mb-12 max-w-3xl mx-auto text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.4)]">
+            <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-12 max-w-3xl mx-auto text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.4)]">
               We're providing every Texas child with a choice for world-class education and athletic excellence.
             </p>
             <motion.div
@@ -92,7 +99,7 @@ const About = () => {
               transition={{ delay: 0.5 }}
             >
               <Button 
-                className="bg-white text-black hover:bg-gray-200 text-lg px-8 py-6 rounded-none"
+                className="bg-white text-black hover:bg-gray-200 text-lg px-6 sm:px-8 py-5 sm:py-6 rounded-none"
                 onClick={() => document.getElementById('about-content')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 LEARN MORE
