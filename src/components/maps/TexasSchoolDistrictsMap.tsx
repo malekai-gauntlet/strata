@@ -35,6 +35,7 @@ interface RandomPoint {
   lng: number;
   districtId: string;
   districtName: string;
+  districtDisplayName?: string;
   isCenter?: boolean; // indicates if this is the center point of a district
 }
 
@@ -53,6 +54,8 @@ interface CustomViewState {
 // Use a consistent dot size for all school markers
 const SCHOOL_DOT_SIZE = 10; // Size in pixels
 const MIN_DOT_DISTANCE = 15; // Minimum distance between dots in pixels
+// Flag to completely disable map movement
+const LOCK_MAP_POSITION = true;
 
 // Modify the SchoolMarkers component to use consistent sizes
 const SchoolMarkers = React.memo(({ points, onPointClick }: { 
@@ -93,6 +96,36 @@ const SchoolMarkers = React.memo(({ points, onPointClick }: {
 
 SchoolMarkers.displayName = 'SchoolMarkers';
 
+// Create a simple, elegant popup component 
+const CustomPopupContent = ({ districtName, schoolNumber }: { districtName: string, schoolNumber: number }) => {
+  return (
+    <div style={{ 
+      padding: '10px 14px',
+      backgroundColor: 'white',
+      borderRadius: '6px',
+      width: '190px',
+      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+    }}>
+      <h3 style={{ 
+        fontWeight: '600', 
+        fontSize: '14px',
+        marginBottom: '3px',
+        color: '#222',
+      }}>
+        {districtName}
+      </h3>
+      <p style={{ 
+        margin: 0,
+        fontSize: '12px', 
+        color: '#777',
+      }}>
+        Strata School #{schoolNumber}
+      </p>
+    </div>
+  );
+};
+
 const TexasSchoolDistrictsMap = () => {
   const [geoJsonData, setGeoJsonData] = useState<GeoJSON.FeatureCollection | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<SelectedDistrict | null>(null);
@@ -127,7 +160,7 @@ const TexasSchoolDistrictsMap = () => {
   const [viewState, setViewState] = useState<CustomViewState>({
     longitude: -99.0,   // Adjusted center for Texas
     latitude: 31.2,     // Adjusted center for Texas
-    zoom: 5.5,          // Slightly zoomed in to show Texas more prominently
+    zoom: window.innerWidth < 768 ? 2.0 : 5.0, // Initial zoom based on device size
     bearing: 0,
     pitch: 0,
     padding: null,
@@ -136,7 +169,22 @@ const TexasSchoolDistrictsMap = () => {
   });
   
   // Create a ref to store the initial view state so we can reset to it if needed
-  const initialViewStateRef = useRef(viewState);
+  const initialViewStateRef = useRef<CustomViewState>({
+    longitude: -99.0,   // Ensure fixed center for Texas
+    latitude: 31.2,     // Ensure fixed center for Texas
+    zoom: window.innerWidth < 768 ? 2.0 : 5.0, // Initial zoom based on device size
+    bearing: 0,
+    pitch: 0,
+    padding: null,
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  
+  // Add a ref to store the initial center position explicitly
+  const initialCenterRef = useRef<{lng: number, lat: number}>({
+    lng: -99.0, // Fixed initial longitude
+    lat: 31.2   // Fixed initial latitude
+  });
   
   // Store the true/false state of whether the map is allowed to move
   const mapMovementLocked = true; // Changed to constant true since we're not using the setter
@@ -309,7 +357,7 @@ const TexasSchoolDistrictsMap = () => {
 
   // Modify the organizePointsByDistrict function to use the updated getRandomPointInPolygon
   const organizePointsByDistrict = useCallback((data: GeoJSON.FeatureCollection) => {
-    console.log("Organizing points by district with CPU fallback method");
+    console.log("Organizing points by district");
     
     const pointsByDistrict: Record<string, RandomPoint[]> = {};
     const centerPoints: RandomPoint[] = [];
@@ -518,7 +566,7 @@ const TexasSchoolDistrictsMap = () => {
     
     // Fallback method using main thread processing
     const fallbackToMainThreadProcessing = (data: GeoJSON.FeatureCollection) => {
-      setLoadingProgress('Processing points (fallback method)...');
+      setLoadingProgress('Processing points...');
       setTimeout(() => {
         try {
           const { allOrderedPoints } = organizePointsByDistrict(data);
@@ -591,220 +639,173 @@ const TexasSchoolDistrictsMap = () => {
       const newColors: Record<string, string> = {};
       const newDistrictsWithSchools: string[] = [];
       
-      // Initialize all districts as dark gray
+      // Initialize all districts as blue
       if (geoJsonData.features) {
         geoJsonData.features.forEach((feature: GeoJSON.Feature) => {
           if (feature.properties) {
             const districtId = feature.properties.DISTRICT_I || '';
-            newColors[districtId] = '#444444'; // Dark gray by default
+            newColors[districtId] = '#2A4365'; // Always blue
           }
         });
       }
 
-      // Define initial schools for 2025
+      // Define initial schools for 2025 (start of slider)
       const initialSchools = [
-        // Dallas area
-        {
-          lat: 32.7767,
-          lng: -96.7970,
-          districtId: "057903",
-          districtName: "Dallas ISD",
-          isCenter: true
-        },
-        // North Dallas/Plano area
-        {
-          lat: 33.0198,
-          lng: -96.6989,
-          districtId: "043910",
-          districtName: "Plano ISD",
-          isCenter: true
-        },
-        // Austin area
-        {
-          lat: 30.2672,
-          lng: -97.7431,
-          districtId: "227901",
-          districtName: "Austin ISD",
-          isCenter: true
-        },
-        // Carrollton area
+        // Carrollton area - our very first school
         {
           lat: 32.9751,
           lng: -96.8897,
           districtId: "057903",
           districtName: "Carrollton-Farmers Branch ISD",
           isCenter: true
-        },
-        // Richardson
-        {
-          lat: 32.9483,
-          lng: -96.7299,
-          districtId: "057916",
-          districtName: "Richardson ISD",
-          isCenter: true
-        },
-        // Irving
-        {
-          lat: 32.8140,
-          lng: -96.9489,
-          districtId: "057912",
-          districtName: "Irving ISD",
-          isCenter: true
-        },
-        // Garland
-        {
-          lat: 32.9126,
-          lng: -96.6389,
-          districtId: "057909",
-          districtName: "Garland ISD",
-          isCenter: true
-        },
-        // Mesquite
-        {
-          lat: 32.7668,
-          lng: -96.5992,
-          districtId: "057914",
-          districtName: "Mesquite ISD",
-          isCenter: true
         }
       ];
 
-      // Define January 2026 expansion schools
+      // Define January 2026 expansion schools (spike at slider value ~20-25)
       const expansionSchools = [
+        // Dallas area
+        { lat: 32.7767, lng: -96.7970, districtId: "057903", districtName: "Dallas ISD", isCenter: true },
+        // North Dallas/Plano area
+        { lat: 33.0198, lng: -96.6989, districtId: "043910", districtName: "Plano ISD", isCenter: true },
+        // Austin area
+        { lat: 30.2672, lng: -97.7431, districtId: "227901", districtName: "Austin ISD", isCenter: true },
+        // Richardson
+        { lat: 32.9483, lng: -96.7299, districtId: "057916", districtName: "Richardson ISD", isCenter: true },
+        // Irving
+        { lat: 32.8140, lng: -96.9489, districtId: "057912", districtName: "Irving ISD", isCenter: true },
+        // Garland
+        { lat: 32.9126, lng: -96.6389, districtId: "057909", districtName: "Garland ISD", isCenter: true },
+        // Mesquite
+        { lat: 32.7668, lng: -96.5992, districtId: "057914", districtName: "Mesquite ISD", isCenter: true },
         // Houston area
-        { lat: 29.7604, lng: -95.3698, districtId: "101912", districtName: "Houston ISD" },
-        { lat: 29.8405, lng: -95.4653, districtId: "101924", districtName: "Spring Branch ISD" },
-        { lat: 29.6857, lng: -95.2794, districtId: "101916", districtName: "Pasadena ISD" },
-        { lat: 29.9377, lng: -95.6772, districtId: "101907", districtName: "Cypress-Fairbanks ISD" },
-        { lat: 30.0371, lng: -95.4288, districtId: "101915", districtName: "Spring ISD" },
+        { lat: 29.7604, lng: -95.3698, districtId: "101912", districtName: "Houston ISD", isCenter: true },
+        { lat: 29.8405, lng: -95.4653, districtId: "101924", districtName: "Spring Branch ISD", isCenter: true },
+        { lat: 29.6857, lng: -95.2794, districtId: "101916", districtName: "Pasadena ISD", isCenter: true },
+        { lat: 29.9377, lng: -95.6772, districtId: "101907", districtName: "Cypress-Fairbanks ISD", isCenter: true },
+        { lat: 30.0371, lng: -95.4288, districtId: "101915", districtName: "Spring ISD", isCenter: true },
         // San Antonio area
-        { lat: 29.4241, lng: -98.4936, districtId: "015907", districtName: "San Antonio ISD" },
-        { lat: 29.5693, lng: -98.6447, districtId: "015915", districtName: "Northside ISD" },
-        { lat: 29.4832, lng: -98.3995, districtId: "015910", districtName: "Northeast ISD" },
+        { lat: 29.4241, lng: -98.4936, districtId: "015907", districtName: "San Antonio ISD", isCenter: true },
+        { lat: 29.5693, lng: -98.6447, districtId: "015915", districtName: "Northside ISD", isCenter: true },
+        { lat: 29.4832, lng: -98.3995, districtId: "015910", districtName: "Northeast ISD", isCenter: true },
         // Fort Worth area
-        { lat: 32.7555, lng: -97.3308, districtId: "220905", districtName: "Fort Worth ISD" },
-        { lat: 32.8998, lng: -97.2881, districtId: "220914", districtName: "Keller ISD" },
-        { lat: 32.6949, lng: -97.1209, districtId: "220901", districtName: "Arlington ISD" },
+        { lat: 32.7555, lng: -97.3308, districtId: "220905", districtName: "Fort Worth ISD", isCenter: true },
+        { lat: 32.8998, lng: -97.2881, districtId: "220914", districtName: "Keller ISD", isCenter: true },
+        { lat: 32.6949, lng: -97.1209, districtId: "220901", districtName: "Arlington ISD", isCenter: true },
         // El Paso
-        { lat: 31.7619, lng: -106.4850, districtId: "071902", districtName: "El Paso ISD" },
-        { lat: 31.8140, lng: -106.2485, districtId: "071909", districtName: "Ysleta ISD" },
-        // Corpus Christi
-        { lat: 27.8006, lng: -97.3964, districtId: "178904", districtName: "Corpus Christi ISD" },
-        // Lubbock
-        { lat: 33.5779, lng: -101.8552, districtId: "152901", districtName: "Lubbock ISD" },
-        // Amarillo
-        { lat: 35.2220, lng: -101.8313, districtId: "188901", districtName: "Amarillo ISD" },
-        // Waco
-        { lat: 31.5493, lng: -97.1467, districtId: "161914", districtName: "Waco ISD" },
-        // Tyler
-        { lat: 32.3513, lng: -95.3011, districtId: "212905", districtName: "Tyler ISD" },
-        // Beaumont
-        { lat: 30.0802, lng: -94.1266, districtId: "123910", districtName: "Beaumont ISD" },
-        // Midland
-        { lat: 31.9973, lng: -102.0779, districtId: "165901", districtName: "Midland ISD" },
-        // Odessa
-        { lat: 31.8457, lng: -102.3676, districtId: "068901", districtName: "Ector County ISD" },
-        // Additional Houston suburbs
-        { lat: 29.5852, lng: -95.6349, districtId: "079907", districtName: "Sugar Land ISD" },
-        { lat: 29.7858, lng: -95.8244, districtId: "079901", districtName: "Katy ISD" },
-        { lat: 30.1658, lng: -95.4494, districtId: "170902", districtName: "Conroe ISD" },
-        // Additional Dallas suburbs
-        { lat: 33.1507, lng: -96.8236, districtId: "043914", districtName: "Frisco ISD" },
-        { lat: 32.9342, lng: -96.4597, districtId: "057904", districtName: "Rockwall ISD" },
-        { lat: 33.0801, lng: -96.6989, districtId: "043919", districtName: "Allen ISD" },
-        { lat: 33.1971, lng: -96.6389, districtId: "043910", districtName: "McKinney ISD" },
-        // Additional Austin suburbs
-        { lat: 30.5083, lng: -97.6789, districtId: "246909", districtName: "Round Rock ISD" },
-        { lat: 30.3252, lng: -97.7581, districtId: "227904", districtName: "Leander ISD" },
-        { lat: 30.1658, lng: -97.7893, districtId: "227901", districtName: "Pflugerville ISD" },
-        // College Station
-        { lat: 30.6280, lng: -96.3344, districtId: "021901", districtName: "College Station ISD" },
-        // San Marcos
-        { lat: 29.8833, lng: -97.9414, districtId: "105902", districtName: "San Marcos CISD" },
-        // Georgetown
-        { lat: 30.6333, lng: -97.6789, districtId: "246904", districtName: "Georgetown ISD" },
-        // Temple
-        { lat: 31.0982, lng: -97.3428, districtId: "014909", districtName: "Temple ISD" },
-        // Killeen
-        { lat: 31.1171, lng: -97.7278, districtId: "014906", districtName: "Killeen ISD" },
-        // Victoria
-        { lat: 28.8053, lng: -97.0036, districtId: "235902", districtName: "Victoria ISD" },
-        // Longview
-        { lat: 32.5007, lng: -94.7405, districtId: "092903", districtName: "Longview ISD" },
-        // Texarkana
-        { lat: 33.4417, lng: -94.0376, districtId: "019907", districtName: "Texarkana ISD" },
-        // Sherman
-        { lat: 33.6357, lng: -96.6089, districtId: "091906", districtName: "Sherman ISD" },
-        // Denton
-        { lat: 33.2148, lng: -97.1331, districtId: "061901", districtName: "Denton ISD" },
-        // Abilene
-        { lat: 32.4487, lng: -99.7331, districtId: "221901", districtName: "Abilene ISD" },
-        // San Angelo
-        { lat: 31.4638, lng: -100.4370, districtId: "226901", districtName: "San Angelo ISD" },
-        // Bryan
-        { lat: 30.6744, lng: -96.3698, districtId: "021902", districtName: "Bryan ISD" },
-        // Wichita Falls
-        { lat: 33.9137, lng: -98.4934, districtId: "243905", districtName: "Wichita Falls ISD" },
-        // Laredo
-        { lat: 27.5306, lng: -99.4803, districtId: "240901", districtName: "Laredo ISD" },
-        // McAllen
-        { lat: 26.2034, lng: -98.2300, districtId: "108906", districtName: "McAllen ISD" },
-        // Brownsville
-        { lat: 25.9017, lng: -97.4975, districtId: "031901", districtName: "Brownsville ISD" },
-        // Harlingen
-        { lat: 26.1906, lng: -97.6961, districtId: "031903", districtName: "Harlingen CISD" },
-        // Mission
-        { lat: 26.2159, lng: -98.3252, districtId: "108908", districtName: "Mission CISD" },
-        // Edinburg
-        { lat: 26.3017, lng: -98.1633, districtId: "108904", districtName: "Edinburg CISD" },
-        // Pharr
-        { lat: 26.1947, lng: -98.1836, districtId: "108909", districtName: "Pharr-San Juan-Alamo ISD" }
-      ].map(school => ({ ...school, isCenter: true }));
-
-      if (sliderYear <= 2025.08) { // Before January 2026
-        // Show only the initial 8 schools
+        { lat: 31.7619, lng: -106.4850, districtId: "071902", districtName: "El Paso ISD", isCenter: true },
+        { lat: 31.8140, lng: -106.2485, districtId: "071909", districtName: "Ysleta ISD", isCenter: true }
+      ];
+      
+      // Extract all center points from allPoints (one per district)
+      const allCenterPoints = allPoints.filter(p => p.isCenter);
+      
+      // Extract all additional points (non-center points)
+      const allAdditionalPoints = allPoints.filter(p => !p.isCenter);
+      
+      // Create a map of districtId -> [array of points for that district]
+      const pointsByDistrict: Record<string, RandomPoint[]> = {};
+      
+      // Group all points by their district ID
+      allPoints.forEach(point => {
+        if (!pointsByDistrict[point.districtId]) {
+          pointsByDistrict[point.districtId] = [];
+        }
+        pointsByDistrict[point.districtId].push(point);
+      });
+      
+      // For each district, sort points so center point is first, then others
+      Object.keys(pointsByDistrict).forEach(districtId => {
+        pointsByDistrict[districtId].sort((a, b) => {
+          if (a.isCenter && !b.isCenter) return -1;
+          if (!a.isCenter && b.isCenter) return 1;
+          return 0;
+        });
+      });
+      
+      // Calculate the total points that should be visible based on slider value
+      const calculateVisiblePointCount = (sliderValue: number): number => {
+        // August 2025 to January 2026 (slider = 0-20): Always 1 school
+        if (sliderValue <= 20) {
+          return 1;
+        }
+        
+        // January 2026 spike (slider = 20-25): Spike from 1 to ~50 schools
+        if (sliderValue > 20 && sliderValue <= 25) {
+          // Rapid increase from 1 to 50 schools
+          return Math.floor(1 + ((sliderValue - 20) / 5) * 49);
+        }
+        
+        // From January 2026 to August 2026 (slider = 25-50): 50 to 1200 schools
+        if (sliderValue > 25 && sliderValue <= 50) {
+          // Gradual increase from 50 to 1200
+          return Math.floor(50 + ((sliderValue - 25) / 25) * (1200 - 50));
+        }
+        
+        // From August 2026 to August 2027 (slider = 50-100): 1200 to 5000 schools
+        if (sliderValue > 50) {
+          // Gradual increase from 1200 to 5000
+          return Math.floor(1200 + ((sliderValue - 50) / 50) * (5000 - 1200));
+        }
+        
+        return 1; // Default fallback
+      };
+      
+      // Calculate the target number of points to show
+      const targetPointCount = calculateVisiblePointCount(sliderValue);
+      
+      // Now implement a smooth, deterministic appearance of points
+      if (sliderValue === 0) {
+        // At August 2025, only show the initial single school
         visiblePoints = initialSchools;
-        initialSchools.forEach(school => {
-          newDistrictsWithSchools.push(school.districtId);
-        });
-      } else if (sliderYear <= 2026) {
-        // After January 2026, show initial schools plus expansion schools
-        visiblePoints = [...initialSchools, ...expansionSchools];
-        [...initialSchools, ...expansionSchools].forEach(school => {
-          if (!newDistrictsWithSchools.includes(school.districtId)) {
-            newDistrictsWithSchools.push(school.districtId);
-          }
-        });
+      } else if (sliderValue <= 25) {
+        // January 2026 spike - show the expansion schools (about 50 schools)
+        // Gradually add schools from expansionSchools as slider approaches 25
+        const pointsToShow = Math.min(expansionSchools.length, 
+          Math.floor((sliderValue / 25) * expansionSchools.length));
+        
+        visiblePoints = [
+          ...initialSchools,
+          ...expansionSchools.slice(0, pointsToShow)
+        ];
       } else {
-        // After 2026: Add all center points and gradually add additional points
-        const centerPoints = allPoints.filter(p => p.isCenter && 
-          !initialSchools.some(is => is.districtId === p.districtId) &&
-          !expansionSchools.some(es => es.districtId === p.districtId));
-        const additionalPoints = allPoints.filter(p => !p.isCenter);
+        // After January 2026, start filling in with center points from all districts, then additional points
         
-        // Add all center points plus initial and expansion schools
-        visiblePoints = [...initialSchools, ...expansionSchools, ...centerPoints];
+        // All expansion schools are visible
+        visiblePoints = [...initialSchools, ...expansionSchools];
         
-        // Calculate what percentage of additional points to show
-        const percentage = (sliderYear - 2026);
-        const numAdditionalToShow = Math.floor(additionalPoints.length * percentage);
+        // Get remaining center points
+        const remainingCenterPoints = allCenterPoints.filter(
+          p => !initialSchools.some(is => is.districtId === p.districtId && is.lng === p.lng && is.lat === p.lat) &&
+               !expansionSchools.some(es => es.districtId === p.districtId && es.lng === p.lng && es.lat === p.lat)
+        );
         
-        // Add the additional points
-        visiblePoints = [...visiblePoints, ...additionalPoints.slice(0, numAdditionalToShow)];
-        
-        // Track which districts have schools
-        const districtsWithPoints = new Set<string>();
-        visiblePoints.forEach(point => {
-          districtsWithPoints.add(point.districtId);
-        });
-        
-        // Convert set to array
-        newDistrictsWithSchools.push(...Array.from(districtsWithPoints));
+        // Calculate how many additional center points to add
+        let pointsNeeded = targetPointCount - visiblePoints.length;
+        if (pointsNeeded > 0) {
+          // Add as many center points as needed, up to the max available
+          const centerPointsToAdd = Math.min(pointsNeeded, remainingCenterPoints.length);
+          visiblePoints = [...visiblePoints, ...remainingCenterPoints.slice(0, centerPointsToAdd)];
+          
+          // Recalculate points still needed
+          pointsNeeded = targetPointCount - visiblePoints.length;
+          
+          // If we still need more points, start adding additional (non-center) points
+          if (pointsNeeded > 0) {
+            visiblePoints = [...visiblePoints, ...allAdditionalPoints.slice(0, pointsNeeded)];
+          }
+        }
       }
       
-      // Make all districts with schools a light blue color
-      newDistrictsWithSchools.forEach(districtId => {
-        newColors[districtId] = '#2A4365'; // Deep blue for districts with schools
+      // Ensure we don't exceed the target count (should not happen, but just in case)
+      if (visiblePoints.length > targetPointCount) {
+        visiblePoints = visiblePoints.slice(0, targetPointCount);
+      }
+      
+      // Track which districts have schools
+      visiblePoints.forEach(point => {
+        if (!newDistrictsWithSchools.includes(point.districtId)) {
+          newDistrictsWithSchools.push(point.districtId);
+        }
       });
       
       // Update state
@@ -813,7 +814,7 @@ const TexasSchoolDistrictsMap = () => {
       setDistrictsWithSchools(newDistrictsWithSchools);
       setDistrictColors(newColors);
     }
-  }, [sliderYear, geoJsonData, allPoints, totalDistricts]);
+  }, [sliderValue, geoJsonData, allPoints, totalDistricts]);
 
   // Fix the processing of GeoJSON to ensure proper typing
   const processedGeoJson = useMemo<GeoJSON.FeatureCollection | null>(() => {
@@ -846,9 +847,7 @@ const TexasSchoolDistrictsMap = () => {
         '#3388ff',  // Hover color
         ['==', ['get', 'DISTRICT_I'], selectedDistrict?.id || ''],
         '#ff4081',  // Selected color
-        ['boolean', ['get', 'hasSchool'], false],
-        '#2A4365',  // Deep blue for districts with schools
-        '#444444'   // Darker gray for districts without schools
+        '#2A4365'   // Deep blue for all districts
       ] as unknown as mapboxgl.Expression,
       'fill-opacity': 0.6
     }
@@ -868,14 +867,114 @@ const TexasSchoolDistrictsMap = () => {
   // Add new effect to reset view state whenever slider changes
   useEffect(() => {
     // Reset the view state to the initial state whenever the slider changes
-    if (mapMovementLocked) {
-      setViewState(initialViewStateRef.current);
+    if (mapMovementLocked || LOCK_MAP_POSITION) {
+      // Use the fixed initial state, don't derive from current state
+      const isMobile = window.innerWidth < 768;
+      const zoom = isMobile ? 2.0 : 5.0;
+      
+      // Only update width/height from current state
+      const updatedViewState = {
+        ...initialViewStateRef.current,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        zoom: zoom
+      };
+      
+      setViewState(updatedViewState);
+      
+      // Force the map to this fixed position if already initialized
+      if (mapRef.current) {
+        try {
+          const map = mapRef.current.getMap();
+          // Use the original jumpTo implementation
+          const originalJumpTo = Object.getPrototypeOf(map).jumpTo;
+          if (typeof originalJumpTo === 'function') {
+            originalJumpTo.call(map, {
+              center: [initialCenterRef.current.lng, initialCenterRef.current.lat],
+              zoom: zoom
+            });
+          }
+        } catch (e) {
+          console.error("Failed to reset map position on slider change:", e);
+        }
+      }
     }
   }, [sliderValue, mapMovementLocked]);
 
   // Also add an effect to ensure view state is reset when component mounts
   useLayoutEffect(() => {
-    setViewState(initialViewStateRef.current);
+    // Update the initial view state with correct zoom based on screen size
+    const isMobile = window.innerWidth < 768;
+    const updatedViewState = {
+      ...initialViewStateRef.current,
+      zoom: isMobile ? 2.0 : 5.0,
+      width: window.innerWidth,
+      height: window.innerHeight
+    };
+    
+    // Set both the view state and update the ref
+    setViewState(updatedViewState);
+    
+    // Apply the initial position as soon as the map ref is available
+    if (mapRef.current) {
+      const map = mapRef.current.getMap();
+      // Cancel any ongoing animations
+      map.stop();
+      
+      // Immediately jump to the fixed position
+      try {
+        const originalJumpTo = Object.getPrototypeOf(map).jumpTo;
+        if (typeof originalJumpTo === 'function') {
+          originalJumpTo.call(map, {
+            center: [initialCenterRef.current.lng, initialCenterRef.current.lat],
+            zoom: updatedViewState.zoom,
+            animate: false // Ensure no animation
+          });
+        }
+      } catch (e) {
+        console.error("Failed to apply initial view state:", e);
+      }
+    }
+    
+    // Add a one-time cleanup to handle initial animations 
+    const timer = setTimeout(() => {
+      if (mapRef.current) {
+        const map = mapRef.current.getMap();
+        map.stop(); // Stop any animations
+      }
+    }, 100); // Short timeout to catch delayed animations
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
+  // Cancel any Map animations on component mount and slider changes
+  useEffect(() => {
+    const cancelAnimations = () => {
+      if (mapRef.current) {
+        const map = mapRef.current.getMap();
+        // Stop any ongoing animations
+        map.stop();
+        
+        // Force to our fixed position
+        try {
+          const originalJumpTo = Object.getPrototypeOf(map).jumpTo;
+          if (typeof originalJumpTo === 'function') {
+            originalJumpTo.call(map, {
+              center: [initialCenterRef.current.lng, initialCenterRef.current.lat],
+              zoom: window.innerWidth < 768 ? 2.0 : 5.0,
+              animate: false // Ensure no animation
+            });
+          }
+        } catch (e) {
+          console.error("Failed to cancel animations:", e);
+        }
+      }
+    };
+    
+    // Wait for map to stabilize before canceling animations
+    const timer = setTimeout(cancelAnimations, 50);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   // Enhanced wheel event prevention
@@ -926,12 +1025,21 @@ const TexasSchoolDistrictsMap = () => {
       // Detect if we're on a mobile device (width < 768px)
       const isMobile = window.innerWidth < 768;
       
-      setViewState(prev => ({
-        ...prev,
+      // Create updated view state with correct zoom level
+      const updatedViewState = {
+        ...initialViewStateRef.current,
         width: window.innerWidth,
         height: window.innerHeight,
-        zoom: isMobile ? 4.8 : 5.5 // Lower zoom level for mobile
-      }));
+        zoom: isMobile ? 2.0 : 5.0 // 2.0 for mobile, 5.0 for web as requested
+      };
+      
+      // Update both state and ref to keep them in sync
+      setViewState(updatedViewState);
+      initialViewStateRef.current = updatedViewState;
+      initialCenterRef.current = {
+        lng: updatedViewState.longitude,
+        lat: updatedViewState.latitude
+      };
     };
     
     // Initial call
@@ -944,11 +1052,28 @@ const TexasSchoolDistrictsMap = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Enhance the onMapLoad function to ensure zoom is disabled
+  // Fix for TypeScript errors with __proto__
   const onMapLoad = useCallback(({ target }: { target: mapboxgl.Map }) => {
     if (!mapRef.current) return;
     
     const map = target;
+    
+    // Store the original methods before we override them
+    const originalJumpTo = Object.getPrototypeOf(map).jumpTo;
+    const originalSetZoom = Object.getPrototypeOf(map).setZoom;
+    
+    // Store initial center and force it to remain fixed
+    // Get the latest zoom level based on screen size
+    const isMobile = window.innerWidth < 768;
+    const initialZoom = isMobile ? 2.0 : 5.0;
+    
+    // Force the map to the correct position/zoom using the original methods
+    if (typeof originalJumpTo === 'function') {
+      originalJumpTo.call(map, {
+        center: [initialCenterRef.current.lng, initialCenterRef.current.lat],
+        zoom: initialZoom
+      });
+    }
     
     // Set district colors using feature state
     if (processedGeoJson && map.getSource('districts')) {
@@ -974,15 +1099,87 @@ const TexasSchoolDistrictsMap = () => {
     // Restrict the map to Texas bounds
     map.setMaxBounds(texasBounds);
     
-    // Completely disable all map interaction except clicking
-    map.dragRotate.disable();
-    map.touchZoomRotate.disable(); // Disable both rotation and touch zoom
-    map.scrollZoom.disable();      // Disable scroll zooming
-    map.boxZoom.disable();         // Disable box zooming
-    map.doubleClickZoom.disable(); // Disable double click zoom
-    map.keyboard.disable();        // Disable keyboard navigation
-    
-    // Removed map.flyTo to prevent zoom animation
+    if (LOCK_MAP_POSITION) {
+      // Completely disable all map interaction except clicking
+      map.dragRotate.disable();
+      map.touchZoomRotate.disable(); // Disable both rotation and touch zoom
+      map.scrollZoom.disable();      // Disable scroll zooming
+      map.boxZoom.disable();         // Disable box zooming
+      map.doubleClickZoom.disable(); // Disable double click zoom
+      map.keyboard.disable();        // Disable keyboard navigation
+      map.dragPan.disable();         // Explicitly disable panning
+      
+      // Add multiple listeners to catch any movement attempts
+      map.on('movestart', (e) => {
+        // Handle movestart by stopping propagation
+        if (e.originalEvent) {
+          e.originalEvent.stopPropagation();
+          if (e.originalEvent.cancelable) {
+            e.originalEvent.preventDefault();
+          }
+        }
+        // Force map back to original position
+        if (typeof originalJumpTo === 'function') {
+          originalJumpTo.call(map, {
+            center: [initialCenterRef.current.lng, initialCenterRef.current.lat],
+            zoom: initialZoom
+          });
+        }
+      });
+      
+      map.on('dragstart', (e) => {
+        // Handle dragstart by stopping propagation
+        if (e.originalEvent) {
+          e.originalEvent.stopPropagation();
+          if (e.originalEvent.cancelable) {
+            e.originalEvent.preventDefault();
+          }
+        }
+        // Cancel the drag operation
+        map.stop();
+      });
+      
+      map.on('zoomstart', () => {
+        // Force back to correct zoom level without using preventDefault
+        if (typeof originalSetZoom === 'function') {
+          originalSetZoom.call(map, initialZoom);
+        }
+        map.stop();
+      });
+      
+      // Override all map movement methods to be no-ops
+      map.jumpTo = (options) => {
+        // Allow only our internal jumps that match our initial state
+        if (
+          options && 
+          (
+            options.zoom === initialZoom ||
+            (options.center && 
+             options.center[0] === initialCenterRef.current.lng && 
+             options.center[1] === initialCenterRef.current.lat)
+          )
+        ) {
+          if (typeof originalJumpTo === 'function') {
+            return originalJumpTo.call(map, options);
+          }
+        }
+        return map;
+      };
+      
+      map.flyTo = () => map;
+      map.easeTo = () => map;
+      map.panTo = () => map;
+      map.panBy = () => map;
+      map.zoomTo = () => map;
+      map.setCenter = () => map;
+      map.setZoom = (zoom) => {
+        // Only allow setting zoom to our initial zoom
+        if (zoom === initialZoom && typeof originalSetZoom === 'function') {
+          return originalSetZoom.call(map, zoom);
+        }
+        return map;
+      };
+    }
   }, [processedGeoJson, districtColors, handleDistrictClick, handleDistrictHover, handleDistrictLeave, texasBounds]);
 
   // Update feature states when district colors change
@@ -1005,10 +1202,29 @@ const TexasSchoolDistrictsMap = () => {
     }
   }, [districtColors, processedGeoJson]);
 
-  // Memoize the marker click handler
+  // Simplify the marker click handler
   const handleMarkerClick = useCallback((point: RandomPoint, x: number, y: number) => {
-    setPopupInfo({ point, x, y });
-  }, []);
+    // Find the associated district with this point
+    if (geoJsonData) {
+      const district = geoJsonData.features.find(
+        feature => feature.properties && feature.properties.DISTRICT_I === point.districtId
+      );
+      
+      // Get district name from properties or use existing
+      const districtName = district?.properties?.Name20 || point.districtName;
+      
+      setPopupInfo({
+        point: {
+          ...point,
+          districtDisplayName: districtName
+        },
+        x,
+        y
+      });
+    } else {
+      setPopupInfo({ point, x, y });
+    }
+  }, [geoJsonData]);
 
   // Replace the unused truncateName function with a direct implementation
   // for the district name display
@@ -1016,19 +1232,79 @@ const TexasSchoolDistrictsMap = () => {
     return properties.Name20 || properties.DISTRICT_N || 'Unknown District';
   }
 
+  // Add this function to get a formatted count string and date
+  const getFormattedInfo = useCallback((points: RandomPoint[], districtsWithSchools: string[], sliderYear: number, sliderValue: number) => {
+    // Format the date based on slider value
+    const formatDate = (sliderValue: number) => {
+      // Map slider values directly to dates
+      // Slider 0 = August 2025
+      // Slider 50 = August 2026  
+      // Slider 100 = August 2027
+      
+      // Start with August 2025
+      const baseYear = 2025;
+      const baseMonth = 7; // 0-based month index (7 = August)
+      
+      // Calculate months to add (0-24 for the range)
+      const monthsToAdd = Math.floor((sliderValue / 100) * 24);
+      
+      // Calculate new year and month
+      const totalMonths = baseMonth + monthsToAdd;
+      const yearOffset = Math.floor(totalMonths / 12);
+      const newMonth = totalMonths % 12;
+      const newYear = baseYear + yearOffset;
+      
+      // Create date object and format
+      const date = new Date(newYear, newMonth, 1);
+      return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    };
+    
+    return {
+      schoolCount: points.length,
+      districtCount: districtsWithSchools.length,
+      formattedDate: formatDate(sliderValue),
+      formattedString: points.length === 1 
+        ? "1 Strata School" 
+        : `${points.length.toLocaleString()} Strata Schools`
+    };
+  }, []);
+
+  // Add an effect to manipulate the DOM directly for popups if necessary
+  useEffect(() => {
+    if (popupInfo) {
+      // Small timeout to ensure the popup has rendered
+      const timeoutId = setTimeout(() => {
+        // Get all popup divs
+        const popupElements = document.querySelectorAll('.mapboxgl-popup-content');
+        
+        // Loop through each popup
+        popupElements.forEach(popupElement => {
+          // Find any unwanted content that might be district IDs
+          const possibleDistrictIdElements = popupElement.querySelectorAll('div:not([style])');
+          
+          // Remove any elements that are likely showing district IDs
+          possibleDistrictIdElements.forEach(element => {
+            if (element.textContent && /^\d+$/.test(element.textContent.trim())) {
+              // Use proper type assertion for HTMLElement
+              (element as HTMLElement).style.display = 'none';
+            }
+          });
+        });
+      }, 50);
+      
+      return () => clearTimeout(timeoutId);
+    }
+  }, [popupInfo]);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-black">
-        <div className="text-center p-8 bg-black rounded-lg max-w-md">
-          {/* Modern sleek spinner */}
-          <div className="relative mx-auto w-20 h-20">
-            <div className="absolute top-0 left-0 right-0 bottom-0 rounded-full border-4 border-gray-800"></div>
-            <div className="absolute top-0 left-0 right-0 bottom-0 rounded-full border-4 border-t-white animate-spin"></div>
+        <div className="text-center p-8 max-w-md">
+          {/* Simple clean spinner */}
+          <div className="relative mx-auto w-16 h-16 mb-6">
+            <div className="absolute top-0 left-0 right-0 bottom-0 rounded-full border-4 border-t-white animate-spin opacity-80"></div>
           </div>
-          <p className="mt-6 text-xl font-light tracking-wider text-white">{loadingProgress}</p>
-          <div className="w-full bg-gray-800 rounded-full h-1.5 mt-6">
-            <div className="bg-white h-1.5 rounded-full animate-pulse w-full"></div>
-          </div>
+          <p className="text-lg font-light tracking-wider text-white opacity-80">{loadingProgress}</p>
         </div>
       </div>
     );
@@ -1047,6 +1323,108 @@ const TexasSchoolDistrictsMap = () => {
 
   return (
     <div className="relative w-full h-full">
+      {/* Add global styles for popups */}
+      <style>
+        {`
+          /* Global popup styles */
+          .mapboxgl-popup {
+            z-index: 100;
+          }
+          
+          .mapboxgl-popup-content {
+            padding: 0 !important;
+            overflow: visible !important;
+            background: transparent !important;
+            box-shadow: none !important;
+          }
+          
+          .mapboxgl-popup-tip {
+            border-top-color: white !important;
+            border-width: 8px !important;
+            filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
+          }
+          
+          /* Subtle animation */
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          
+          /* Make close button subtle */
+          .mapboxgl-popup-close-button {
+            font-size: 16px !important;
+            color: #bbb !important;
+            top: 2px !important;
+            right: 4px !important;
+            background: transparent !important;
+            border: none !important;
+            padding: 4px !important;
+            line-height: 1 !important;
+            opacity: 0.6 !important;
+          }
+          
+          .mapboxgl-popup-close-button:hover {
+            color: #666 !important;
+            background: transparent !important;
+            opacity: 1 !important;
+          }
+          
+          /* Add subtle animation to popup */
+          .mapboxgl-popup-content > div {
+            animation: fadeIn 0.15s ease-out;
+          }
+          
+          /* Hide Mapbox attribution */
+          .mapboxgl-ctrl-attrib, 
+          .mapboxgl-ctrl-bottom-right, 
+          .mapboxgl-ctrl-logo {
+            display: none !important;
+          }
+          
+          /* Custom slider styling */
+          input[type="range"] {
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 5px;
+            background: #e2e8f0;
+            outline: none;
+          }
+          
+          /* Webkit (Chrome, Safari, Edge) thumb styling */
+          input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #000;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+          }
+          
+          /* Mozilla (Firefox) thumb styling */
+          input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #000;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+          }
+          
+          /* Track color to left of thumb in Chrome/Safari/Edge */
+          input[type="range"] {
+            background: linear-gradient(to right, #000 0%, #000 calc(var(--progress-percent) * 100%), #e2e8f0 calc(var(--progress-percent) * 100%), #e2e8f0 100%);
+          }
+          
+          /* Track color to left of thumb in Firefox */
+          input[type="range"]::-moz-range-progress {
+            background-color: #000;
+            border-radius: 5px;
+          }
+        `}
+      </style>
+      
       {/* Timeline Bar - Modern WHITE with BLACK text */}
       <div className="absolute top-0 left-0 w-full z-30 flex flex-col items-center pointer-events-none">
         <div className="backdrop-blur-md bg-white/80 rounded-b-xl shadow-lg px-6 pt-4 pb-2 w-full max-w-2xl mx-auto pointer-events-auto">
@@ -1056,16 +1434,25 @@ const TexasSchoolDistrictsMap = () => {
             max="100"
             value={sliderValue}
             onChange={(e) => setSliderValue(parseInt(e.target.value))}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-black"
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
             style={{ 
-              boxShadow: '0 2px 16px 0 rgba(0,0,0,0.10)'
-            }}
+              boxShadow: '0 2px 16px 0 rgba(0,0,0,0.10)',
+              '--progress-percent': sliderValue / 100
+            } as React.CSSProperties}
           />
           <div className="flex justify-between text-xs text-gray-800 font-medium mt-1 px-1">
             <span>Aug 2025</span>
             <span>Aug 2026</span>
             <span>Aug 2027</span>
           </div>
+        </div>
+      </div>
+      
+      {/* School Count Display - Bottom Right with same styling */}
+      <div className="absolute bottom-4 right-4 z-30 pointer-events-none">
+        <div className="backdrop-blur-md bg-white/80 rounded-xl shadow-lg px-4 py-2 text-gray-800 font-medium">
+          <div className="text-xs text-center mb-1">{getFormattedInfo(randomPoints, districtsWithSchools, sliderYear, sliderValue).formattedDate}</div>
+          <div>{getFormattedInfo(randomPoints, districtsWithSchools, sliderYear, sliderValue).formattedString}</div>
         </div>
       </div>
 
@@ -1076,14 +1463,38 @@ const TexasSchoolDistrictsMap = () => {
             ref={mapRef}
             mapboxAccessToken={mapboxApiKey}
             initialViewState={{
-              longitude: viewState.longitude,
-              latitude: viewState.latitude,
-              zoom: viewState.zoom,
-              bearing: viewState.bearing,
-              pitch: viewState.pitch
+              longitude: initialCenterRef.current.lng, // Use fixed initial center
+              latitude: initialCenterRef.current.lat,  // Use fixed initial center
+              zoom: window.innerWidth < 768 ? 2.0 : 5.0,
+              bearing: 0,
+              pitch: 0
             }}
             onMove={(evt) => {
-              // Prevent all movement by simply not updating state
+              if (!LOCK_MAP_POSITION) return;
+              
+              // Just prevent the event, don't try to reset position
+              if (evt.originalEvent) {
+                evt.originalEvent.stopPropagation();
+                if (evt.originalEvent.cancelable) {
+                  evt.originalEvent.preventDefault();
+                }
+              }
+            }}
+            onZoom={(evt) => {
+              if (!LOCK_MAP_POSITION) return;
+              
+              // Prevent default
+              if (evt.originalEvent) {
+                evt.originalEvent.stopPropagation();
+                if (evt.originalEvent.cancelable) {
+                  evt.originalEvent.preventDefault();
+                }
+              }
+            }}
+            onDrag={(evt) => {
+              if (!LOCK_MAP_POSITION) return;
+              
+              // Prevent drag and reset position
               if (evt.originalEvent) {
                 evt.originalEvent.stopPropagation();
                 if (evt.originalEvent.cancelable) {
@@ -1095,8 +1506,8 @@ const TexasSchoolDistrictsMap = () => {
             mapStyle="mapbox://styles/mapbox/dark-v10"
             interactiveLayerIds={['districts']}
             onLoad={onMapLoad}
-            maxZoom={9}
-            minZoom={4}
+            maxZoom={window.innerWidth < 768 ? 2.0 : 5.0}  // Force max zoom to match device
+            minZoom={window.innerWidth < 768 ? 2.0 : 5.0}  // Force min zoom to match device
             dragRotate={false}
             dragPan={false}
             scrollZoom={false}
@@ -1104,6 +1515,8 @@ const TexasSchoolDistrictsMap = () => {
             doubleClickZoom={false}
             keyboard={false}
             touchZoomRotate={false}
+            touchPitch={false}
+            attributionControl={false}  // Explicitly disable attribution control
           >
             <Source
               id="districts"
@@ -1124,18 +1537,16 @@ const TexasSchoolDistrictsMap = () => {
                 latitude={popupInfo.point.lat}
                 anchor="bottom"
                 onClose={() => setPopupInfo(null)}
-                closeButton={true}
+                closeButton={false}
                 closeOnClick={true}
-                className="school-popup"
+                offset={10}
               >
-                <div className="p-1 text-black">
-                  <h3 className="font-bold text-sm">{popupInfo.point.districtName}</h3>
-                  <div className="text-xs mt-1">
-                    <p>Strata School #{randomPoints.findIndex(p => 
-                      p.lat === popupInfo.point.lat && 
-                      p.lng === popupInfo.point.lng) + 1}</p>
-                  </div>
-                </div>
+                <CustomPopupContent 
+                  districtName={popupInfo.point.districtDisplayName || popupInfo.point.districtName}
+                  schoolNumber={randomPoints.findIndex(p => 
+                    p.lat === popupInfo.point.lat && 
+                    p.lng === popupInfo.point.lng) + 1}
+                />
               </Popup>
             )}
           </Map>
