@@ -609,12 +609,12 @@ const TexasSchoolDistrictsMap = () => {
       const newColors: Record<string, string> = {};
       const newDistrictsWithSchools: string[] = [];
       
-      // Initialize all districts as dark gray
+      // Initialize all districts as blue
       if (geoJsonData.features) {
         geoJsonData.features.forEach((feature: GeoJSON.Feature) => {
           if (feature.properties) {
             const districtId = feature.properties.DISTRICT_I || '';
-            newColors[districtId] = '#444444'; // Dark gray by default
+            newColors[districtId] = '#2A4365'; // Always blue
           }
         });
       }
@@ -896,14 +896,6 @@ const TexasSchoolDistrictsMap = () => {
         });
       }
       
-      // Make all districts with schools a light blue color
-      // This is where we turn districts blue - we do this for any district that has at least 
-      // one school point visible. The blue color (#2A4365) visually highlights districts 
-      // that have Strata schools, making it easy to see our coverage expansion over time.
-      newDistrictsWithSchools.forEach(districtId => {
-        newColors[districtId] = '#2A4365'; // Deep blue for districts with schools
-      });
-      
       // Update state
       console.log(`Setting ${visiblePoints.length} visible points across ${newDistrictsWithSchools.length} districts`);
       setRandomPoints(visiblePoints);
@@ -943,9 +935,7 @@ const TexasSchoolDistrictsMap = () => {
         '#3388ff',  // Hover color
         ['==', ['get', 'DISTRICT_I'], selectedDistrict?.id || ''],
         '#ff4081',  // Selected color
-        ['boolean', ['get', 'hasSchool'], false],
-        '#2A4365',  // Deep blue for districts with schools
-        '#444444'   // Darker gray for districts without schools
+        '#2A4365'   // Deep blue for all districts
       ] as unknown as mapboxgl.Expression,
       'fill-opacity': 0.6
     }
@@ -1378,7 +1368,7 @@ const TexasSchoolDistrictsMap = () => {
     return {
       schoolCount: points.length,
       districtCount: districtsWithSchools.length,
-      formattedString: `${points.length.toLocaleString()} Schools / ${districtsWithSchools.length.toLocaleString()} Districts`
+      formattedString: `${points.length.toLocaleString()} Strata Schools`
     };
   }, []);
 
