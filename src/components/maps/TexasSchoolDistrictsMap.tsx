@@ -15,6 +15,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import type { Position } from 'geojson';
 import React from 'react';
+import type { GeoJSONSource } from 'mapbox-gl';
 
 interface DistrictProperties {
   DISTRICT_N: string;
@@ -51,17 +52,105 @@ interface CustomViewState {
   height?: number;
 }
 
+// Add a constant to keep track of map versions to detect unexpected coordinate shifts
+const MAP_VERSION = "1.0.0";
+// Add a flag to enable coordinate validation
+const VALIDATE_COORDINATES = true;
+// Add an error threshold for coordinate validation (in degrees)
+const COORDINATE_ERROR_THRESHOLD = 0.001; // Approximately 100 meters
+
+// Add a constant to store the fixed coordinates in case we need to restore them
+const FIXED_COORDINATES = {
+  // Mobile view settings
+  mobile: {
+    longitude: -99.0, // Shifted from -101.0 to -103.5 (move right on the map)
+    latitude: 31.2,    // Keep the same latitude
+    zoom: 4.2          // Keep the same zoom level
+  },
+  // Desktop view settings 
+  desktop: {
+    longitude: -99.0,  // Fixed longitude for desktop
+    latitude: 31.2,    // Fixed latitude for desktop
+    zoom: 5.0          // Fixed zoom for desktop
+  }
+};
+
 // Use a consistent dot size for all school markers
 const SCHOOL_DOT_SIZE = 10; // Size in pixels
 const MIN_DOT_DISTANCE = 15; // Minimum distance between dots in pixels
 // Flag to completely disable map movement
 const LOCK_MAP_POSITION = true;
 
-// Modify the SchoolMarkers component to use consistent sizes
+// Modify the SchoolMarkers component to create randomly flickering schools
 const SchoolMarkers = React.memo(({ points, onPointClick }: { 
   points: RandomPoint[],
   onPointClick: (point: RandomPoint, x: number, y: number) => void
 }) => {
+  const [activeIndices, setActiveIndices] = useState<number[]>([]);
+  
+  // Effect to control the random flickering of schools
+  useEffect(() => {
+    let timeoutIds: NodeJS.Timeout[] = [];
+    
+    const startRandomFlickering = () => {
+      // Clear any existing timeouts
+      timeoutIds.forEach(id => clearTimeout(id));
+      timeoutIds = [];
+      
+      // Set initial active indices
+      setActiveIndices([]);
+      
+      // Function to create a random flicker
+      const createFlicker = (index: number) => {
+        // Generate random delay between 200ms and 8000ms
+        const delay = 200 + Math.floor(Math.random() * 7800);
+        
+        // Schedule the flicker
+        const timeoutId = setTimeout(() => {
+          // Add this index to active indices
+          setActiveIndices(prev => [...prev, index]);
+          
+          // Remove this index after the beacon animation duration
+          const removeTimeoutId = setTimeout(() => {
+            setActiveIndices(prev => prev.filter(i => i !== index));
+            // Schedule next flicker for this same point
+            createFlicker(index);
+          }, 2000); // Match duration with the beacon animation
+          
+          timeoutIds.push(removeTimeoutId);
+        }, delay);
+        
+        timeoutIds.push(timeoutId);
+      };
+      
+      // Start flickers for a subset of points (to avoid too much activity)
+      const maxActivePoints = Math.min(points.length, 50); // Limit max active points
+      const flickerProbability = maxActivePoints / points.length; // Probability to make a point flicker
+      
+      points.forEach((_, index) => {
+        if (Math.random() < flickerProbability) {
+          // Stagger the initial flickers
+          const initialDelay = Math.floor(Math.random() * 5000);
+          const initialTimeoutId = setTimeout(() => {
+            createFlicker(index);
+          }, initialDelay);
+          
+          timeoutIds.push(initialTimeoutId);
+        }
+      });
+    };
+    
+    // Start random flickering if we have points
+    if (points.length > 0) {
+      startRandomFlickering();
+    }
+    
+    // Clean up on unmount or when points change
+    return () => {
+      timeoutIds.forEach(id => clearTimeout(id));
+    };
+  }, [points]);
+  
   return (
     <>
       {points.map((point, index) => (
@@ -79,15 +168,16 @@ const SchoolMarkers = React.memo(({ points, onPointClick }: {
           }}
         >
           <div 
-            style={{
-              width: `${SCHOOL_DOT_SIZE}px`,
-              height: `${SCHOOL_DOT_SIZE}px`,
-              borderRadius: '50%',
-              backgroundColor: 'white',
-              border: '2px solid #333333',
-              boxShadow: '0 0 4px rgba(255,255,255,0.5)'
-            }}
-          />
+            className={`beacon-container ${activeIndices.includes(index) ? 'active' : ''}`}
+          >
+            <div className="beacon-pulse"></div>
+            <div className="beacon-dot"
+              style={{
+                width: `${SCHOOL_DOT_SIZE}px`,
+                height: `${SCHOOL_DOT_SIZE}px`,
+              }}
+            />
+          </div>
         </Marker>
       ))}
     </>
@@ -148,6 +238,8 @@ const TexasSchoolDistrictsMap = () => {
   const animationRef = useRef<number | null>(null);
   // Add a ref to ensure we don't have race conditions with isPlaying state
   const isPlayingRef = useRef<boolean>(false);
+  // 1. Add state to track when map is fully initialized
+  const [mapInitialized, setMapInitialized] = useState(false);
   
   // Mapbox API key
   const mapboxApiKey = import.meta.env.VITE_MAPBOX_KEY;
@@ -163,21 +255,21 @@ const TexasSchoolDistrictsMap = () => {
   
   // Create a viewState that we'll control explicitly with the correct type definition
   const [viewState, setViewState] = useState<CustomViewState>({
-    longitude: window.innerWidth < 768 ? -99.0 : -99.0,   // Adjusted center for Texas - moved to match desktop longitude
-    latitude: window.innerWidth < 768 ? 32.0 : 31.2,     // Adjusted center for Texas - moved up for mobile
-    zoom: window.innerWidth < 768 ? 4.5 : 5.0, // Initial zoom based on device size
+    longitude: window.innerWidth < 768 ? FIXED_COORDINATES.mobile.longitude : FIXED_COORDINATES.desktop.longitude,
+    latitude: window.innerWidth < 768 ? FIXED_COORDINATES.mobile.latitude : FIXED_COORDINATES.desktop.latitude,
+    zoom: window.innerWidth < 768 ? FIXED_COORDINATES.mobile.zoom : FIXED_COORDINATES.desktop.zoom,
     bearing: 0,
     pitch: 0,
     padding: null,
-    width: window.innerWidth,    // Add required dimensions
-    height: window.innerHeight   // Add required dimensions
+    width: window.innerWidth,
+    height: window.innerHeight
   });
   
   // Create a ref to store the initial view state so we can reset to it if needed
   const initialViewStateRef = useRef<CustomViewState>({
-    longitude: window.innerWidth < 768 ? -99.0 : -99.0,   // Ensure fixed center for Texas - moved to match desktop longitude
-    latitude: window.innerWidth < 768 ? 32.0 : 31.2,     // Ensure fixed center for Texas - moved up for mobile
-    zoom: window.innerWidth < 768 ? 4.5 : 5.0, // Initial zoom based on device size
+    longitude: window.innerWidth < 768 ? FIXED_COORDINATES.mobile.longitude : FIXED_COORDINATES.desktop.longitude,
+    latitude: window.innerWidth < 768 ? FIXED_COORDINATES.mobile.latitude : FIXED_COORDINATES.desktop.latitude,
+    zoom: window.innerWidth < 768 ? FIXED_COORDINATES.mobile.zoom : FIXED_COORDINATES.desktop.zoom,
     bearing: 0,
     pitch: 0,
     padding: null,
@@ -187,8 +279,8 @@ const TexasSchoolDistrictsMap = () => {
   
   // Add a ref to store the initial center position explicitly
   const initialCenterRef = useRef<{lng: number, lat: number}>({
-    lng: window.innerWidth < 768 ? -99.0 : -99.0, // Fixed initial longitude - moved to match desktop longitude
-    lat: window.innerWidth < 768 ? 32.0 : 31.2   // Fixed initial latitude - adjusted for mobile
+    lng: window.innerWidth < 768 ? FIXED_COORDINATES.mobile.longitude : FIXED_COORDINATES.desktop.longitude,
+    lat: window.innerWidth < 768 ? FIXED_COORDINATES.mobile.latitude : FIXED_COORDINATES.desktop.latitude
   });
   
   // Store the true/false state of whether the map is allowed to move
@@ -443,14 +535,92 @@ const TexasSchoolDistrictsMap = () => {
     return { centerPoints, additionalPoints, allOrderedPoints, pointsByDistrict };
   }, [getPolygonCenter, getRandomPointInPolygon]);
 
+  // Add validation function to detect coordinate shifts
+  const validateCoordinates = useCallback((points: RandomPoint[]): boolean => {
+    if (!VALIDATE_COORDINATES || points.length === 0) return true;
+    
+    // Check if coordinates in the first few points seem valid
+    // This is a basic check - real districts would need more sophisticated validation
+    const validLongitudeRange = [-110, -90]; // Valid Texas longitude range
+    const validLatitudeRange = [25, 37];    // Valid Texas latitude range
+    
+    for (let i = 0; i < Math.min(points.length, 10); i++) {
+      const point = points[i];
+      if (point.lng < validLongitudeRange[0] || point.lng > validLongitudeRange[1] ||
+          point.lat < validLatitudeRange[0] || point.lat > validLatitudeRange[1]) {
+        console.error(`Invalid coordinate detected at index ${i}:`, point);
+        return false;
+      }
+    }
+    
+    // If we've cached valid points previously, compare with current points
+    const cachedPoints = sessionStorage.getItem('validatedSchoolPoints');
+    if (cachedPoints && points.length > 0) {
+      try {
+        const parsedPoints = JSON.parse(cachedPoints);
+        
+        // Compare a few points to see if they've shifted significantly
+        for (let i = 0; i < Math.min(points.length, parsedPoints.length, 5); i++) {
+          const newPoint = points[i];
+          const oldPoint = parsedPoints[i];
+          
+          // Calculate distance between points
+          const latDiff = Math.abs(newPoint.lat - oldPoint.lat);
+          const lngDiff = Math.abs(newPoint.lng - oldPoint.lng);
+          
+          if (latDiff > COORDINATE_ERROR_THRESHOLD || lngDiff > COORDINATE_ERROR_THRESHOLD) {
+            console.error(`Point shift detected at index ${i}:`, {
+              old: oldPoint,
+              new: newPoint,
+              latDiff,
+              lngDiff
+            });
+            return false;
+          }
+        }
+      } catch (e) {
+        console.warn('Error validating cached points:', e);
+      }
+    }
+    
+    // If all checks pass, cache these points as valid
+    try {
+      // Only store first 20 points to keep size manageable
+      sessionStorage.setItem('validatedSchoolPoints', JSON.stringify(points.slice(0, 20)));
+      // Store the map version to track changes
+      sessionStorage.setItem('mapVersion', MAP_VERSION);
+    } catch (e) {
+      console.warn('Error caching validated points:', e);
+    }
+    
+    return true;
+  }, []);
+
+  // Add function to check for map version changes
+  const checkMapVersion = useCallback(() => {
+    const storedMapVersion = sessionStorage.getItem('mapVersion');
+    if (storedMapVersion && storedMapVersion !== MAP_VERSION) {
+      console.warn(`Map version changed from ${storedMapVersion} to ${MAP_VERSION}, clearing cached data`);
+      sessionStorage.removeItem('validatedSchoolPoints');
+      sessionStorage.removeItem('texasDistrictsGeoJson');
+      sessionStorage.setItem('mapVersion', MAP_VERSION);
+      return false;
+    }
+    return true;
+  }, []);
+
+  // Modify the fetchData function to apply point validation
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         setLoadingProgress('Checking for cached data...');
         
+        // Check map version and clear cache if needed
+        const isVersionValid = checkMapVersion();
+        
         // Try to get cached data from sessionStorage first
-        const cachedData = sessionStorage.getItem('texasDistrictsGeoJson');
+        const cachedData = isVersionValid ? sessionStorage.getItem('texasDistrictsGeoJson') : null;
         let geoJsonData;
         
         if (cachedData) {
@@ -523,11 +693,29 @@ const TexasSchoolDistrictsMap = () => {
                 setLoadingProgress(message);
               } else if (type === 'progress') {
                 setLoadingProgress(message);
+              } else if (type === 'cache') {
+                // Store the cached data for validation
+                try {
+                  if (data.samplePoints && data.mapVersion) {
+                    sessionStorage.setItem('validatedSchoolPoints', JSON.stringify(data.samplePoints));
+                    sessionStorage.setItem('mapVersion', data.mapVersion);
+                  }
+                } catch (e) {
+                  console.warn('Error storing cached points from worker:', e);
+                }
               } else if (type === 'processed_data') {
-                // Set the processed data
-                setAllPoints(data.allOrderedPoints);
-                setRandomPoints([]);
-                setLoadingProgress('Finalizing...');
+                // Validate the coordinates before accepting them
+                if (validateCoordinates(data.allOrderedPoints)) {
+                  // Set the processed data
+                  setAllPoints(data.allOrderedPoints);
+                  setRandomPoints([]);
+                  setLoadingProgress('Finalizing...');
+                } else {
+                  // If validation fails, show error and fall back to fixed coordinates
+                  console.error('Coordinate validation failed, using fallback data');
+                  setLoadingProgress('Using fallback data due to coordinate validation failure...');
+                  fallbackToMainThreadProcessing(geoJsonData);
+                }
                 
                 // Terminate the worker
                 worker.terminate();
@@ -592,7 +780,7 @@ const TexasSchoolDistrictsMap = () => {
     };
     
     fetchData();
-  }, [carrolltonDistrictId, organizePointsByDistrict]);
+  }, [carrolltonDistrictId, organizePointsByDistrict, validateCoordinates, checkMapVersion]);
 
   const handleDistrictClick = useCallback((e: MapLayerMouseEvent) => {
     if (!e.features || e.features.length === 0) return;
@@ -1024,29 +1212,47 @@ const TexasSchoolDistrictsMap = () => {
     };
   }, [mapMovementLocked]);
 
-  // Adjust zoom level based on screen size
-  useEffect(() => {
-    const handleResize = () => {
-      // Detect if we're on a mobile device (width < 768px)
-      const isMobile = window.innerWidth < 768;
-      
-      // Create updated view state with correct zoom level
-      const updatedViewState = {
-        ...initialViewStateRef.current,
-        width: window.innerWidth,
-        height: window.innerHeight,
-        zoom: isMobile ? 4.2 : 5.0 // 4.2 for mobile, 5.0 for web as requested
-      };
-      
-      // Update both state and ref to keep them in sync
-      setViewState(updatedViewState);
-      initialViewStateRef.current = updatedViewState;
-      initialCenterRef.current = {
-        lng: updatedViewState.longitude,
-        lat: updatedViewState.latitude
-      };
+  // Modify the handleResize function to use fixed coordinates
+  const handleResize = () => {
+    // Detect if we're on a mobile device (width < 768px)
+    const isMobile = window.innerWidth < 768;
+    
+    // Create updated view state with correct zoom level using fixed coordinates
+    const updatedViewState = {
+      ...initialViewStateRef.current,
+      width: window.innerWidth,
+      height: window.innerHeight,
+      longitude: isMobile ? FIXED_COORDINATES.mobile.longitude : FIXED_COORDINATES.desktop.longitude,
+      latitude: isMobile ? FIXED_COORDINATES.mobile.latitude : FIXED_COORDINATES.desktop.latitude,
+      zoom: isMobile ? FIXED_COORDINATES.mobile.zoom : FIXED_COORDINATES.desktop.zoom
     };
     
+    // Update both state and ref to keep them in sync
+    setViewState(updatedViewState);
+    initialViewStateRef.current = updatedViewState;
+    initialCenterRef.current = {
+      lng: updatedViewState.longitude,
+      lat: updatedViewState.latitude
+    };
+    
+    // Force map to update if available
+    if (mapRef.current) {
+      try {
+        const map = mapRef.current.getMap();
+        map.resize();
+        // Force position after resize
+        map.jumpTo({
+          center: [initialCenterRef.current.lng, initialCenterRef.current.lat],
+          zoom: updatedViewState.zoom
+        });
+      } catch (e) {
+        console.error("Error applying resize:", e);
+      }
+    }
+  };
+
+  // Adjust zoom level based on screen size and apply handleResize
+  useEffect(() => {
     // Initial call
     handleResize();
     
@@ -1057,7 +1263,7 @@ const TexasSchoolDistrictsMap = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Fix for TypeScript errors with __proto__
+  // Modify the onMapLoad callback to ensure consistent positioning
   const onMapLoad = useCallback(({ target }: { target: mapboxgl.Map }) => {
     if (!mapRef.current) return;
     
@@ -1070,15 +1276,40 @@ const TexasSchoolDistrictsMap = () => {
     // Store initial center and force it to remain fixed
     // Get the latest zoom level based on screen size
     const isMobile = window.innerWidth < 768;
-    const initialZoom = isMobile ? 4.2 : 5.0;
+    const initialZoom = isMobile ? FIXED_COORDINATES.mobile.zoom : FIXED_COORDINATES.desktop.zoom;
+    const initialCenter = [
+      isMobile ? FIXED_COORDINATES.mobile.longitude : FIXED_COORDINATES.desktop.longitude,
+      isMobile ? FIXED_COORDINATES.mobile.latitude : FIXED_COORDINATES.desktop.latitude
+    ];
     
-    // Force the map to the correct position/zoom using the original methods
+    // Immediately force the map to the correct position/zoom using the original methods
     if (typeof originalJumpTo === 'function') {
       originalJumpTo.call(map, {
-        center: [initialCenterRef.current.lng, initialCenterRef.current.lat],
-        zoom: initialZoom
+        center: initialCenter,
+        zoom: initialZoom,
+        animate: false // Disable animation for immediate positioning
       });
     }
+    
+    // Set a short timeout to force position again after any auto-fitting might have occurred
+    // and only then mark the map as initialized to render markers
+    setTimeout(() => {
+      if (typeof originalJumpTo === 'function') {
+        originalJumpTo.call(map, {
+          center: initialCenter,
+          zoom: initialZoom,
+          animate: false
+        });
+      }
+      // Freeze the map's internal transform state to prevent automatic position updates
+      if (map._frame) {
+        map._frame.cancel();
+        map._frame = null;
+      }
+      
+      // Now mark the map as initialized, which will render the markers
+      setMapInitialized(true);
+    }, 100);
     
     // Set district colors using feature state
     if (processedGeoJson && map.getSource('districts')) {
@@ -1126,8 +1357,9 @@ const TexasSchoolDistrictsMap = () => {
         // Force map back to original position
         if (typeof originalJumpTo === 'function') {
           originalJumpTo.call(map, {
-            center: [initialCenterRef.current.lng, initialCenterRef.current.lat],
-            zoom: initialZoom
+            center: initialCenter,
+            zoom: initialZoom,
+            animate: false
           });
         }
       });
@@ -1152,6 +1384,27 @@ const TexasSchoolDistrictsMap = () => {
         map.stop();
       });
       
+      // Add a move event listener to immediately reset position if it changes
+      map.on('move', () => {
+        const currentCenter = map.getCenter();
+        const currentZoom = map.getZoom();
+        
+        // Check if position has drifted
+        if (Math.abs(currentCenter.lng - initialCenter[0]) > 0.001 || 
+            Math.abs(currentCenter.lat - initialCenter[1]) > 0.001 ||
+            Math.abs(currentZoom - initialZoom) > 0.01) {
+          
+          // Reset position
+          if (typeof originalJumpTo === 'function') {
+            originalJumpTo.call(map, {
+              center: initialCenter,
+              zoom: initialZoom,
+              animate: false
+            });
+          }
+        }
+      });
+      
       // Override all map movement methods to be no-ops
       map.jumpTo = (options) => {
         // Allow only our internal jumps that match our initial state
@@ -1160,8 +1413,8 @@ const TexasSchoolDistrictsMap = () => {
           (
             options.zoom === initialZoom ||
             (options.center && 
-             options.center[0] === initialCenterRef.current.lng && 
-             options.center[1] === initialCenterRef.current.lat)
+             options.center[0] === initialCenter[0] && 
+             options.center[1] === initialCenter[1])
           )
         ) {
           if (typeof originalJumpTo === 'function') {
@@ -1524,6 +1777,64 @@ const TexasSchoolDistrictsMap = () => {
             height: 24px;
             fill: currentColor;
           }
+          
+          /* Beacon effect styles */
+          .beacon-container {
+            position: relative;
+            width: ${SCHOOL_DOT_SIZE}px;
+            height: ${SCHOOL_DOT_SIZE}px;
+            opacity: 0.75; /* Increase from 0.6 to 0.75 for even brighter default state */
+            transition: opacity 0.3s ease;
+          }
+          
+          .beacon-dot {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            background-color: white;
+            border: 1.5px solid rgba(51, 51, 51, 0.7);
+            z-index: 2;
+            transition: all 0.3s ease; /* Smooth transition for glowing effect */
+          }
+          
+          .beacon-pulse {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2); /* Brighter background */
+            z-index: 1;
+            transform: scale(1);
+            opacity: 0;
+          }
+          
+          /* When container is active, activate the dot and pulse */
+          .beacon-container.active .beacon-dot {
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 24px rgba(255, 255, 255, 0.6); /* Even brighter glow */
+          }
+          
+          .beacon-container.active .beacon-pulse {
+            animation: pulse 2s forwards;
+          }
+          
+          /* Pulse animation for the glowing effect */
+          @keyframes pulse {
+            0% {
+              transform: scale(1);
+              opacity: 0.9; /* Increase from 0.8 to 0.9 */
+            }
+            50% {
+              transform: scale(2);
+              opacity: 0.4; /* Increase from 0.3 to 0.4 */
+            }
+            100% {
+              transform: scale(2.5);
+              opacity: 0;
+            }
+          }
         `}
       </style>
       
@@ -1583,12 +1894,15 @@ const TexasSchoolDistrictsMap = () => {
             ref={mapRef}
             mapboxAccessToken={mapboxApiKey}
             initialViewState={{
-              longitude: initialCenterRef.current.lng, // Use fixed initial center
-              latitude: initialCenterRef.current.lat,  // Use fixed initial center
-              zoom: window.innerWidth < 768 ? 4.5 : 5.0,
+              longitude: initialCenterRef.current.lng,
+              latitude: initialCenterRef.current.lat,
+              zoom: window.innerWidth < 768 ? FIXED_COORDINATES.mobile.zoom : FIXED_COORDINATES.desktop.zoom,
               bearing: 0,
               pitch: 0
             }}
+            preserveDrawingBuffer={true}
+            renderWorldCopies={false}
+            cooperativeGestures={true}
             onMove={(evt) => {
               if (!LOCK_MAP_POSITION) return;
               
@@ -1626,8 +1940,8 @@ const TexasSchoolDistrictsMap = () => {
             mapStyle="mapbox://styles/mapbox/dark-v10"
             interactiveLayerIds={['districts']}
             onLoad={onMapLoad}
-            maxZoom={window.innerWidth < 768 ? 4.5 : 5.0}  // Force max zoom to match device
-            minZoom={window.innerWidth < 768 ? 4.5 : 5.0}  // Force min zoom to match device
+            maxZoom={window.innerWidth < 768 ? FIXED_COORDINATES.mobile.zoom : FIXED_COORDINATES.desktop.zoom}
+            minZoom={window.innerWidth < 768 ? FIXED_COORDINATES.mobile.zoom : FIXED_COORDINATES.desktop.zoom}
             dragRotate={false}
             dragPan={false}
             scrollZoom={false}
@@ -1636,7 +1950,7 @@ const TexasSchoolDistrictsMap = () => {
             keyboard={false}
             touchZoomRotate={false}
             touchPitch={false}
-            attributionControl={false}  // Explicitly disable attribution control
+            attributionControl={false}
           >
             <Source
               id="districts"
@@ -1647,10 +1961,13 @@ const TexasSchoolDistrictsMap = () => {
               <Layer {...districtLayer} />
               <Layer {...districtOutlineLayer} />
             </Source>
-            <SchoolMarkers 
-              points={randomPoints}
-              onPointClick={handleMarkerClick}
-            />
+            {/* Only render markers after map is fully initialized */}
+            {mapInitialized && (
+              <SchoolMarkers 
+                points={randomPoints}
+                onPointClick={handleMarkerClick}
+              />
+            )}
             {popupInfo && (
               <Popup
                 longitude={popupInfo.point.lng}
