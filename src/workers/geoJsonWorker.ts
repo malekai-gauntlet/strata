@@ -1,6 +1,11 @@
 // Web Worker for processing GeoJSON data
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+// Add map version to align with main file
+const MAP_VERSION = "1.0.0";
+// Add a seed for deterministic random generation
+const RANDOM_SEED = 12345;
+
 interface PointResult {
   lat: number;
   lng: number;
@@ -48,6 +53,26 @@ interface GeoJSONFeature {
 interface GeoJSONCollection {
   type: 'FeatureCollection';
   features: GeoJSONFeature[];
+}
+
+// Add a seeded random number generator for deterministic results
+let randomSeed = RANDOM_SEED;
+function seededRandom() {
+  // Simple LCG random number generator with known seed
+  const a = 1664525;
+  const c = 1013904223;
+  const m = Math.pow(2, 32);
+  
+  // Update the seed
+  randomSeed = (a * randomSeed + c) % m;
+  
+  // Return a value between 0 and 1
+  return randomSeed / m;
+}
+
+// Reset the random seed to ensure consistent results
+function resetRandomSeed() {
+  randomSeed = RANDOM_SEED;
 }
 
 // Process messages from the main thread
@@ -136,7 +161,8 @@ function isPointInPolygon(point: [number, number], polygon: GeoJSONGeometry): bo
   }
 }
 
-function getRandomPointInPolygon(polygon: GeoJSONGeometry): [number, number] {
+// Use the seeded random function instead of Math.random()
+function getRandomPointInPolygon(polygon: GeoJSONGeometry, existingPoints: PointResult[] = []): [number, number] {
   let bounds: BoundsResult;
   
   if (polygon.type === 'Polygon') {
@@ -152,24 +178,59 @@ function getRandomPointInPolygon(polygon: GeoJSONGeometry): [number, number] {
     bounds = getBoundsFromCoordinates(allCoords);
   }
   
+  // Calculate the center point
+  const centerLng = bounds.west + (bounds.east - bounds.west) / 2;
+  const centerLat = bounds.south + (bounds.north - bounds.south) / 2;
+  
+  // Check if a point is too close to existing points (min distance ~10px)
+  const MIN_DOT_DISTANCE = 10; // Approximate pixels
+  const isTooClose = (lat: number, lng: number) => {
+    return existingPoints.some(existing => {
+      // Convert lat/lng difference to approximate pixel distance
+      // This is a simplified calculation and works for small distances
+      const latDiff = Math.abs(existing.lat - lat) * 111000; // 1 degree lat = ~111km
+      const lngDiff = Math.abs(existing.lng - lng) * 111000 * Math.cos(lat * Math.PI / 180);
+      
+      // Convert to pixels (approximate at zoom level 6)
+      const pixelDistance = Math.sqrt(latDiff * latDiff + lngDiff * lngDiff) / 10;
+      
+      return pixelDistance < MIN_DOT_DISTANCE;
+    });
+  };
+  
+  // Try to find points that are biased toward the center
+  // and don't overlap with existing points
   for (let i = 0; i < 50; i++) {
-    const lng = bounds.west + Math.random() * (bounds.east - bounds.west);
-    const lat = bounds.south + Math.random() * (bounds.north - bounds.south);
+    // Use a bias factor to keep points closer to center (smaller = more centered)
+    const biasTowardCenter = 0.5; // 50% of the full bounds
     
-    if (isPointInPolygon([lng, lat], polygon)) {
+    // Calculate biased boundaries that are closer to center
+    const biasedWest = centerLng - (centerLng - bounds.west) * biasTowardCenter;
+    const biasedEast = centerLng + (bounds.east - centerLng) * biasTowardCenter;
+    const biasedSouth = centerLat - (centerLat - bounds.south) * biasTowardCenter;
+    const biasedNorth = centerLat + (bounds.north - centerLat) * biasTowardCenter;
+    
+    // Generate a point within the biased boundaries using seeded random
+    const lng = biasedWest + seededRandom() * (biasedEast - biasedWest);
+    const lat = biasedSouth + seededRandom() * (biasedNorth - biasedSouth);
+    
+    // Check if the point is within polygon and not too close to existing points
+    if (isPointInPolygon([lng, lat], polygon) && !isTooClose(lat, lng)) {
       return [lat, lng];
     }
   }
   
-  // If we can't find a valid point after 50 tries, use the center
-  const centerLng = bounds.west + (bounds.east - bounds.west) / 2;
-  const centerLat = bounds.south + (bounds.north - bounds.south) / 2;
+  // If we can't find a valid point after 50 tries, use the exact center
+  // and hope it's not too close to other points
   return [centerLat, centerLng];
 }
 
 // Main processing function
 function processGeoJsonData(data: GeoJSONCollection): ProcessResult {
   self.postMessage({ type: 'status', message: 'Organizing points by district...' });
+  
+  // Reset the random seed to ensure deterministic results
+  resetRandomSeed();
   
   const pointsByDistrict: Record<string, PointResult[]> = {};
   const centerPoints: PointResult[] = [];
@@ -214,7 +275,7 @@ function processGeoJsonData(data: GeoJSONCollection): ProcessResult {
     }
   });
   
-  // Now add 4 more random points per district
+  // Now add 4 more random points per district, avoiding overlap with existing points
   self.postMessage({ type: 'status', message: 'Processing additional points...' });
   
   data.features.forEach((feature: GeoJSONFeature, index: number) => {
@@ -230,10 +291,12 @@ function processGeoJsonData(data: GeoJSONCollection): ProcessResult {
     if (feature.properties && feature.geometry) {
       const districtId = feature.properties.DISTRICT_I || '';
       const districtName = feature.properties.DISTRICT_N || 'Unknown District';
+      const existingDistrictPoints = pointsByDistrict[districtId] || [];
       
       for (let i = 0; i < 4; i++) {
         try {
-          const [lat, lng] = getRandomPointInPolygon(feature.geometry);
+          // Pass existing points to avoid overlap
+          const [lat, lng] = getRandomPointInPolygon(feature.geometry, existingDistrictPoints);
           const point = {
             lat,
             lng,
@@ -245,6 +308,8 @@ function processGeoJsonData(data: GeoJSONCollection): ProcessResult {
           // Add to district's array
           if (pointsByDistrict[districtId]) {
             pointsByDistrict[districtId].push(point);
+            // Update existingDistrictPoints to include this new point
+            existingDistrictPoints.push(point);
           }
           
           // Add to additional points array
@@ -256,15 +321,28 @@ function processGeoJsonData(data: GeoJSONCollection): ProcessResult {
     }
   });
   
-  // Combine the points in the right order: first all centers, then all additional points
-  const allOrderedPoints = [...centerPoints, ...additionalPoints];
+  // Add the mapVersion to the response
+  const result = { 
+    centerPoints, 
+    additionalPoints, 
+    allOrderedPoints: [...centerPoints, ...additionalPoints],
+    mapVersion: MAP_VERSION
+  };
+  
+  // Store a copy of data in sessionStorage for validation if needed
+  try {
+    const samplePoints = result.allOrderedPoints.slice(0, 20);
+    self.postMessage({ type: 'cache', data: { samplePoints, mapVersion: MAP_VERSION } });
+  } catch (e) {
+    console.error('Error caching sample points in worker:', e);
+  }
   
   self.postMessage({ 
     type: 'status', 
     message: `Completed! Processed ${centerPoints.length} center points and ${additionalPoints.length} additional points`
   });
   
-  return { centerPoints, additionalPoints, allOrderedPoints };
+  return result;
 }
 
 export {}; 
