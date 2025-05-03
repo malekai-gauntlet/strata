@@ -59,6 +59,13 @@ const VALIDATE_COORDINATES = true;
 // Add an error threshold for coordinate validation (in degrees)
 const COORDINATE_ERROR_THRESHOLD = 0.001; // Approximately 100 meters
 
+// Maximum number of points to show on mobile devices based on tier
+const MOBILE_POINT_LIMITS = {
+  LOW: 600,    // Older/lower-end devices
+  MEDIUM: 1200, // Mid-range devices
+  HIGH: 2000    // High-end devices
+};
+
 // Add a constant to store the fixed coordinates in case we need to restore them
 const FIXED_COORDINATES = {
   // Mobile view settings
@@ -86,6 +93,42 @@ const isMobileDevice = () => {
   if (typeof window === 'undefined') return false;
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
          window.innerWidth < 768;
+};
+
+// Add device tier detection to determine point limit
+const getDeviceTier = (): 'LOW' | 'MEDIUM' | 'HIGH' => {
+  if (typeof window === 'undefined') return 'MEDIUM';
+  
+  // Check for low memory indicator (if available)
+  if ('deviceMemory' in navigator) {
+    const memory = (navigator as any).deviceMemory;
+    if (memory && memory < 4) return 'LOW';
+    if (memory && memory >= 8) return 'HIGH';
+  }
+  
+  // Use screen resolution as a fallback indicator
+  const pixelRatio = window.devicePixelRatio || 1;
+  const screenWidth = window.screen.width * pixelRatio;
+  const screenHeight = window.screen.height * pixelRatio;
+  const totalPixels = screenWidth * screenHeight;
+  
+  // Low-end: less than HD resolution with pixel ratio considered
+  if (totalPixels < 1280 * 720) return 'LOW';
+  
+  // High-end: 4K or higher with pixel ratio considered
+  if (totalPixels >= 3840 * 2160) return 'HIGH';
+  
+  // Check user agent for known low-end devices
+  const userAgent = navigator.userAgent.toLowerCase();
+  if (userAgent.includes('android 5.') || 
+      userAgent.includes('android 6.') || 
+      userAgent.includes('iphone os 10_') ||
+      userAgent.includes('iphone os 11_')) {
+    return 'LOW';
+  }
+  
+  // Medium-tier is the default
+  return 'MEDIUM';
 };
 
 // Add a flag for mobile optimizations
@@ -938,7 +981,7 @@ const TexasSchoolDistrictsMap = () => {
       });
       
       // Calculate the total points that should be visible based on slider value
-      const calculateVisiblePointCount = (sliderValue: number): number => {
+      const calculateVisiblePointCount = (sliderValue: number, isMobile: boolean): number => {
         // August 2025 to January 2026 (slider = 0-20): Always 1 school
         if (sliderValue <= 20) {
           return 1;
@@ -956,17 +999,26 @@ const TexasSchoolDistrictsMap = () => {
           return Math.floor(50 + ((sliderValue - 25) / 25) * (1200 - 50));
         }
         
-        // From August 2026 to August 2027 (slider = 50-100): 1200 to 5000 schools
+        // From August 2026 to August 2027 (slider = 50-100)
         if (sliderValue > 50) {
-          // Gradual increase from 1200 to 5000
-          return Math.floor(1200 + ((sliderValue - 50) / 50) * (5000 - 1200));
+          if (isMobile) {
+            // On mobile, use device-specific point limit
+            const deviceTier = getDeviceTier();
+            return MOBILE_POINT_LIMITS[deviceTier];
+          } else {
+            // On desktop, gradual increase from 1200 to 5000 schools
+            return Math.floor(1200 + ((sliderValue - 50) / 50) * (5000 - 1200));
+          }
         }
         
         return 1; // Default fallback
       };
       
+      // Detect if we're on a mobile device
+      const isMobile = isMobileDevice();
+      
       // Calculate the target number of points to show
-      const targetPointCount = calculateVisiblePointCount(sliderValue);
+      const targetPointCount = calculateVisiblePointCount(sliderValue, isMobile);
       
       // Now implement a smooth, deterministic appearance of points
       if (sliderValue === 0) {
@@ -1022,6 +1074,12 @@ const TexasSchoolDistrictsMap = () => {
           newDistrictsWithSchools.push(point.districtId);
         }
       });
+      
+      // Log a message about limiting points on mobile
+      if (isMobile && sliderValue > 50) {
+        const deviceTier = getDeviceTier();
+        console.log(`Mobile device detected (${deviceTier} tier): Limiting to ${MOBILE_POINT_LIMITS[deviceTier]} points for better performance`);
+      }
       
       // Update state
       console.log(`Setting ${visiblePoints.length} visible points across ${newDistrictsWithSchools.length} districts`);
@@ -1539,13 +1597,31 @@ const TexasSchoolDistrictsMap = () => {
       return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
     };
     
+    // Detect if we're on a mobile device and points are being limited
+    const isMobile = isMobileDevice();
+    const isLimited = isMobile && sliderValue > 50;
+    
+    // Get device tier for dynamic point limits
+    const deviceTier = getDeviceTier();
+    
+    // Calculate the full count that would be shown (for the limited message)
+    const getFullCount = () => {
+      if (sliderValue > 50) {
+        return Math.floor(1200 + ((sliderValue - 50) / 50) * (5000 - 1200));
+      }
+      return points.length;
+    };
+    
     return {
       schoolCount: points.length,
       districtCount: districtsWithSchools.length,
       formattedDate: formatDate(sliderValue),
-      formattedString: points.length === 1 
-        ? "1 Strata School" 
-        : `${points.length.toLocaleString()} Strata Schools`
+      formattedString: isLimited
+        ? `${points.length.toLocaleString()} of ${getFullCount().toLocaleString()} Strata Schools`
+        : points.length === 1 
+          ? "1 Strata School" 
+          : `${points.length.toLocaleString()} Strata Schools`,
+      deviceTier: deviceTier  // Add device tier for potential display
     };
   }, []);
 
@@ -1904,6 +1980,7 @@ const TexasSchoolDistrictsMap = () => {
           <div className="text-xs text-center mb-1">{getFormattedInfo(randomPoints, districtsWithSchools, sliderYear, sliderValue).formattedDate}</div>
           <div>{getFormattedInfo(randomPoints, districtsWithSchools, sliderYear, sliderValue).formattedString}</div>
         </div>
+        {/* Remove the note from here */}
       </div>
 
       {/* Play/Pause Button - Bottom Left with same styling - hide on mobile */}
@@ -1922,6 +1999,16 @@ const TexasSchoolDistrictsMap = () => {
                 <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
               </svg>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Performance message - Bottom Left - only on mobile when limiting points */}
+      {isMobile && sliderValue > 50 && (
+        <div className="absolute bottom-4 left-4 z-30">
+          <div className="text-white text-xs opacity-80 leading-relaxed">
+            Limited view<br />
+            for performance
           </div>
         </div>
       )}
