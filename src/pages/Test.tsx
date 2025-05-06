@@ -276,7 +276,7 @@ const Test = () => {
                 <div className="flex flex-col items-center justify-center">
                   <div className="h-16 flex items-center justify-center">
                     <img
-                      src="/public/images/2 Hour Learning.png"
+                      src="/images/2 Hour Learning.png"
                       alt="2 Hour Learning"
                       className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
                     />
@@ -286,7 +286,7 @@ const Test = () => {
                 <div className="flex flex-col items-center justify-center">
                   <div className="h-16 flex items-center justify-center">
                     <img
-                      src="/public/images/alphawhite.png"
+                      src="/images/alphawhite.png"
                       alt="Alpha School"
                       className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
                     />
@@ -296,7 +296,7 @@ const Test = () => {
                 <div className="flex flex-col items-center justify-center">
                   <div className="h-16 flex items-center justify-center">
                     <img
-                      src="/public/images/nba.png"
+                      src="/images/nba.png"
                       alt="NBA"
                       className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
                     />
