@@ -11,6 +11,12 @@ import MapEmbed from '@/components/MapEmbed';
 import { motion } from 'framer-motion';
 import FloatingVideoPlayer from '@/components/FloatingVideoPlayer';
 
+// Import images
+import capitolImage from '/images/capitol.png';
+import coachImage from '/images/coach.jpg';
+import timelineImage from '/images/timeline.png';
+import trophyImage from '/images/trophy.png';
+
 const Index = () => {
   const sections = ['intro', 'opportunity', 'legacy', 'income', 'academics', 'athletes', 'partner', 'start'];
   const [currentSection, setCurrentSection] = useState(getInitialSection());
@@ -156,7 +162,7 @@ But you're a coach... why does this matter for you?`}
         <StorySection id="opportunity" withGraphic customGraphic={
           <div className="flex flex-col items-center gap-4">
             <motion.img
-              src="/images/capitol.png"
+              src={capitolImage}
               alt="Financial opportunity illustration"
               className="w-full max-w-lg rounded-lg"
               initial={{ opacity: 0 }}
@@ -185,7 +191,7 @@ But why should you care?`}
         <StorySection id="legacy" withGraphic customGraphic={
           <div className="flex flex-col items-center gap-4">
             <motion.img
-              src="/images/coach.jpg"
+              src={coachImage}
               alt="Coach mentoring athletes"
               className="w-full max-w-lg rounded-lg shadow-lg"
               initial={{ opacity: 0 }}
@@ -212,7 +218,7 @@ But you might be busy and already have a job...`}
         <StorySection id="income" withGraphic customGraphic={
           <div className="flex flex-col items-center gap-4">
             <motion.img
-              src="/images/timeline.png"
+              src={timelineImage}
               alt="Daily schedule timeline"
               className="w-full max-w-lg rounded-lg"
               initial={{ opacity: 0 }}
@@ -311,7 +317,7 @@ Ok... but running a school sounds complicated. How would that work?`}
         <StorySection id="partner" withGraphic customGraphic={
           <div className="flex flex-col items-center gap-4">
             <motion.img
-              src="/images/trophy.png"
+              src={trophyImage}
               alt="Trophy representing success"
               className="w-full max-w-md rounded-lg"
               initial={{ opacity: 0 }}
