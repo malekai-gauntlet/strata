@@ -333,7 +333,14 @@ Ok... but running a school sounds complicated. How would that work?`}
         </StorySection>
 
         <StorySection id="start" withGraphic customGraphic={
-          <MapEmbed className="w-full max-w-lg" />
+          <MapEmbed 
+            className="w-full max-w-lg" 
+            location={{
+              lat: 30.2672,
+              lng: -97.7431,
+              address: "Austin, TX"
+            }}
+          />
         }>
           <div className="max-w-2xl">
             <StreamingText tag="h2" className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6" index={0}>
