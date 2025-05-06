@@ -272,36 +272,36 @@ const Test = () => {
               className="mt-24"
             >
               <p className="text-gray-400 text-sm mb-8">LEADERS IN SPORTS & EDUCATION</p>
-              <div className="grid grid-cols-3 gap-12 md:gap-24 max-w-4xl mx-auto">
+              <div className="grid grid-cols-3 gap-8 md:gap-16 max-w-3xl mx-auto">
                 <div className="flex flex-col items-center justify-center">
-                  <div className="h-16 flex items-center justify-center">
+                  <div className="h-12 md:h-16 flex items-center justify-center">
                     <img
                       src="/images/2 Hour Learning.png"
                       alt="2 Hour Learning"
                       className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
                     />
                   </div>
-                  <span className="text-sm text-gray-400 mt-3">2 Hour Learning</span>
+                  <span className="text-sm text-gray-400 mt-2">2 Hour Learning</span>
                 </div>
                 <div className="flex flex-col items-center justify-center">
-                  <div className="h-16 flex items-center justify-center">
+                  <div className="h-12 md:h-16 flex items-center justify-center">
                     <img
                       src="/images/alphawhite.png"
                       alt="Alpha School"
                       className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
                     />
                   </div>
-                  <span className="text-sm text-gray-400 mt-3">Alpha School</span>
+                  <span className="text-sm text-gray-400 mt-2">Alpha School</span>
                 </div>
                 <div className="flex flex-col items-center justify-center">
-                  <div className="h-16 flex items-center justify-center">
+                  <div className="h-12 md:h-16 flex items-center justify-center">
                     <img
                       src="/images/nba.png"
                       alt="NBA"
                       className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
                     />
                   </div>
-                  <span className="text-sm text-gray-400 mt-3">NBA</span>
+                  <span className="text-sm text-gray-400 mt-2">NBA</span>
                 </div>
               </div>
             </motion.div>
