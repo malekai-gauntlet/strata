@@ -863,25 +863,15 @@ const Test = () => {
                       </p>
                     </div>
                     
-                    <div className="flex justify-center">
+                    <div className="flex justify-center max-w-2xl mx-auto">
                       {/* Operations Platform Carousel */}
-                      <div className="w-2/3">
-                        <ImageCarousel 
-                          images={[
-                            {
-                              src: "/images/operations1.png",
-                              alt: "School Dashboard"
-                            },
-                            {
-                              src: "/images/operations2.png",
-                              alt: "Student Management"
-                            },
-                            {
-                              src: "/images/operations3.png",
-                              alt: "Compliance Tools"
-                            }
-                          ]}
-                        />
+                      <div className="w-full aspect-[16/9]">
+                        <div className="aspect-video bg-black/50 rounded-lg overflow-hidden relative shadow-[0_8px_30px_rgb(0,0,0,0.5)] border border-white/5">
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/70">
+                            <p className="text-2xl font-semibold text-white/80">Dashboard Images Coming Soon</p>
+                          </div>
+                          <div className="w-full h-full bg-black/30" />
+                        </div>
                       </div>
                     </div>
 
@@ -944,7 +934,7 @@ const Test = () => {
               <ul className="space-y-3 text-gray-300">
                 <li className="flex items-start">
                   <span className="text-white mr-2">→</span>
-                  <span>$10,8000 of funding per student</span>
+                  <span>$10,800 of funding per student</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-white mr-2">→</span>
