@@ -1023,26 +1023,26 @@ const Test = () => {
             {
               year: "Step 1",
               title: "Initial Meeting",
-              description: "Meet to discuss your vision. We'll ask about your coaching background, goals, and share more about how you can turn your program into a school."
+              description: "Meet to discuss your vision. We'll ask about your coaching background, goals, and share more about the legislation and how to turn your program into a school."
             },
             {
               year: "Step 2",
-              title: "Custom Proposal",
-              description: "Receive a unique proposal tailored to your program, including detailed revenue numbers, facility location, and opportunities."
+              title: "Dive into Details",
+              description: "Cover detailed revenue numbers, facility location, and opportunities."
             },
             {
               year: "Step 3",
-              title: "Final Proposal",
-              description: "Review specific details including real estate location, salary projections, and ownership structure. Sign Letter of Intent upon verbal commitment."
+              title: "Identify Students and Location",
+              description: "We'll provide collateral that you can use to market your school to prospective students and their parents. We'll also help identify the best facilities for your school."
             },
             {
               year: "Step 4",
-              title: "School Setup",
-              description: "We create your school webpage, host a kickoff event, and help market your school to prospective students."
+              title: "Confirm Students & Location",
+              description: "Once at least 15 students are committed to your school, we'll help you apply for your school permit, lease, and open your school."
             },
             {
               year: "Step 5",
-              title: "Operations",
+              title: "Final Steps",
               description: "We handle all paperwork - creating your LLC, finalizing contracts, and preparing for the August school year launch."
             }
           ]} />
