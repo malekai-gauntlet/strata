@@ -320,7 +320,7 @@ const Test = () => {
         >
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">See How It Works</h2>
-            <p className="text-xl text-gray-300">Watch how we're transforming sports programs into schools</p>
+            <p className="text-xl text-gray-300">Hear from coaches who have turned their sports programs into schools</p>
           </div>
           <div className="max-w-4xl mx-auto">
             <div className="aspect-video bg-black/50 rounded-lg overflow-hidden">
@@ -350,7 +350,7 @@ const Test = () => {
               This is the Start Of Your Legacy
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Build your brand and create a lasting institution.
+              Build your brand and create a lasting sports school.
             </p>
           </motion.div>
 
@@ -380,11 +380,11 @@ const Test = () => {
                 </li>
                 <li className="flex items-start gap-4">
                   <span className="text-white text-xl">→</span>
-                  <span>Provide top-tier academics and athletics</span>
+                  <span>Achieve top-tier academic and athletic outcomes</span>
                 </li>
                 <li className="flex items-start gap-4">
                   <span className="text-white text-xl">→</span>
-                  <span>Create opportunities for more athletes</span>
+                  <span>Maximize your impact on young athletes to achieve their true potential</span>
                 </li>
               </ul>
             </div>
@@ -412,15 +412,15 @@ const Test = () => {
               <ul className="space-y-4 text-gray-300">
                 <li className="flex items-start gap-4">
                   <span className="text-white text-xl">→</span>
-                  <span>$150k-250k additional annual revenue</span>
+                  <span>$10,800 per student funding from Texas ESAs</span>
                 </li>
                 <li className="flex items-start gap-4">
                   <span className="text-white text-xl">→</span>
-                  <span>$10,000 per student funding</span>
+                  <span>15-25 students per sports microschool to start</span>
                 </li>
                 <li className="flex items-start gap-4">
                   <span className="text-white text-xl">→</span>
-                  <span>15-25 students per microschool</span>
+                  <span>Generate at least six figures of additional income</span>
                 </li>
               </ul>
             </div>
@@ -448,21 +448,21 @@ const Test = () => {
               <ul className="space-y-4 text-gray-300">
                 <li className="flex items-start gap-4">
                   <span className="text-white text-xl">→</span>
-                  <span>School operates 9am-3pm</span>
+                  <span>Your sports school operates 9am-3pm</span>
+                </li>
+                <li className="flex items-start gap-4">
+                  <span className="text-white text-xl">→</span>
+                  <span>Academics in the morning, athletics and workshops in the afternoon</span>
                 </li>
                 <li className="flex items-start gap-4">
                   <span className="text-white text-xl">→</span>
                   <span>Maintain your current coaching position</span>
                 </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-white text-xl">→</span>
-                  <span>Perfect complement to your existing program</span>
-                </li>
               </ul>
             </div>
           </motion.div>
 
-          {/* Build Something Epic */}
+          {/* Do What You Love */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -474,7 +474,7 @@ const Test = () => {
               <div className="aspect-video bg-black/50 rounded-lg overflow-hidden">
                 <img 
                   src="/public/images/epic.jpg" 
-                  alt="Build Something Epic" 
+                  alt="Do What You Love" 
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -533,20 +533,20 @@ const Test = () => {
               </div>
               <h3 className="text-2xl font-bold mb-4">Academics</h3>
               <p className="text-gray-300 mb-6">
-                We provide you with access to revolutionary academic software.
+                We provide you with access to world-leading academic software.
               </p>
               <ul className="space-y-3 text-gray-300">
                 <li className="flex items-start">
                   <span className="text-white mr-2">→</span>
-                  <span>Top 1% academic outcomes</span>
+                  <span>Use 2 Hour Learning, which creates top 1% academic outcomes</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-white mr-2">→</span>
-                  <span>Accredited by the State of Texas</span>
+                  <span>Fully personalized academic AI software for students</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-white mr-2">→</span>
-                  <span>College-prep curriculum</span>
+                  <span>Students learn twice as fast in just two hours a day</span>
                 </li>
               </ul>
               <Button
@@ -576,15 +576,15 @@ const Test = () => {
               <ul className="space-y-3 text-gray-300">
                 <li className="flex items-start">
                   <span className="text-white mr-2">→</span>
-                  <span>Location scouting and selection</span>
+                  <span>Use one of our existing facilities or secure your own</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-white mr-2">→</span>
-                  <span>Facility setup and equipment</span>
+                  <span>Identify sports facilities zoned as schools in your area</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-white mr-2">→</span>
-                  <span>Compliance and safety standards</span>
+                  <span>We handle zoning and permitting requirements</span>
                 </li>
               </ul>
               <Button
@@ -609,20 +609,20 @@ const Test = () => {
               </div>
               <h3 className="text-2xl font-bold mb-4">Operations</h3>
               <p className="text-gray-300 mb-6">
-                We manage all administrative and operational aspects.
+                We manage all tedious administrative and operational aspects.
               </p>
               <ul className="space-y-3 text-gray-300">
                 <li className="flex items-start">
                   <span className="text-white mr-2">→</span>
-                  <span>Securing students for your program</span>
+                  <span>Applying for grants, filing paperwork, forming your LLC</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-white mr-2">→</span>
-                  <span>Compliance and reporting</span>
+                  <span>Support guide for securing students and kicking off your sports school</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-white mr-2">→</span>
-                  <span>Parent communication</span>
+                  <span>Training and support for kicking off your sports school</span>
                 </li>
               </ul>
               <Button
@@ -669,7 +669,7 @@ const Test = () => {
                       <h3 className="text-2xl font-bold mb-2">Featured Campus: Carrollton, Texas</h3>
                       <p className="text-gray-400 text-base mb-4">2205 E Hebron Pkwy, Carrollton, TX 75010</p>
                       <p className="text-gray-300 text-lg">
-                        Professional-grade basketball court with premium flooring • Outdoor athletic field with stadium seating • Modern, spacious facility with natural lighting
+                      Modern, spacious facility for studies • Professional-grade basketball court with premium flooring • Outdoor athletic field with stadium seating
                       </p>
                     </div>
                     
@@ -678,6 +678,10 @@ const Test = () => {
                       <div className="h-full">
                         <ImageCarousel 
                           images={[
+                            {
+                              src: "/images/Carrollton1.png",
+                              alt: "Carrollton Campus Aerial View"
+                            },
                             {
                               src: "/images/Carrollton2.png",
                               alt: "Carrollton Campus Aerial View"
@@ -712,7 +716,7 @@ const Test = () => {
                     {/* CTA Banner */}
                     <div className="mt-8 pt-6 border-t border-white/10 text-center">
                       <p className="text-gray-200 mb-4">
-                        Interested in using this facility for your AAU program school?<br />
+                        Interested in this facility for your sports school?<br />
                         Schedule a call to discuss your vision.
                       </p>
                       <Button 
@@ -763,50 +767,39 @@ const Test = () => {
                       <h3 className="text-2xl font-bold mb-2">2 Hour Learning System</h3>
                       <p className="text-gray-400 text-base mb-4">Revolutionary Academic Software</p>
                       <p className="text-gray-300 text-lg">
-                        Personalized learning paths • Real-time progress tracking • AI-powered tutoring • College preparation
+                        Personalized learning paths • Accredited by Cognia • AI-powered tutoring • College preparation
                       </p>
                     </div>
                     
                     <div className="grid md:grid-cols-2 gap-8 items-start">
-                      {/* Academic Software Carousel */}
-                      <div className="h-full">
-                        <ImageCarousel 
-                          images={[
-                            {
-                              src: "/images/academics1.png",
-                              alt: "Student Dashboard"
-                            },
-                            {
-                              src: "/images/academics2.png",
-                              alt: "Learning Interface"
-                            },
-                            {
-                              src: "/images/academics3.png",
-                              alt: "Progress Tracking"
-                            }
-                          ]}
+                      <div className="aspect-[16/9] bg-black/50 rounded-lg overflow-hidden">
+                        <img 
+                          src="/images/2-Hour-Learning-1.png"
+                          alt="2 Hour Learning Dashboard"
+                          className="w-full h-full object-contain"
                         />
                       </div>
-
-                      {/* Features List */}
-                      <div className="space-y-6">
-                        <div>
-                          <h4 className="text-xl font-semibold mb-3">Personalized Learning</h4>
-                          <p className="text-gray-300">
-                            Our AI-powered system adapts to each student's learning style and pace, ensuring optimal academic progress.
+                      <div className="aspect-[16/9] bg-black/50 rounded-lg overflow-hidden">
+                        <div className="h-full flex flex-col items-center justify-center p-8">
+                          <p className="text-lg text-gray-300 text-center mb-6">
+                            Our AI-powered learning system adapts to each student's needs, achieving exceptional results in just two hours per day.
                           </p>
-                        </div>
-                        <div>
-                          <h4 className="text-xl font-semibold mb-3">Real-Time Progress Tracking</h4>
-                          <p className="text-gray-300">
-                            Monitor student achievement with detailed analytics and progress reports.
-                          </p>
-                        </div>
-                        <div>
-                          <h4 className="text-xl font-semibold mb-3">College Preparation</h4>
-                          <p className="text-gray-300">
-                            Comprehensive curriculum aligned with college requirements and SAT/ACT preparation.
-                          </p>
+                          <div className="flex items-center gap-4">
+                            <img 
+                              src="/images/alphawhite.png" 
+                              alt="Alpha School Logo" 
+                              className="h-8 w-auto opacity-80"
+                            />
+                            <p className="text-gray-400">
+                              Trusted by Alpha School, achieving top 1% academic outcomes
+                            </p>
+                          </div>
+                          <Button
+                            className="mt-6 bg-white/10 hover:bg-white/20 text-white border border-white/20"
+                            onClick={() => window.open('https://www.foxnews.com/media/texas-private-schools-use-ai-tutor-rockets-student-test-scores-top-2-country', '_blank')}
+                          >
+                            Read the Fox News Coverage →
+                          </Button>
                         </div>
                       </div>
                     </div>
@@ -865,9 +858,9 @@ const Test = () => {
                       </p>
                     </div>
                     
-                    <div className="grid md:grid-cols-2 gap-8 items-start">
+                    <div className="flex justify-center">
                       {/* Operations Platform Carousel */}
-                      <div className="h-full">
+                      <div className="w-2/3">
                         <ImageCarousel 
                           images={[
                             {
@@ -884,28 +877,6 @@ const Test = () => {
                             }
                           ]}
                         />
-                      </div>
-
-                      {/* Features List */}
-                      <div className="space-y-6">
-                        <div>
-                          <h4 className="text-xl font-semibold mb-3">Business Setup</h4>
-                          <p className="text-gray-300">
-                            We handle LLC creation, zoning requirements, government paperwork, and grant applications.
-                          </p>
-                        </div>
-                        <div>
-                          <h4 className="text-xl font-semibold mb-3">Marketing & Enrollment</h4>
-                          <p className="text-gray-300">
-                            Custom website creation, marketing materials, and tools to manage student enrollment.
-                          </p>
-                        </div>
-                        <div>
-                          <h4 className="text-xl font-semibold mb-3">Ongoing Support</h4>
-                          <p className="text-gray-300">
-                            Parent communication, compliance reporting, and financial management tools.
-                          </p>
-                        </div>
                       </div>
                     </div>
 
@@ -1013,6 +984,20 @@ const Test = () => {
               </ul>
             </motion.div>
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
+            <Link to="/">
+              <Button className="bg-white text-black hover:bg-gray-200 text-lg px-8 py-4">
+                Why This Matters for Coaches →
+              </Button>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
@@ -1082,32 +1067,36 @@ const Test = () => {
           <div className="bg-gradient-to-br from-black/40 via-black/60 to-black/40 border border-white/10 rounded-2xl p-8 md:p-12 shadow-[0_0_50px_-12px_rgba(255,255,255,0.1)] backdrop-blur-sm">
             <div className="space-y-6">
               <FAQItem
-                question="What is Strata Schools?"
-                answer="We help coaches start schools extremely easily. We are a team of AI engineers that automates away all complexity associated with running a school, etc."
+                question="What is Strata?"
+                answer="We help coaches start schools, or turn their existing programs into schools, extremely easily. We help coaches identify the best locations and provide access to world-leading accredited academic software. Our platform helps coachesapply for grants and ESA funding and automates away all complexity associated with running a school."
               />
               <FAQItem
                 question="How does the funding work?"
-                answer="Through Texas's new ESA program, each student receives $10,800 in annual funding. With 15-25 students, this creates substantial revenue for your school."
+                answer="Through Texas's new ESA program, each parent receives $10,800 in from the Texas government when they don't enroll their child in public school. This $10,800 is for each student, and can be used for any private school in Texas. Coaches would create private sports schools with at least 15-25 students, creating substantial revenue."
               />
               <FAQItem
                 question="What about academics?"
-                answer="Our learning system handles all academic requirements. Students learn through personalized software, achieving top 1% outcomes without traditional teachers."
+                answer="Our learning system — 2 Hour Learning — handles all academic requirements. Students learn through personalized software, achieving top 1% outcomes without traditional teachers. This software is accredited by Cognia and produces top 1% academic outcomes."
               />
               <FAQItem
                 question="Can I keep my current coaching position?"
-                answer="Yes! The school operates during regular school hours (9am-3pm), allowing you to maintain your existing coaching commitments."
+                answer="Yes. The school operates during regular school hours (9am-3pm), allowing you to maintain your after school coaching commitments."
               />
               <FAQItem
                 question="How long does it take to get started?"
-                answer="With our support, you can launch your school within 3-4 months. We handle all the paperwork, technology setup, and operational details."
+                answer="Depending on how long it takes to secure students and school permits, you can launch your school within 2-3 months."
               />
               <FAQItem
                 question="Where is the facility?"
                 answer="We have a state-of-the-art facility in Carrollton, Texas, featuring professional-grade courts, outdoor fields, and modern academic spaces. We can also help you find and set up facilities in other locations."
               />
               <FAQItem
+                question="What age will students at my school be?"
+                answer="Middle school students. "
+              />
+              <FAQItem
                 question="Who will we play?"
-                answer="Your teams will compete against other private schools, charter schools, and in AAU tournaments. You'll have the flexibility to schedule games and tournaments that best fit your program's level and goals."
+                answer="Your teams will compete in the regular club circuit for 8-months of the year. During the basketball-season, your school will play against other private schools."
               />
               <FAQItem
                 question="Will I have to teach?"
@@ -1137,12 +1126,10 @@ const Test = () => {
                 viewport={{ once: true }}
               >
                 <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                  Learn more about how we can launch your school.
+                  Learn more about how to launch your school.
                 </h2>
                 <p className="text-xl text-gray-400 mb-8">
-                  Schedule a free strategy call with our team. We'll discuss your vision,
-                  answer your questions, and show you exactly how we can help you launch
-                  your school.
+                  Schedule a free strategy call with our team. We'll chat about your coaching goals, share everything you need to know about the legislation, academic software, and logistics, and answer all questions.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
@@ -1153,7 +1140,7 @@ const Test = () => {
                   </Button>
                   <Button
                     className="bg-black/30 text-white hover:bg-white hover:text-black transition-all duration-300 border border-white text-lg px-8 py-6"
-                    onClick={() => window.location.href = 'mailto:team@strata.school'}
+                    onClick={() => window.location.href = 'mailto:team@strata.school?subject=Interested in Learning More About Strata'}
                   >
                     Email Us
                   </Button>
@@ -1171,15 +1158,15 @@ const Test = () => {
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3">
                     <span className="w-1.5 h-1.5 bg-white rounded-full" />
-                    <span className="text-gray-300">30-minute strategy session</span>
+                    <span className="text-gray-300">Share your coaching goals</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <span className="w-1.5 h-1.5 bg-white rounded-full" />
-                    <span className="text-gray-300">Custom revenue projections</span>
+                    <span className="text-gray-300">Hear about the opportunity for coaches</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <span className="w-1.5 h-1.5 bg-white rounded-full" />
-                    <span className="text-gray-300">Location assessment</span>
+                    <span className="text-gray-300">Identify location areas</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <span className="w-1.5 h-1.5 bg-white rounded-full" />
