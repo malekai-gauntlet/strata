@@ -272,36 +272,36 @@ const Test = () => {
               className="mt-24"
             >
               <p className="text-gray-400 text-sm mb-8">LEADERS IN SPORTS & EDUCATION</p>
-              <div className="grid grid-cols-3 gap-8 md:gap-16 max-w-3xl mx-auto">
+              <div className="grid grid-cols-3 gap-12 md:gap-24 max-w-4xl mx-auto">
                 <div className="flex flex-col items-center justify-center">
-                  <div className="h-12 md:h-16 flex items-center justify-center">
+                  <div className="h-16 flex items-center justify-center">
                     <img
                       src="/images/2 Hour Learning.png"
                       alt="2 Hour Learning"
                       className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
                     />
                   </div>
-                  <span className="text-sm text-gray-400 mt-2">2 Hour Learning</span>
+                  <span className="text-sm text-gray-400 mt-3">2 Hour Learning</span>
                 </div>
                 <div className="flex flex-col items-center justify-center">
-                  <div className="h-12 md:h-16 flex items-center justify-center">
+                  <div className="h-16 flex items-center justify-center">
                     <img
                       src="/images/alphawhite.png"
                       alt="Alpha School"
                       className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
                     />
                   </div>
-                  <span className="text-sm text-gray-400 mt-2">Alpha School</span>
+                  <span className="text-sm text-gray-400 mt-3">Alpha School</span>
                 </div>
                 <div className="flex flex-col items-center justify-center">
-                  <div className="h-12 md:h-16 flex items-center justify-center">
+                  <div className="h-16 flex items-center justify-center">
                     <img
                       src="/images/nba.png"
                       alt="NBA"
                       className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
                     />
                   </div>
-                  <span className="text-sm text-gray-400 mt-2">NBA</span>
+                  <span className="text-sm text-gray-400 mt-3">NBA</span>
                 </div>
               </div>
             </motion.div>
@@ -360,7 +360,7 @@ const Test = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="flex flex-col md:flex-row items-center gap-16 mb-32"
+            className="flex flex-col md:flex-row items-center gap-16 mb-24"
           >
             <div className="md:w-1/2">
               <div className="aspect-video bg-black/50 rounded-lg overflow-hidden">
@@ -396,7 +396,7 @@ const Test = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="flex flex-col md:flex-row-reverse items-center gap-16 mb-32"
+            className="flex flex-col md:flex-row-reverse items-center gap-16 mb-24"
           >
             <div className="md:w-1/2">
               <div className="aspect-video bg-black/50 rounded-lg overflow-hidden">
@@ -432,7 +432,7 @@ const Test = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="flex flex-col md:flex-row items-center gap-16 mb-32"
+            className="flex flex-col md:flex-row items-center gap-16 mb-24"
           >
             <div className="md:w-1/2">
               <div className="aspect-video bg-black/50 rounded-lg overflow-hidden">
@@ -468,7 +468,7 @@ const Test = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="flex flex-col md:flex-row-reverse items-center gap-16 mb-32"
+            className="flex flex-col md:flex-row-reverse items-center gap-16 mb-24"
           >
             <div className="md:w-1/2">
               <div className="aspect-video bg-black/50 rounded-lg overflow-hidden">
