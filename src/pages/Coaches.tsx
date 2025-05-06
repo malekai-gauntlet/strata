@@ -323,10 +323,13 @@ const Test = () => {
             <p className="text-xl text-gray-300">Hear from coaches who have turned their sports programs into schools</p>
           </div>
           <div className="max-w-4xl mx-auto">
-            <div className="aspect-video bg-black/50 rounded-lg overflow-hidden">
+            <div className="aspect-video bg-black/50 rounded-lg overflow-hidden relative shadow-[0_8px_30px_rgb(0,0,0,0.5)] border border-white/5">
+              <div className="absolute inset-0 flex items-center justify-center bg-black/70">
+                <p className="text-2xl font-semibold text-white/80">Video Coming Soon</p>
+              </div>
               <video
                 controls
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover opacity-30"
                 poster="/public/images/video-thumbnail.jpg"
               >
                 <source src="/public/videos/promo.mp4" type="video/mp4" />
@@ -354,154 +357,156 @@ const Test = () => {
             </p>
           </motion.div>
 
-          {/* Make an Impact */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="flex flex-col md:flex-row items-center gap-16 mb-24"
-          >
-            <div className="md:w-1/2">
-              <div className="aspect-video bg-black/50 rounded-lg overflow-hidden">
-                <img 
-                  src="/public/images/impact.jpg" 
-                  alt="Make an Impact" 
-                  className="w-full h-full object-cover"
-                />
+          <div className="max-w-5xl mx-auto">
+            {/* Make an Impact */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="flex flex-col md:flex-row items-center gap-8 md:gap-12 mb-24"
+            >
+              <div className="md:w-1/2">
+                <div className="aspect-video rounded-lg overflow-hidden">
+                  <img 
+                    src="/images/image.png" 
+                    alt="Make an Impact" 
+                    className="w-full h-full object-contain p-8"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="md:w-1/2">
-              <h3 className="text-3xl md:text-4xl font-bold mb-6">Make an Impact</h3>
-              <ul className="space-y-4 text-gray-300">
-                <li className="flex items-start gap-4">
-                  <span className="text-white text-xl">→</span>
-                  <span>Shape complete student-athletes</span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-white text-xl">→</span>
-                  <span>Achieve top-tier academic and athletic outcomes</span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-white text-xl">→</span>
-                  <span>Maximize your impact on young athletes to achieve their true potential</span>
-                </li>
-              </ul>
-            </div>
-          </motion.div>
+              <div className="md:w-1/2">
+                <h3 className="text-3xl md:text-4xl font-bold mb-6">Make an Impact</h3>
+                <ul className="space-y-4 text-gray-300">
+                  <li className="flex items-start gap-4">
+                    <span className="text-white text-xl">→</span>
+                    <span>Shape complete student-athletes</span>
+                  </li>
+                  <li className="flex items-start gap-4">
+                    <span className="text-white text-xl">→</span>
+                    <span>Achieve top-tier academic and athletic outcomes</span>
+                  </li>
+                  <li className="flex items-start gap-4">
+                    <span className="text-white text-xl">→</span>
+                    <span>Maximize your impact on young athletes to achieve their true potential</span>
+                  </li>
+                </ul>
+              </div>
+            </motion.div>
 
-          {/* Double Your Income */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="flex flex-col md:flex-row-reverse items-center gap-16 mb-24"
-          >
-            <div className="md:w-1/2">
-              <div className="aspect-video bg-black/50 rounded-lg overflow-hidden">
-                <img 
-                  src="/public/images/income.jpg" 
-                  alt="Double Your Income" 
-                  className="w-full h-full object-cover"
-                />
+            {/* Double Your Income */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 mb-24"
+            >
+              <div className="md:w-1/2">
+                <div className="aspect-video rounded-lg overflow-hidden">
+                  <img 
+                    src="/images/arrowup.png" 
+                    alt="Double Your Income" 
+                    className="w-full h-full object-contain p-8"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="md:w-1/2">
-              <h3 className="text-3xl md:text-4xl font-bold mb-6">Double Your Income</h3>
-              <ul className="space-y-4 text-gray-300">
-                <li className="flex items-start gap-4">
-                  <span className="text-white text-xl">→</span>
-                  <span>$10,800 per student funding from Texas ESAs</span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-white text-xl">→</span>
-                  <span>15-25 students per sports microschool to start</span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-white text-xl">→</span>
-                  <span>Generate at least six figures of additional income</span>
-                </li>
-              </ul>
-            </div>
-          </motion.div>
+              <div className="md:w-1/2">
+                <h3 className="text-3xl md:text-4xl font-bold mb-6">Double Your Income</h3>
+                <ul className="space-y-4 text-gray-300">
+                  <li className="flex items-start gap-4">
+                    <span className="text-white text-xl">→</span>
+                    <span>$10,800 per student funding from Texas ESAs</span>
+                  </li>
+                  <li className="flex items-start gap-4">
+                    <span className="text-white text-xl">→</span>
+                    <span>15-25 students per sports microschool to start</span>
+                  </li>
+                  <li className="flex items-start gap-4">
+                    <span className="text-white text-xl">→</span>
+                    <span>Generate at least six figures of additional income</span>
+                  </li>
+                </ul>
+              </div>
+            </motion.div>
 
-          {/* Keep Your Coaching Job */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="flex flex-col md:flex-row items-center gap-16 mb-24"
-          >
-            <div className="md:w-1/2">
-              <div className="aspect-video bg-black/50 rounded-lg overflow-hidden">
-                <img 
-                  src="/public/images/coaching.jpg" 
-                  alt="Keep Your Coaching Job" 
-                  className="w-full h-full object-cover"
-                />
+            {/* Keep Your Coaching Job */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="flex flex-col md:flex-row items-center gap-8 md:gap-12 mb-24"
+            >
+              <div className="md:w-1/2">
+                <div className="aspect-video rounded-lg overflow-hidden">
+                  <img 
+                    src="/images/timeline.png" 
+                    alt="Daily Schedule Timeline" 
+                    className="w-full h-full object-contain p-8"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="md:w-1/2">
-              <h3 className="text-3xl md:text-4xl font-bold mb-6">Keep Your After-School Coaching Job</h3>
-              <ul className="space-y-4 text-gray-300">
-                <li className="flex items-start gap-4">
-                  <span className="text-white text-xl">→</span>
-                  <span>Your sports school operates 9am-3pm</span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-white text-xl">→</span>
-                  <span>Academics in the morning, athletics and workshops in the afternoon</span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-white text-xl">→</span>
-                  <span>Maintain your current coaching position</span>
-                </li>
-              </ul>
-            </div>
-          </motion.div>
+              <div className="md:w-1/2">
+                <h3 className="text-3xl md:text-4xl font-bold mb-6">Keep Your After-School Coaching Job</h3>
+                <ul className="space-y-4 text-gray-300">
+                  <li className="flex items-start gap-4">
+                    <span className="text-white text-xl">→</span>
+                    <span>Your sports school operates 9am-3pm</span>
+                  </li>
+                  <li className="flex items-start gap-4">
+                    <span className="text-white text-xl">→</span>
+                    <span>Academics in the morning, athletics and workshops in the afternoon</span>
+                  </li>
+                  <li className="flex items-start gap-4">
+                    <span className="text-white text-xl">→</span>
+                    <span>Maintain your current coaching position</span>
+                  </li>
+                </ul>
+              </div>
+            </motion.div>
 
-          {/* Do What You Love */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="flex flex-col md:flex-row-reverse items-center gap-16 mb-24"
-          >
-            <div className="md:w-1/2">
-              <div className="aspect-video bg-black/50 rounded-lg overflow-hidden">
-                <img 
-                  src="/public/images/epic.jpg" 
-                  alt="Do What You Love" 
-                  className="w-full h-full object-cover"
-                />
+            {/* Do What You Love */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 mb-24"
+            >
+              <div className="md:w-1/2">
+                <div className="aspect-video rounded-lg overflow-hidden">
+                  <img 
+                    src="/images/academy.png" 
+                    alt="Do What You Love" 
+                    className="w-full h-full object-contain p-8"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="md:w-1/2">
-              <h3 className="text-3xl md:text-4xl font-bold mb-6">Do What You Love</h3>
-              <ul className="space-y-4 text-gray-300">
-                <li className="flex items-start gap-4">
-                  <span className="text-white text-xl">→</span>
-                  <span>Fulfill your dream, own your own sports academy</span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-white text-xl">→</span>
-                  <span>Build a leading brand in sports education</span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-white text-xl">→</span>
-                  <span>Create a lasting institution that will impact generations to come</span>
-                </li>
-              </ul>
-            </div>
-          </motion.div>
+              <div className="md:w-1/2">
+                <h3 className="text-3xl md:text-4xl font-bold mb-6">Do What You Love</h3>
+                <ul className="space-y-4 text-gray-300">
+                  <li className="flex items-start gap-4">
+                    <span className="text-white text-xl">→</span>
+                    <span>Fulfill your dream, own your own sports academy</span>
+                  </li>
+                  <li className="flex items-start gap-4">
+                    <span className="text-white text-xl">→</span>
+                    <span>Build a leading brand in sports education</span>
+                  </li>
+                  <li className="flex items-start gap-4">
+                    <span className="text-white text-xl">→</span>
+                    <span>Create a lasting institution that will impact generations to come</span>
+                  </li>
+                </ul>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* We Handle Everything Section */}
-      <section className="py-24 bg-[#111111]">
+      <section className="py-24 bg-black">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -524,7 +529,7 @@ const Test = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="bg-black/50 p-8 rounded-lg border border-white/10"
+              className="bg-[#111111] p-8 rounded-lg border border-white/10"
             >
               <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center mb-6">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -562,7 +567,7 @@ const Test = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
-              className="bg-black/50 p-8 rounded-lg border border-white/10"
+              className="bg-[#111111] p-8 rounded-lg border border-white/10"
             >
               <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center mb-6">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -600,7 +605,7 @@ const Test = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
-              className="bg-black/50 p-8 rounded-lg border border-white/10"
+              className="bg-[#111111] p-8 rounded-lg border border-white/10"
             >
               <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center mb-6">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -934,12 +939,12 @@ const Test = () => {
               </div>
               <h3 className="text-2xl font-bold mb-4">Texas School Vouchers</h3>
               <p className="text-gray-300 mb-6">
-                On April 16th, 2025: For the first time in Texas history, families can now receive $10,800 per student in annual education funding through the new ESA program.
+                For the first time in Texas history, families can now receive $10,800 per student in annual education funding through the new ESA program.
               </p>
               <ul className="space-y-3 text-gray-300">
                 <li className="flex items-start">
                   <span className="text-white mr-2">→</span>
-                  <span>Guaranteed funding per student</span>
+                  <span>$10,8000 of funding per student</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-white mr-2">→</span>
@@ -947,7 +952,7 @@ const Test = () => {
                 </li>
                 <li className="flex items-start">
                   <span className="text-white mr-2">→</span>
-                  <span>Available starting Fall 2024</span>
+                  <span>Enables to have optionality in school choice</span>
                 </li>
               </ul>
             </motion.div>
@@ -1003,7 +1008,7 @@ const Test = () => {
 
       {/* Timeline Section */}
       <section className="py-24 bg-black">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1076,7 +1081,7 @@ const Test = () => {
               />
               <FAQItem
                 question="What about academics?"
-                answer="Our learning system — 2 Hour Learning — handles all academic requirements. Students learn through personalized software, achieving top 1% outcomes without traditional teachers. This software is accredited by Cognia and produces top 1% academic outcomes."
+                answer="Our learning system — 2 Hour Learning — handles all academic requirements. Students learn through personalized software, achieving top 1% outcomes without traditional teachers. This software is accredited by Cognia and produces top 1% academic outcomes."
               />
               <FAQItem
                 question="Can I keep my current coaching position?"
