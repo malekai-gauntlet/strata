@@ -51,6 +51,15 @@ const Navigation = () => {
                   >
                     About
                   </Link>
+                  {/* Temporarily hidden
+                  <Link 
+                    to="/login" 
+                    className="text-white/90 hover:text-white transition-colors"
+                    onClick={closeMenu}
+                  >
+                    Coach Login
+                  </Link>
+                  */}
                 </div>
               </div>
             )}
@@ -63,6 +72,14 @@ const Navigation = () => {
             >
               About
             </Link>
+            {/* Temporarily hidden
+            <Link 
+              to="/login" 
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-md transition-colors border border-white/20"
+            >
+              Coach Login
+            </Link>
+            */}
           </div>
         )}
       </div>
