@@ -333,7 +333,7 @@ Ok... but running a school sounds complicated. How would that work?`}
             </StreamingText>
             <StreamingText className="text-xl text-gray-400 mb-8" index={1}>
               {`The Strata platform makes it extremely easy for coaches to spin up sports-focused microschools.
-\nWe're a team of AI engineers, so automating away tedious, outdated practices is our top skillset. From finding real estate, filing paperwork, to securing students — the Strata team handles that all.`}
+\nWe're a team of AI engineers, so automating away tedious, outdated practices is our top skillset. From finding real estate, filing paperwork, to securing ESA funding — the Strata team handles that all.`}
             </StreamingText>
           </div>
         </StorySection>
