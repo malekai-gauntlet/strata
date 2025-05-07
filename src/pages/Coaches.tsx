@@ -1063,7 +1063,7 @@ const Test = () => {
             <div className="space-y-6">
               <FAQItem
                 question="What is Strata?"
-                answer="We help coaches start schools, or turn their existing programs into schools, extremely easily. We help coaches identify the best locations and provide access to world-leading accredited academic software. Our platform helps coachesapply for grants and ESA funding and automates away all complexity associated with running a school."
+                answer="We help coaches start schools, or turn their existing programs into schools, extremely easily. We help coaches identify the best locations and provide access to world-leading accredited academic software. Our platform helps coaches apply for grants and ESA funding and automates away all complexity associated with running a school."
               />
               <FAQItem
                 question="How does the funding work?"
