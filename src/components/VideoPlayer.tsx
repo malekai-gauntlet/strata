@@ -4,15 +4,29 @@ import { motion } from 'framer-motion';
 interface VideoPlayerProps {
   src: string;
   className?: string;
+  autoPlay?: boolean;
+  controls?: boolean;
+  muted?: boolean;
+  loop?: boolean;
 }
 
-const VideoPlayer = ({ src, className = '' }: VideoPlayerProps) => {
+const VideoPlayer = ({ 
+  src, 
+  className = '',
+  autoPlay = false,
+  controls = true,
+  muted = false,
+  loop = false
+}: VideoPlayerProps) => {
   return (
     <motion.video
       className={`rounded-lg shadow-lg ${className}`}
-      controls
+      controls={controls}
       playsInline
       preload="metadata"
+      autoPlay={autoPlay}
+      muted={muted}
+      loop={loop}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
