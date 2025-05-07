@@ -1028,7 +1028,7 @@ const Test = () => {
             {
               year: "Step 3",
               title: "Identify Students and Location",
-              description: "We'll provide collateral that you can use to market your school to prospective students and their parents. We'll also help identify the best facilities for your school."
+              description: "We'll help you market your school to prospective students and their parents. We'll also identify the best facilities for your school."
             },
             {
               year: "Step 4",
@@ -1222,6 +1222,9 @@ const Test = () => {
               <ul className="space-y-2">
                 <li>
                   <a href="https://alpha.school" className="text-gray-400 hover:text-white">Alpha School</a>
+                </li>
+                <li>
+                  <a href="https://texassportsacademy.com" className="text-gray-400 hover:text-white">Texas Sports Academy</a>
                 </li>
               </ul>
             </div>

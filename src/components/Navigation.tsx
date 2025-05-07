@@ -45,6 +45,13 @@ const Navigation = () => {
               <div className="absolute top-full left-0 right-0 bg-black py-4 px-8">
                 <div className="flex flex-col space-y-4">
                   <Link 
+                    to="/coaches" 
+                    className="text-white/90 hover:text-white transition-colors"
+                    onClick={closeMenu}
+                  >
+                    Coaches
+                  </Link>
+                  <Link 
                     to="/about" 
                     className="text-white/90 hover:text-white transition-colors"
                     onClick={closeMenu}
@@ -66,6 +73,12 @@ const Navigation = () => {
           </>
         ) : (
           <div className="flex items-center space-x-8">
+            <Link 
+              to="/coaches" 
+              className="text-white/90 hover:text-white transition-colors"
+            >
+              Coaches
+            </Link>
             <Link 
               to="/about" 
               className="text-white/90 hover:text-white transition-colors"
