@@ -18,7 +18,8 @@ const Navigation = () => {
 
   const isAboutPage = location.pathname === '/about';
   const isMissionPage = location.pathname === '/mission';
-  const isDarkPage = isAboutPage || isMissionPage;
+  const isParentsPage = location.pathname === '/parents';
+  const isDarkPage = isAboutPage || isMissionPage || isParentsPage;
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 py-6 px-8 ${
