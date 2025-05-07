@@ -71,12 +71,13 @@ const Parents = () => {
             transition={{ duration: 0.8 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <span className="text-blue-600 text-lg mb-4 block font-semibold">WELCOME TO STRATA</span>
+            <span className="text-blue-600 text-lg mb-4 block font-semibold">ELITE SPORTS MICROSCHOOL</span>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-gray-900">
-              Unlocking True Potential Through Individual Strengths
+              Where Athletes Excel in
+              Sports and Academics
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-gray-600">
-              A first-of-its-kind school that taps into the power of movement to help students thrive.
+              A revolutionary microschool designed by coaches for young athletes. We combine elite sports training with personalized academics to develop complete student-athletes.
             </p>
             <Button 
               className="bg-blue-600 text-white hover:bg-blue-700 text-lg px-8 py-6"
@@ -105,22 +106,22 @@ const Parents = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             <BenefitCard
-              title="Love School"
-              description="1:1 Learning plans ensure students experience a limitless learning environment, sparking curiosity and joy."
+              title="Elite Sports Training"
+              description="Professional coaching and structured training programs help athletes reach their full potential in their chosen sport."
               icon={<svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>}
             />
             <BenefitCard
-              title="Learn 2x Faster"
-              description="Through our 2hr Learning model with AI Tutor, students learn twice as much in just 2 hours compared to traditional schools."
+              title="Efficient Academics"
+              description="Our 2-hour focused learning system ensures athletes master their academics while maximizing time for sports development."
               icon={<svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>}
             />
             <BenefitCard
-              title="Life Skills"
-              description="Students spend afternoons training and learning skills that allow them to excel in life through sports and movement."
+              title="Complete Athlete Development"
+              description="Beyond sports skills, we develop mental toughness, leadership, and character through our integrated program."
               icon={<svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
               </svg>}
@@ -134,19 +135,19 @@ const Parents = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             <StatCard
-              number="Top 1%"
-              label="Academic Results"
-              description="Our students consistently achieve top percentile scores through our AI-powered learning system."
+              number="4+ Hours"
+              label="Daily Sports Training"
+              description="Athletes receive intensive, professional coaching in their sport while developing overall athleticism."
             />
             <StatCard
               number="2 Hours"
-              label="Daily Academics"
-              description="Students complete core subjects in just 2 hours daily, learning 2-5x faster than traditional schools."
+              label="Focused Academics"
+              description="Efficient, personalized learning ensures academic excellence without compromising athletic development."
             />
             <StatCard
-              number="+20%"
-              label="Fitness Improvement"
-              description="Students improve on FitnessGram's cardio and strength tests by at least 20%."
+              number="12:1"
+              label="Athlete-to-Coach Ratio"
+              description="Small groups ensure personalized attention and optimal development for each athlete."
             />
           </div>
         </div>
@@ -163,28 +164,28 @@ const Parents = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">
-              2 Hours to Learn, 4 to Triumph
+              A Day in the Life of Our Athletes
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our unique schedule maximizes both academic and athletic development
+              We've designed our schedule to maximize both athletic and academic development
             </p>
           </motion.div>
 
           <Timeline items={[
             {
-              year: "Morning",
-              title: "2-Hour Accelerated Learning",
-              description: "Students complete core academics through our AI-powered system, learning 2-5x faster than traditional methods."
+              year: "9:00 AM",
+              title: "Focused Academic Block",
+              description: "Athletes complete core subjects through our AI-powered system, maintaining academic excellence while preserving energy for training."
             },
             {
-              year: "Mid-Day",
-              title: "Lunch & Recovery",
-              description: "Nutritious meal and social time with teammates"
+              year: "11:30 AM",
+              title: "Recovery & Nutrition",
+              description: "Proper nutrition and recovery protocols to fuel athletic performance"
             },
             {
-              year: "Afternoon",
-              title: "Sports & Life Skills",
-              description: "Professional coaching, athletic development, and workshops on nutrition, leadership, and more"
+              year: "1:00 PM",
+              title: "Elite Sports Training",
+              description: "Professional coaching, sport-specific training, strength & conditioning, and competitive development"
             }
           ]} />
         </div>
@@ -207,28 +208,28 @@ const Parents = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold mb-4 text-gray-900">Physical Activity is Awesome</h3>
-              <p className="text-gray-600">Through sports and movement, students learn resilience, teamwork, leadership, and strategic decision making.</p>
+              <h3 className="text-xl font-bold mb-4 text-gray-900">Athletes First</h3>
+              <p className="text-gray-600">Every aspect of our program is designed around the needs of developing athletes, from training schedules to academic support.</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold mb-4 text-gray-900">Life Skills Through Movement</h3>
-              <p className="text-gray-600">A movement-focused path is invaluable to development, paving the way for success in both academics and life.</p>
+              <h3 className="text-xl font-bold mb-4 text-gray-900">Complete Development</h3>
+              <p className="text-gray-600">We develop the whole athlete - physical skills, mental toughness, leadership, and academic excellence.</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold mb-4 text-gray-900">Failure Fuels Success</h3>
-              <p className="text-gray-600">Both wins and losses provide opportunities to build strong foundations. Failure isn't the opposite of success—it's part of it.</p>
+              <h3 className="text-xl font-bold mb-4 text-gray-900">Growth Through Challenge</h3>
+              <p className="text-gray-600">Our competitive environment pushes athletes to grow, learning from both victories and setbacks.</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold mb-4 text-gray-900">No Teachers, Just Game Changers</h3>
-              <p className="text-gray-600">Our coaches provide personalized guidance and encouragement, serving as mentors both in athletics and academics.</p>
+              <h3 className="text-xl font-bold mb-4 text-gray-900">Professional Coaching</h3>
+              <p className="text-gray-600">Our experienced coaches have developed hundreds of successful athletes, providing elite training and mentorship.</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold mb-4 text-gray-900">Covering All the Bases</h3>
-              <p className="text-gray-600">We believe a broad foundation in physical education is superior to early specialization in one sport.</p>
+              <h3 className="text-xl font-bold mb-4 text-gray-900">Sport-Specific Excellence</h3>
+              <p className="text-gray-600">Focused training in football, basketball, or soccer, complemented by overall athletic development.</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold mb-4 text-gray-900">It's You vs. You</h3>
-              <p className="text-gray-600">Competition is about being better than you were yesterday – your only competition is yourself.</p>
+              <h3 className="text-xl font-bold mb-4 text-gray-900">Measurable Progress</h3>
+              <p className="text-gray-600">Regular assessments track improvements in athletic performance, academics, and character development.</p>
             </div>
           </div>
         </div>
@@ -251,16 +252,16 @@ const Parents = () => {
 
           <div className="bg-white rounded-lg p-8 shadow-sm">
             <FAQItem
-              question="What sports does Strata offer?"
-              answer="We offer specialized programs in football, basketball, and soccer, each led by experienced coaches who have trained hundreds of athletes."
+              question="What makes your sports program different?"
+              answer="Our program is designed by professional coaches who understand what it takes to develop elite athletes. We provide intensive, daily training with experienced coaches, proper periodization, and integrated strength & conditioning - all while ensuring academic excellence through our efficient learning system."
             />
             <FAQItem
-              question="How does 2 Hour Learning work?"
-              answer="2 Hour Learning uses AI technology to create personalized learning plans. It tests your child to understand their knowledge gaps, then generates and adapts a learning plan specifically for them. This system is used at Alpha School, helping students achieve top scores and acceptances into prestigious universities."
+              question="How do you balance sports and academics?"
+              answer="Our unique 2-hour learning system allows athletes to complete their core academics efficiently in the morning when they're fresh, leaving afternoons free for intensive sports training. This schedule optimizes both athletic and academic performance without sacrificing either."
             />
             <FAQItem
-              question="What grade levels do you accept?"
-              answer="We currently accept middle school students (grades 6-8)."
+              question="What level of athletes do you accept?"
+              answer="We welcome motivated athletes of all skill levels who are committed to improvement. Our program is designed to develop athletes from intermediate to elite levels through personalized coaching and structured progression."
             />
             <FAQItem
               question="What is the tuition structure?"
@@ -288,17 +289,17 @@ const Parents = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">
-              Ready to Give Your Child the Best of Both Worlds?
+              Ready to Take Your Athlete's Development to the Next Level?
             </h2>
             <p className="text-xl text-gray-600 mb-8">
-              Schedule a tour or speak with our admissions team to learn more about our unique program.
+              Schedule a meeting with our coaching staff to learn more about our unique sports-focused program.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 className="bg-blue-600 text-white hover:bg-blue-700 text-lg px-8 py-6"
                 onClick={() => window.open('https://calendly.com/team-strata/30min', '_blank')}
               >
-                Schedule a Tour
+                Schedule a Meeting
               </Button>
               <Button
                 className="bg-white text-blue-600 border border-blue-600 hover:bg-blue-50 transition-colors text-lg px-8 py-6"
