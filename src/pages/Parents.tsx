@@ -77,7 +77,7 @@ const Parents = () => {
       <section className="relative min-h-screen flex items-center overflow-hidden">
         {/* Background Video */}
         <div className="absolute inset-0 w-full h-full">
-          <div className="absolute inset-0 bg-black bg-opacity-50 z-10" />
+          <div className="absolute inset-0 bg-black bg-opacity-40 z-10" />
           <VideoPlayer 
             src="/videos/athletes.mov"
             className="w-full h-full object-cover"
@@ -95,43 +95,24 @@ const Parents = () => {
             transition={{ duration: 0.8 }}
             className="text-center max-w-5xl mx-auto text-white"
           >
-            <span className="text-blue-400 text-xl mb-4 block font-semibold tracking-wider">
-              DEVELOPING THE NEXT GENERATION OF ELITE ATHLETES
+            <span className="text-white text-lg md:text-xl font-semibold tracking-[0.2em] uppercase mb-6 block opacity-90">
+              Elite Sports School
             </span>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold mb-16 tracking-tight">
               Where Champions
               <br />
               Are Made
             </h1>
-            <p className="text-xl md:text-2xl mb-12 text-gray-200 max-w-3xl mx-auto">
-              We combine elite sports training with personalized academics and life-skills workshops to develop overachieving student-athletes.
-            </p>
 
-            {/* Key Stats Grid */}
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg p-6">
-                <div className="text-4xl font-bold text-blue-400">25%</div>
-                <div className="text-lg text-gray-200">College Roster Spots</div>
-              </div>
-              <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg p-6">
-                <div className="text-4xl font-bold text-blue-400">Top 1%</div>
-                <div className="text-lg text-gray-200">Academic Results</div>
-              </div>
-              <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg p-6">
-                <div className="text-4xl font-bold text-blue-400">4+ Hours</div>
-                <div className="text-lg text-gray-200">Daily Training</div>
-              </div>
-            </div>
-
-            <div className="flex flex-col md:flex-row gap-6 justify-center">
+            <div className="flex flex-col md:flex-row gap-4 justify-center max-w-md mx-auto">
               <Button 
-                className="bg-blue-600 text-white hover:bg-blue-700 text-lg px-8 py-6"
+                className="bg-[#3B82F6] text-white hover:bg-[#2563EB] text-base font-semibold px-8 py-3 rounded"
                 onClick={() => document.getElementById('learn-more')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Learn More
               </Button>
               <Button 
-                className="bg-transparent border-2 border-white hover:bg-white hover:text-blue-600 text-lg px-8 py-6"
+                className="bg-transparent border border-white hover:bg-white/10 text-base font-semibold px-8 py-3 rounded text-white"
               >
                 Schedule a Tour
               </Button>
@@ -141,8 +122,8 @@ const Parents = () => {
       </section>
 
       {/* Elite Outcomes Section */}
-      <section id="learn-more" className="py-24 bg-white">
-        <div className="container mx-auto px-4">
+      <section id="learn-more" className="min-h-screen flex items-center bg-white">
+        <div className="container mx-auto px-4 py-24">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
               <motion.div
@@ -207,8 +188,8 @@ const Parents = () => {
       </section>
 
       {/* Core Benefits Section - Enhanced version of your existing section */}
-      <section className="py-24 bg-gray-50">
-        <div className="container mx-auto px-4">
+      <section className="min-h-screen flex items-center bg-gray-50">
+        <div className="container mx-auto px-4 py-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -264,8 +245,8 @@ const Parents = () => {
       </section>
 
       {/* Daily Schedule Section */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-4">
+      <section className="min-h-screen flex items-center bg-white">
+        <div className="container mx-auto px-4 py-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -303,8 +284,8 @@ const Parents = () => {
       </section>
 
       {/* Enhanced FAQ Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="container mx-auto px-4 max-w-4xl">
+      <section className="min-h-screen flex items-center bg-gray-50">
+        <div className="container mx-auto px-4 py-24 max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -344,8 +325,8 @@ const Parents = () => {
       </section>
 
       {/* Enhanced CTA Section */}
-      <section className="py-24 bg-blue-600">
-        <div className="container mx-auto px-4 max-w-4xl text-center text-white">
+      <section className="min-h-screen flex items-center bg-blue-600">
+        <div className="container mx-auto px-4 py-24 max-w-4xl text-center text-white">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
