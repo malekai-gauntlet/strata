@@ -148,7 +148,7 @@ const About = () => {
                 OUR COMMITMENT
               </h2>
               <p className="text-xl text-gray-400 max-w-4xl mx-auto">
-                Strata is creating thousands of revolutionary schools that combine academic excellence and athletic achievement. Our schools will generate the best academic outcomes of all schools in their districts.
+                Strata is creating thousands of revolutionary schools that combine academic excellence and athletic achievement. These schools will generate the best academic outcomes of all schools in their districts.
               </p>
             </motion.div>
 
@@ -228,7 +228,7 @@ const About = () => {
               THE STRATA SOLUTION
             </h2>
             <p className="text-xl text-gray-400 max-w-4xl mx-auto">
-              We will give every student in Texas the option to switch to a world-class education with Strata.
+              We will give every student in Texas the option to switch to a world-class education.
             </p>
           </motion.div>
 
