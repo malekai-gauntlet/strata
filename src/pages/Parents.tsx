@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import Timeline from '@/components/Timeline';
 import { Link } from 'react-router-dom';
 import VideoPlayer from '@/components/VideoPlayer';
+import PlaceholderImage from '@/components/PlaceholderImage';
 
 // Card components
 const BenefitCard = ({ title, description, icon, stats }: { title: string; description: string; icon: React.ReactNode; stats?: { value: string; label: string }[] }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8 }}
-    viewport={{ once: true }}
-    className="bg-white p-8 rounded-xl border border-gray-200 hover:border-gray-300 shadow-lg hover:shadow-xl transition-all"
-  >
+  <div className="bg-white p-8 rounded-xl border border-gray-200 hover:border-gray-300 shadow-lg hover:shadow-xl">
     <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
       {icon}
     </div>
@@ -30,21 +24,15 @@ const BenefitCard = ({ title, description, icon, stats }: { title: string; descr
         ))}
       </div>
     )}
-  </motion.div>
+  </div>
 );
 
 const StatCard = ({ number, label, description }: { number: string; label: string; description: string }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8 }}
-    viewport={{ once: true }}
-    className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm"
-  >
+  <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
     <div className="text-4xl font-bold text-blue-600 mb-2">{number}</div>
     <div className="text-xl font-semibold text-gray-900 mb-3">{label}</div>
     <p className="text-gray-600">{description}</p>
-  </motion.div>
+  </div>
 );
 
 const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
@@ -57,7 +45,7 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
         className="w-full py-4 flex justify-between items-center text-left hover:text-gray-600"
       >
         <span className="text-lg font-medium text-gray-900">{question}</span>
-        <span className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`}>↓</span>
+        <span className={`transform ${isOpen ? 'rotate-180' : ''}`}>↓</span>
       </button>
       {isOpen && (
         <div className="pb-4 text-gray-600">
@@ -70,374 +58,539 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
 
 const Parents = () => {
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen bg-white text-gray-900">
       <Navigation />
 
-      {/* Hero Section with Background Video */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Background Video */}
-        <div className="absolute inset-0 w-full h-full">
-          <div className="absolute inset-0 bg-black bg-opacity-40 z-10" />
-          <VideoPlayer 
-            src="/videos/athletes.mov"
-            className="w-full h-full object-cover"
+      {/* Hero Section */}
+      <section className="relative h-screen">
+        <div className="absolute inset-0">
+          <video 
             autoPlay
             muted
             loop
-            controls={false}
-          />
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src="/videos/athletes.mov" type="video/mp4" />
+            {/* Fallback image */}
+            <img 
+              src="/images/school sunset.jpg"
+              className="w-full h-full object-cover"
+              alt="Strata Schools Campus"
+            />
+          </video>
+          <div className="absolute inset-0 bg-black/50" />
         </div>
 
-        <div className="container mx-auto px-4 relative z-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center max-w-5xl mx-auto text-white"
-          >
-            <span className="text-white text-lg md:text-xl font-semibold tracking-[0.2em] uppercase mb-6 block opacity-90">
-              Elite Sports School
-            </span>
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold mb-16 tracking-tight">
-              Where Champions
-              <br />
-              Are Made
+        <div className="relative h-full flex items-center">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl">
+              <h1 className="text-6xl md:text-7xl font-bold text-white mb-6">
+                2 Hours of Academics.<br />
+                4 Hours of Elite Sports.
             </h1>
-
-            <div className="flex flex-col md:flex-row gap-4 justify-center max-w-md mx-auto">
-              <Button 
-                className="bg-[#3B82F6] text-white hover:bg-[#2563EB] text-base font-semibold px-8 py-3 rounded"
-                onClick={() => document.getElementById('learn-more')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                Learn More
+              <p className="text-xl text-white/90 mb-8 max-w-2xl">
+                Welcome to Strata Schools: Where AI-powered academics meets professional sports training. Our revolutionary middle school program helps grades 6-8 excel in both academics and athletics.
+              </p>
+              <div className="flex gap-4">
+                <Button className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 text-lg">
+                  Apply Now
               </Button>
-              <Button 
-                className="bg-transparent border border-white hover:bg-white/10 text-base font-semibold px-8 py-3 rounded text-white"
-              >
-                Schedule a Tour
+                <Button className="bg-white/90 text-blue-600 hover:bg-white px-8 py-3 text-lg">
+                  Download Program Guide
               </Button>
+              </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Elite Outcomes Section */}
-      <section id="learn-more" className="min-h-screen flex items-center bg-white">
-        <div className="container mx-auto px-4 py-24">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+      {/* Key Stats Strip */}
+      <section className="relative py-16 bg-blue-900">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-12 text-center">
             <div>
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-              >
-                <span className="text-blue-600 text-lg font-semibold block mb-4">THE STRATA DIFFERENCE</span>
-                <h2 className="text-4xl md:text-5xl font-bold mb-8">
-                  Transforming Sports Education
-                </h2>
-                <p className="text-xl text-gray-600 mb-8">
-                  Consider this: 95% of Fortune 500 CEOs played sports, and 52% of women in C-suite positions played college athletics. At Strata, we believe sports, academics, and personal development are equally critical in reaching ultimate potential.
-                </p>
-                <div className="space-y-6">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                      <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+              <div className="text-5xl font-bold mb-3 text-white">Top 1-2%</div>
+              <div className="text-xl text-white/90">National Academic Ranking</div>
                     </div>
                     <div>
-                      <div className="font-semibold">100% College Acceptance</div>
-                      <div className="text-gray-600">Every graduate placed in top institutions</div>
+              <div className="text-5xl font-bold mb-3 text-white">$10,000</div>
+              <div className="text-xl text-white/90">ESA Funding/Year</div>
                     </div>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                      <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
+            <div>
+              <div className="text-5xl font-bold mb-3 text-white">2×-5×</div>
+              <div className="text-xl text-white/90">Learning Speed</div>
                     </div>
                     <div>
-                      <div className="font-semibold">Elite Athletic Development</div>
-                      <div className="text-gray-600">Professional-grade training facilities and coaching</div>
+              <div className="text-5xl font-bold mb-3 text-white">90%+</div>
+              <div className="text-xl text-white/90">Above Grade Level</div>
                     </div>
                   </div>
                 </div>
-              </motion.div>
-            </div>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
-              <div className="aspect-video rounded-xl overflow-hidden shadow-2xl">
-                <VideoPlayer 
-                  src="/videos/athletes.mov"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-8 -left-8 bg-white p-6 rounded-lg shadow-xl">
-                <div className="text-3xl font-bold text-blue-600">4:1</div>
-                <div className="text-gray-600">Staff-to-Student Ratio</div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
       </section>
 
-      {/* Core Benefits Section - Enhanced version of your existing section */}
-      <section className="min-h-screen flex items-center bg-gray-50">
-        <div className="container mx-auto px-4 py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <span className="text-blue-600 text-lg font-semibold block mb-4">OUR APPROACH</span>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              The Future of Student-Athlete Development
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              A revolutionary approach that maximizes both academic and athletic potential
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <BenefitCard
-              title="Smarter Academics"
-              description="Achieve top 1% test scores in just 2 hours of daily focused learning. Our AI-powered system adapts to your child's needs."
-              icon={<svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>}
-              stats={[
-                { value: "100%", label: "College Acceptance Rate" },
-                { value: "Top 1%", label: "Test Scores" }
-              ]}
-            />
-            <BenefitCard
-              title="Elite Athletics"
-              description="4+ hours of professional sports training daily, starting at noon when other students are still at desks."
-              icon={<svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>}
-              stats={[
-                { value: "4+", label: "Hours Daily Training" },
-                { value: "25%", label: "College Roster Spots" }
-              ]}
-            />
-            <BenefitCard
-              title="Life Skills That Matter"
-              description="Beyond sports and academics, students learn real-world skills through practical, sports-focused workshops."
-              icon={<svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-              </svg>}
-              stats={[
-                { value: "100%", label: "Student Engagement" },
-                { value: "10+", label: "Life Skills Workshops" }
-              ]}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Daily Schedule Section */}
-      <section className="min-h-screen flex items-center bg-white">
-        <div className="container mx-auto px-4 py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <span className="text-blue-600 text-lg font-semibold block mb-4">DAILY EXCELLENCE</span>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              A Day in the Life of Our Athletes
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Every hour is optimized for maximum development
-            </p>
-          </motion.div>
-
-          <Timeline items={[
-            {
-              year: "9:00 AM",
-              title: "Focused Academic Block",
-              description: "2 hours of personalized learning when minds are fresh, achieving more than traditional 6-hour academic days."
-            },
-            {
-              year: "11:30 AM",
-              title: "Life Skills & Leadership",
-              description: "Interactive workshops on financial literacy, mental performance, and leadership through sports-focused examples."
-            },
-            {
-              year: "12:00 PM",
-              title: "Elite Sports Training",
-              description: "Professional coaching, sport-specific training, and competitive development when other students are still in classrooms."
-            }
-          ]} />
-        </div>
-      </section>
-
-      {/* Enhanced FAQ Section */}
-      <section className="min-h-screen flex items-center bg-gray-50">
-        <div className="container mx-auto px-4 py-24 max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <span className="text-blue-600 text-lg font-semibold block mb-4">FAQ</span>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Common Questions
-            </h2>
-          </motion.div>
-
-          <div className="bg-white rounded-xl p-8 shadow-xl">
-            <FAQItem
-              question="How do you achieve better results in less academic time?"
-              answer="Our AI-powered learning system personalizes education to each student's needs, eliminating the inefficiencies of traditional classrooms. Students learn at their optimal pace, focusing on areas where they need the most help. This targeted approach achieves better results in 2 hours than traditional 6-hour school days."
-            />
-            <FAQItem
-              question="What makes your sports program different?"
-              answer="We provide 4+ hours of daily professional training when students are most energized, not after a full day of school. Our coaches have extensive experience developing elite athletes, and our program includes both sport-specific training and overall athletic development."
-            />
-            <FAQItem
-              question="How do you develop life skills?"
-              answer="We integrate practical life skills education through sports-focused examples. Students learn financial literacy through NIL deals and contracts, leadership through team dynamics, and mental performance through competitive situations."
-            />
-            <FAQItem
-              question="What are your academic credentials?"
-              answer="Our learning system is accredited by Cognia and has been featured on Fox News for achieving top 1% academic outcomes. We use the same technology as Alpha School, known for its exceptional academic results."
-            />
-            <FAQItem
-              question="What is the tuition structure?"
-              answer="Through Texas's new ESA program, families receive $10,800 in annual education funding that can be applied to our program. Contact us to discuss specific details and additional costs."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Enhanced CTA Section */}
-      <section className="min-h-screen flex items-center bg-blue-600">
-        <div className="container mx-auto px-4 py-24 max-w-4xl text-center text-white">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Secure Your Child's Future
-            </h2>
-            <p className="text-xl mb-12">
-              Join the next generation of elite student-athletes. Limited spots available for the upcoming school year.
-            </p>
-            <form 
-              action="https://hooks.zapier.com/hooks/catch/22692611/2pdyolt/"
-              method="POST"
-              className="bg-white bg-opacity-10 backdrop-blur-lg p-8 rounded-xl"
-              onSubmit={(e) => {
-                e.preventDefault();
-                const formData = new FormData(e.currentTarget);
-                formData.append('source', 'parents_page');
-                formData.append('timestamp', new Date().toISOString());
-                
-                fetch(e.currentTarget.action, {
-                  method: 'POST',
-                  body: formData
-                })
-                .then(response => {
-                  if (!response.ok) throw new Error('Submission failed');
-                  alert("Thanks! We'll be in touch soon.");
-                  e.currentTarget.reset();
-                })
-                .catch(error => {
-                  console.error('Error:', error);
-                  alert('Something went wrong. Please try again.');
-                });
-              }}
-            >
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
-                <input
-                  type="text"
-                  name="parentName"
-                  placeholder="Your Name"
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:border-white"
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Your Email"
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:border-white"
-                />
-                <input
-                  type="text"
-                  name="childName"
-                  placeholder="Child's Name"
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:border-white"
-                />
-                <input
-                  type="text"
-                  name="childGrade"
-                  placeholder="Child's Grade (Fall 2024)"
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:border-white"
-                />
-              </div>
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone Number"
-                required
-                className="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:border-white mb-6"
-              />
-              <Button
-                type="submit"
-                className="w-full bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-6"
-              >
-                Submit Interest Form
-              </Button>
-            </form>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Enhanced Footer */}
-      <footer className="bg-white border-t border-gray-200 py-16">
+      {/* Social Proof Strip */}
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div>
-              <h3 className="text-xl font-bold mb-4 text-gray-900">Strata</h3>
-              <p className="text-gray-600">Transforming sports and education.</p>
+          <div className="flex flex-wrap items-center justify-center gap-16">
+            {/* Texas Sports Academy - coral/salmon colored logo */}
+            <div className="w-48 flex items-center">
+              <img src="/images/TSA-Final-Logos-RGB-07.png" alt="Texas Sports Academy" className="w-full h-auto object-contain" />
             </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">Contact</h3>
-              <p className="text-gray-600">admissions@strata.school</p>
+            
+            {/* GT School */}
+            <div className="w-24 flex items-center">
+              <img src="/images/Untitled-design-27.png" alt="GT School" className="w-full h-auto object-contain" />
             </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">Location</h3>
-              <p className="text-gray-600">2205 E Hebron Pkwy<br />Carrollton, TX 75010</p>
+            
+            {/* NextGen */}
+            <div className="w-32 flex items-center">
+              <img src="/images/LinkTree-Logos-2-removebg-preview.png" alt="NextGen" className="w-full h-auto object-contain" />
             </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">Follow Us</h3>
-              <div className="flex space-x-4">
-                <a href="#" className="text-gray-600 hover:text-gray-900">Instagram</a>
-                <a href="#" className="text-gray-600 hover:text-gray-900">Twitter</a>
+            
+            {/* Valenta Academy */}
+            <div className="w-48 flex items-center">
+              <img src="/images/valenta-logolandscape-blue-cmyk.png" alt="Valenta Academy" className="w-full h-auto object-contain" />
+            </div>
+
+            {/* Alpha */}
+            <div className="w-48 flex items-center">
+              <img src="/images/alpha.png" alt="Alpha" className="w-full h-auto object-contain" />
+            </div>
+            
+            {/* 2 Hour Learning */}
+            <div className="w-32 flex items-center">
+              <img src="/images/2hourlearning.png" alt="2 Hour Learning" className="w-full h-auto object-contain" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Academic Excellence with Image Grid */}
+      <section className="relative py-32">
+        <div className="absolute inset-0">
+          <img 
+            src="/images/study.png"
+                  className="w-full h-full object-cover"
+            alt="Academic Excellence"
+          />
+          <div className="absolute inset-0 bg-black/60" />
+        </div>
+        <div className="relative container mx-auto px-4">
+          <div className="max-w-3xl">
+            <h2 className="text-4xl font-bold text-white mb-8">Proven Academic Excellence</h2>
+            <p className="text-xl text-white/90 mb-12">
+              Our AI-powered learning system achieves in 2 hours what traditional schools do in 7 hours. Students consistently rank in the top 1-2% nationally.
+            </p>
+            <div className="grid grid-cols-2 gap-8 mb-12">
+              <div className="bg-white/10 backdrop-blur p-6 rounded-lg">
+                <div className="text-2xl font-bold text-white mb-2">2×-5× Faster</div>
+                <p className="text-white/80">Complete core subjects in just 2 morning hours</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur p-6 rounded-lg">
+                <div className="text-2xl font-bold text-white mb-2">Zero Homework</div>
+                <p className="text-white/80">All academics completed during morning session</p>
+              </div>
+            </div>
+            <Button className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3">
+              Learn More About Our Academics
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Revolutionary Learning Model */}
+      <section className="relative py-32">
+        <div className="absolute inset-0">
+          <img 
+            src="/images/2-Hour-Learning-1.png"
+            className="w-full h-full object-cover"
+            alt="Revolutionary Learning"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/40" />
+        </div>
+        <div className="relative container mx-auto px-4">
+          <div className="ml-auto max-w-2xl">
+            <h2 className="text-4xl font-bold text-white mb-8">The Revolutionary 2 Hour Learning Method</h2>
+            <div className="space-y-6 text-white/90">
+              <p className="text-xl">
+                Our AI-powered learning system revolutionizes education efficiency:
+              </p>
+              <ul className="space-y-4">
+                <li className="flex items-start">
+                  <span className="text-blue-400 mr-3">✓</span>
+                  <div>
+                    <strong className="block text-white">Personalized Learning Paths</strong>
+                    <p className="text-white/80">AI adapts to each student's pace and style</p>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-400 mr-3">✓</span>
+                  <div>
+                    <strong className="block text-white">Zero Homework Policy</strong>
+                    <p className="text-white/80">All academics completed during morning session</p>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-400 mr-3">✓</span>
+                  <div>
+                    <strong className="block text-white">Proven Results</strong>
+                    <p className="text-white/80">2×-5× faster learning rates than traditional schools</p>
+                  </div>
+                </li>
+              </ul>
+              <div className="mt-8">
+                <Button className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3">
+                  Download Whitepaper
+                </Button>
               </div>
             </div>
           </div>
         </div>
-      </footer>
+      </section>
+
+      {/* Accreditation & Recognition */}
+      <section className="py-24">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center mb-16">Accredited Excellence</h2>
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+              <h3 className="text-2xl font-semibold mb-6">Top-Tier Academics</h3>
+              <ul className="space-y-4">
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-3">✓</span>
+                  <div>
+                    <strong className="block text-lg">Fully Accredited Program</strong>
+                    <p className="text-gray-600">Our curriculum meets and exceeds state standards</p>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-3">✓</span>
+                  <div>
+                    <strong className="block text-lg">Revolutionary Learning Method</strong>
+                    <p className="text-gray-600">AI-powered personalization proven in multiple schools</p>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-3">✓</span>
+                  <div>
+                    <strong className="block text-lg">Zero Homework Policy</strong>
+                    <p className="text-gray-600">Complete all academics during the 2-hour morning session</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div className="relative">
+              <img 
+                src="/images/study.png"
+                alt="Academic Excellence"
+                className="rounded-xl shadow-xl"
+              />
+              <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-lg shadow-xl">
+                <div className="text-2xl font-bold text-blue-600">100%</div>
+                <div className="text-gray-600">Core Subject Mastery</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Case Study Section */}
+      <section className="relative py-24">
+        <div className="absolute inset-0">
+          <img 
+            src="/images/golf school.png"
+            className="w-full h-full object-cover"
+            alt="Success Story"
+          />
+          <div className="absolute inset-0 bg-black/70" />
+        </div>
+        <div className="relative container mx-auto px-4">
+          <div className="max-w-3xl">
+            <h2 className="text-4xl font-bold text-white mb-8">Proven Success: The Brownsville Story</h2>
+            <p className="text-xl text-white/90 mb-8">
+              See how Texas Sports Academy and 2 Hour Learning transformed athletic and academic outcomes for students.
+            </p>
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              <div className="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
+                <div className="text-3xl font-bold text-white mb-2">94%</div>
+                <div className="text-white/80">Above Grade Level</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
+                <div className="text-3xl font-bold text-white mb-2">2.5×</div>
+                <div className="text-white/80">Athletic Progress</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur p-6 rounded-lg border border-white/20">
+                <div className="text-3xl font-bold text-white mb-2">100%</div>
+                <div className="text-white/80">Parent Satisfaction</div>
+              </div>
+            </div>
+            <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3">
+              Read Full Case Study
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Revolutionary Learning Model */}
+      <section className="relative py-24">
+        <div className="absolute inset-0">
+          <img 
+            src="/images/2-Hour-Learning-1.png"
+            className="w-full h-full object-cover"
+            alt="AI Learning"
+          />
+          <div className="absolute inset-0 bg-white/95" />
+        </div>
+        <div className="relative container mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center mb-16">Revolutionizing Middle School Education</h2>
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-2xl font-semibold mb-3">AI-Powered Morning Academics</h3>
+                  <p className="text-gray-600 text-lg">Our AI tutor model revolutionizes learning efficiency:</p>
+                  <ul className="mt-4 space-y-3 text-gray-600">
+                    <li className="flex items-start">
+                      <span className="text-blue-600 mr-2">•</span>
+                      Complete core subjects in just 2 morning hours
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-blue-600 mr-2">•</span>
+                      Personalized learning paths for each student
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-blue-600 mr-2">•</span>
+                      Real-time progress tracking and adaptation
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-blue-600 mr-2">•</span>
+                      Zero homework policy
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-semibold mb-3">Afternoon Athletic Excellence</h3>
+                  <p className="text-gray-600 text-lg">Professional sports training when students are most energized:</p>
+                  <ul className="mt-4 space-y-3 text-gray-600">
+                    <li className="flex items-start">
+                      <span className="text-blue-600 mr-2">•</span>
+                      4+ hours of focused athletic development
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-blue-600 mr-2">•</span>
+                      Professional coaching staff
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-blue-600 mr-2">•</span>
+                      State-of-the-art training facilities
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <PlaceholderImage 
+                text="Learning Innovation"
+                className="w-full rounded-xl shadow-xl"
+                aspectRatio="square"
+                overlay
+              />
+              <div className="absolute -bottom-6 -right-6 bg-blue-600 text-white p-6 rounded-lg">
+                <div className="text-2xl font-bold">8:15 AM - 4:00 PM</div>
+                <div className="text-white/90">Full Day Program</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Athletic Development Section */}
+      <section className="relative py-32">
+        <div className="absolute inset-0">
+          <img 
+            src="/images/kidsinfield.png"
+            className="w-full h-full object-cover"
+            alt="Athletic Excellence"
+          />
+          <div className="absolute inset-0 bg-gradient-to-l from-black/80 to-black/40" />
+        </div>
+        <div className="relative container mx-auto px-4">
+          <div className="max-w-2xl">
+            <h2 className="text-4xl font-bold text-white mb-8">Elite Athletic Development</h2>
+            <p className="text-xl text-white/90 mb-12">
+              4+ hours of professional sports training when students are most energized. State-of-the-art facilities and expert coaching staff.
+            </p>
+            <div className="grid grid-cols-2 gap-8 mb-12">
+              <div className="bg-white/10 backdrop-blur p-6 rounded-lg">
+                <div className="text-2xl font-bold text-white mb-2">Professional Coaching</div>
+                <p className="text-white/80">Expert guidance in your chosen sport</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur p-6 rounded-lg">
+                <div className="text-2xl font-bold text-white mb-2">Elite Training</div>
+                <p className="text-white/80">State-of-the-art facilities and equipment</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-6 mb-12">
+              <div className="bg-white/10 backdrop-blur p-4 rounded-lg text-center">
+                <div className="text-3xl font-bold text-white mb-1">4+</div>
+                <p className="text-white/80">Hours Daily</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur p-4 rounded-lg text-center">
+                <div className="text-3xl font-bold text-white mb-1">1:12</div>
+                <p className="text-white/80">Coach Ratio</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur p-4 rounded-lg text-center">
+                <div className="text-3xl font-bold text-white mb-1">100%</div>
+                <p className="text-white/80">Focus</p>
+              </div>
+            </div>
+            <Button className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3">
+              Explore Athletic Programs
+              </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* ESA Funding Section */}
+      <section className="relative py-32">
+        <div className="absolute inset-0">
+          <img 
+            src="/images/capitol.png"
+            className="w-full h-full object-cover"
+            alt="Texas Capitol"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/95 to-blue-900/80" />
+        </div>
+        <div className="relative container mx-auto px-4">
+          <div className="max-w-3xl">
+            <h2 className="text-4xl font-bold text-white mb-8">Make It Possible with Texas ESAs</h2>
+            <p className="text-xl text-white/90 mb-12">
+              Starting 2025-26, receive $10,000 in annual education funding through Texas's groundbreaking ESA program.
+            </p>
+            <div className="grid grid-cols-3 gap-8 mb-12">
+              <div className="bg-white/10 backdrop-blur p-6 rounded-lg text-center">
+                <div className="text-3xl font-bold text-white mb-2">$10,000</div>
+                <div className="text-white/80">Annual Funding</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur p-6 rounded-lg text-center">
+                <div className="text-3xl font-bold text-white mb-2">3×</div>
+                <div className="text-white/80">Yearly Payments</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur p-6 rounded-lg text-center">
+                <div className="text-3xl font-bold text-white mb-2">2025-26</div>
+                <div className="text-white/80">Program Start</div>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-12">
+              <div className="bg-white/10 backdrop-blur p-8 rounded-xl">
+                <h3 className="text-2xl font-bold text-white mb-6">Senate Bill 2 (SB2)</h3>
+                <ul className="space-y-4 text-white/90">
+                  <li className="flex items-start">
+                    <span className="text-blue-300 mr-3">•</span>
+                    Available to all Texas families
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-300 mr-3">•</span>
+                    Funds deposited directly to schools
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-300 mr-3">•</span>
+                    Covers full academic year
+                  </li>
+                </ul>
+              </div>
+              <div className="bg-white/10 backdrop-blur p-8 rounded-xl">
+                <h3 className="text-2xl font-bold text-white mb-6">Simple Process</h3>
+                <ul className="space-y-4 text-white/90">
+                  <li className="flex items-start">
+                    <span className="text-blue-300 mr-3">•</span>
+                    Easy application process
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-300 mr-3">•</span>
+                    Flexible payment schedule
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-300 mr-3">•</span>
+                    Full support and guidance
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="mt-12">
+              <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 text-lg">
+                Learn More About ESAs
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Parent Success Stories Section */}
+      <section className="relative py-32">
+        <div className="absolute inset-0">
+          <img 
+            src="/images/Carrollton4.png"
+            className="w-full h-full object-cover"
+            alt="Parent Success"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 to-black/60" />
+        </div>
+        <div className="relative container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-4xl font-bold text-white text-center mb-16">Parent Success Stories</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="bg-white/10 backdrop-blur p-8 rounded-xl">
+                <blockquote className="text-xl text-white/90 mb-6">
+                  "The AI-powered learning is incredible. My daughter completes all academics by 10:15 AM and has shown remarkable improvement in both academics and tennis. The no-homework policy means more family time in the evenings."
+                </blockquote>
+                <footer className="text-white/70">— Sarah M., Current Parent</footer>
+              </div>
+              <div className="bg-white/10 backdrop-blur p-8 rounded-xl">
+                <blockquote className="text-xl text-white/90 mb-6">
+                  "The combination of accelerated academics and professional sports training is exactly what we were looking for. Our son is thriving academically while pursuing his athletic dreams."
+                </blockquote>
+                <footer className="text-white/70">— Michael R., Student Parent</footer>
+              </div>
+            </div>
+            <div className="mt-16 text-center">
+              <Button className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3">
+                Read More Stories
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="relative py-24">
+        <div className="absolute inset-0">
+          <img 
+            src="/images/do what you love.jpg"
+            className="w-full h-full object-cover"
+            alt="Join Strata"
+          />
+          <div className="absolute inset-0 bg-blue-900/80" />
+        </div>
+        <div className="relative container mx-auto px-4 text-center">
+          <h2 className="text-4xl font-bold text-white mb-8">Ready to Transform Your Child's Future?</h2>
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Limited spots available for the 2024-25 school year. Join the future of middle school education.
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 text-lg">
+              Apply Now
+            </Button>
+            <Button className="bg-blue-700 text-white hover:bg-blue-800 px-8 py-3 text-lg">
+              Schedule a Tour
+            </Button>
+          </div>
+          <p className="text-white/80 mt-6">
+            Questions? Call us at (555) 123-4567
+          </p>
+        </div>
+      </section>
     </div>
   );
 };

@@ -10,6 +10,8 @@ import NotFound from "./pages/NotFound";
 import Flyer from "./pages/Flyer";
 import Coaches from "./pages/Coaches";
 import Parents from "./pages/Parents";
+import Academics from "./pages/Academics";
+import ESAs from "./pages/ESAs";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +28,8 @@ const App = () => (
           <Route path="/flyer" element={<Flyer />} />
           <Route path="/coaches" element={<Coaches />} />
           <Route path="/parents" element={<Parents />} />
+          <Route path="/academics" element={<Academics />} />
+          <Route path="/esas" element={<ESAs />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
