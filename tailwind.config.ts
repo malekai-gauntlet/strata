@@ -14,7 +14,19 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Satoshi", "sans-serif"],
+        sans: ["Inter", "sans-serif"],
+        heading: ["Inter", "sans-serif"],
+      },
+      fontWeight: {
+        'heading': '800',
+      },
+      letterSpacing: {
+        'tighter': '-0.05em',
+        'tight': '-0.025em',
+        'normal': '0',
+        'wide': '0.025em',
+        'wider': '0.05em',
+        'widest': '0.1em',
       },
       colors: {
         border: "hsl(var(--border))",

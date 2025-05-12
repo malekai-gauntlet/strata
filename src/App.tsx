@@ -12,6 +12,7 @@ import Coaches from "./pages/Coaches";
 import Parents from "./pages/Parents";
 import Academics from "./pages/Academics";
 import ESAs from "./pages/ESAs";
+import IMGPage from "./pages/IMGPage";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/parents" element={<Parents />} />
           <Route path="/academics" element={<Academics />} />
           <Route path="/esas" element={<ESAs />} />
+          <Route path="/img" element={<IMGPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
