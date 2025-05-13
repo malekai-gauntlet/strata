@@ -323,18 +323,14 @@ const Test = () => {
             <p className="text-xl text-gray-300">Hear from coaches who have turned their sports programs into schools</p>
           </div>
           <div className="max-w-4xl mx-auto">
-            <div className="aspect-video bg-black/50 rounded-lg overflow-hidden relative shadow-[0_8px_30px_rgb(0,0,0,0.5)] border border-white/5">
-              <div className="absolute inset-0 flex items-center justify-center bg-black/70">
-                <p className="text-2xl font-semibold text-white/80">Video Coming Soon</p>
-              </div>
-              <video
-                controls
-                className="w-full h-full object-cover opacity-30"
-                poster="/public/images/video-thumbnail.jpg"
-              >
-                <source src="/public/videos/promo.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+            <div className="aspect-video bg-black rounded-lg overflow-hidden relative shadow-[0_8px_30px_rgb(0,0,0,0.5)] border border-white/5">
+              <iframe
+                src="https://www.youtube.com/embed/JegnDAkM32I"
+                title="Strata Promo Video"
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
             </div>
           </div>
         </motion.div>

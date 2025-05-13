@@ -120,12 +120,12 @@ export default function IMGPage() {
         <div className="container mx-auto px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-4xl font-bold mb-2">4 Hours</div>
-              <div className="text-sm uppercase tracking-wider opacity-80">Extra Sports Practice</div>
+              <div className="text-4xl font-bold mb-2">2 Hours</div>
+              <div className="text-sm uppercase tracking-wider opacity-80">Focused Academics</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold mb-2">2 Hours</div>
-              <div className="text-sm uppercase tracking-wider opacity-80">Academic Focus</div>
+              <div className="text-4xl font-bold mb-2">12pm - 3pm</div>
+              <div className="text-sm uppercase tracking-wider opacity-80">Daily Sports Training</div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold mb-2">Top 2%</div>
@@ -133,7 +133,7 @@ export default function IMGPage() {
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold mb-2">1000+</div>
-              <div className="text-sm uppercase tracking-wider opacity-80">Hours Back For Your Kid</div>
+              <div className="text-sm uppercase tracking-wider opacity-80">Hours Saved For Your Kid</div>
             </div>
           </div>
         </div>
@@ -142,23 +142,23 @@ export default function IMGPage() {
       {/* Unlock Potential Section */}
       <Section>
         <img
-          src="/images/kidsinfield.png"
+          src="/images/baseball.jpg"
           alt="Unlock Potential"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent">
-          <div className="container mx-auto px-8 pt-32">
-            <div className="max-w-xl">
-              <div className="bg-blue-600 text-white px-6 py-2 inline-block mb-6 text-xl font-heading tracking-wider drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
-                UNLOCK POTENTIAL
-              </div>
-              <h2 className="text-5xl md:text-7xl font-heading tracking-tight mb-6 text-white leading-none drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
-                UNLOCK YOUR KID'S POTENTIAL
+          <div className="container mx-auto px-8 pt-16">
+            <div className="bg-blue-600/20 border border-blue-400/30 text-white px-6 py-2 inline-block mb-16 text-xl font-heading tracking-wider backdrop-blur-sm">
+              THE DREAM
+            </div>
+            <div className="max-w-3xl">
+              <h2 className="text-5xl md:text-7xl font-heading tracking-tight mb-6 text-white leading-[0.9] drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
+                UNLOCK YOUR<br />KID'S POTENTIAL
               </h2>
               <p className="text-xl mb-8 text-white opacity-90 max-w-lg">
-                Give your child the opportunity to excel in both academics and athletics with our world-class program.
+                Give your child the opportunity to excel in both academics and athletics.
               </p>
-              <button className="bg-blue-600 text-white font-bold py-4 px-8 rounded-none hover:bg-blue-700 transition-all text-lg">
+              <button className="border border-white/30 bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 backdrop-blur-sm transition-all text-lg">
                 Discover How
               </button>
             </div>
@@ -169,15 +169,15 @@ export default function IMGPage() {
       {/* Excel as Athlete Section */}
       <Section>
         <img
-          src="/images/coach.jpg"
+          src="/images/soccer.jpg"
           alt="Excel as Athlete"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent">
           <div className="container mx-auto px-8 pt-32">
             <div className="max-w-xl">
-              <div className="bg-blue-600 text-white px-6 py-2 inline-block mb-6 text-xl font-heading tracking-wider drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
-                ATHLETIC EXCELLENCE
+              <div className="bg-blue-600/20 border border-blue-400/30 text-white px-6 py-2 inline-block mb-6 text-xl font-heading tracking-wider backdrop-blur-sm">
+                ATHLETICS
               </div>
               <h2 className="text-5xl md:text-7xl font-heading tracking-tight mb-6 text-white leading-none drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
                 EXCEL AS AN ATHLETE
@@ -185,22 +185,18 @@ export default function IMGPage() {
               <ul className="text-xl mb-8 text-white opacity-90 space-y-4">
                 <li className="flex items-center">
                   <span className="w-2 h-2 bg-blue-600 mr-4"></span>
-                  World-class coaching staff
+                  World-class coaches
                 </li>
                 <li className="flex items-center">
                   <span className="w-2 h-2 bg-blue-600 mr-4"></span>
-                  Sports training starts at noon
+                  Daily sports training, starting at noon
                 </li>
                 <li className="flex items-center">
                   <span className="w-2 h-2 bg-blue-600 mr-4"></span>
-                  Positioned for varsity success
-                </li>
-                <li className="flex items-center">
-                  <span className="w-2 h-2 bg-blue-600 mr-4"></span>
-                  More time for skill development
+                  Master fundamentals and skills
                 </li>
               </ul>
-              <button className="bg-blue-600 text-white font-bold py-4 px-8 rounded-none hover:bg-blue-700 transition-all text-lg">
+              <button className="border border-white/30 bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 backdrop-blur-sm transition-all text-lg">
                 Meet Our Coaches
               </button>
             </div>
@@ -211,14 +207,14 @@ export default function IMGPage() {
       {/* Academic Excellence Section */}
       <Section>
         <img
-          src="/images/school sunset.jpg"
+          src="/images/laptop.jpg"
           alt="Academic Excellence"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent">
           <div className="container mx-auto px-8 pt-32">
             <div className="max-w-xl">
-              <div className="bg-blue-600 text-white px-6 py-2 inline-block mb-6 text-xl font-heading tracking-wider drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+              <div className="bg-blue-600/20 border border-blue-400/30 text-white px-6 py-2 inline-block mb-6 text-xl font-heading tracking-wider backdrop-blur-sm">
                 ACADEMICS
               </div>
               <h2 className="text-5xl md:text-7xl font-heading tracking-tight mb-6 text-white leading-none drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
@@ -232,7 +228,7 @@ export default function IMGPage() {
                   Our students consistently test in the top 1-2% nationally.
                 </p>
               </div>
-              <button className="bg-blue-600 text-white font-bold py-4 px-8 rounded-none hover:bg-blue-700 transition-all text-lg">
+              <button className="border border-white/30 bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 backdrop-blur-sm transition-all text-lg">
                 Learn About Our Academics
               </button>
             </div>
@@ -250,14 +246,14 @@ export default function IMGPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent">
           <div className="container mx-auto px-8 pt-32">
             <div className="max-w-xl">
-              <div className="bg-blue-600 text-white px-6 py-2 inline-block mb-6 text-xl font-heading tracking-wider drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+              <div className="bg-blue-600/20 border border-blue-400/30 text-white px-6 py-2 inline-block mb-6 text-xl font-heading tracking-wider backdrop-blur-sm">
                 SUCCESS STORIES
               </div>
               <h2 className="text-5xl md:text-7xl font-heading tracking-tight mb-6 text-white leading-none drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
                 JOIN OUR CHAMPIONS
               </h2>
               <TestimonialCarousel />
-              <button className="bg-blue-600 text-white font-bold py-4 px-8 rounded-none hover:bg-blue-700 transition-all text-lg mt-8">
+              <button className="border border-white/30 bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 backdrop-blur-sm transition-all text-lg">
                 Read More Stories
               </button>
             </div>
@@ -275,7 +271,7 @@ export default function IMGPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent">
           <div className="container mx-auto px-8 pt-32">
             <div className="max-w-xl">
-              <div className="bg-blue-600 text-white px-6 py-2 inline-block mb-6 text-xl font-heading tracking-wider drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+              <div className="bg-blue-600/20 border border-blue-400/30 text-white px-6 py-2 inline-block mb-6 text-xl font-heading tracking-wider backdrop-blur-sm">
                 EDUCATION SAVINGS
               </div>
               <h2 className="text-5xl md:text-7xl font-heading tracking-tight mb-6 text-white leading-none drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
@@ -296,7 +292,7 @@ export default function IMGPage() {
                   </ul>
                 </div>
               </div>
-              <button className="bg-blue-600 text-white font-bold py-4 px-8 rounded-none hover:bg-blue-700 transition-all text-lg">
+              <button className="border border-white/30 bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 backdrop-blur-sm transition-all text-lg">
                 Learn About ESAs
               </button>
             </div>
@@ -307,21 +303,21 @@ export default function IMGPage() {
       {/* Day in the Life Section */}
       <Section>
         <img
-          src="/images/operations1.png"
+          src="/images/olderlaptop.jpg"
           alt="Day in the Life"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent">
           <div className="container mx-auto px-8 pt-32">
             <div className="max-w-xl">
-              <div className="bg-blue-600 text-white px-6 py-2 inline-block mb-6 text-xl font-heading tracking-wider drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+              <div className="bg-blue-600/20 border border-blue-400/30 text-white px-6 py-2 inline-block mb-6 text-xl font-heading tracking-wider backdrop-blur-sm">
                 DAILY SCHEDULE
               </div>
               <h2 className="text-5xl md:text-7xl font-heading tracking-tight mb-6 text-white leading-none drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
                 A DAY IN THE LIFE
               </h2>
               <DaySchedule />
-              <button className="bg-blue-600 text-white font-bold py-4 px-8 rounded-none hover:bg-blue-700 transition-all text-lg mt-8">
+              <button className="border border-white/30 bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 backdrop-blur-sm transition-all text-lg">
                 Learn More
               </button>
             </div>
