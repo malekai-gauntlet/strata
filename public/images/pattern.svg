@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M1 1h2v2H1V1z" fill="currentColor" fill-opacity="0.3"/>
+  <path d="M11 1h2v2h-2V1z" fill="currentColor" fill-opacity="0.3"/>
+  <path d="M6 6h2v2H6V6z" fill="currentColor" fill-opacity="0.3"/>
+  <path d="M16 6h2v2h-2V6z" fill="currentColor" fill-opacity="0.3"/>
+  <path d="M1 11h2v2H1v-2z" fill="currentColor" fill-opacity="0.3"/>
+  <path d="M11 11h2v2h-2v-2z" fill="currentColor" fill-opacity="0.3"/>
+  <path d="M6 16h2v2H6v-2z" fill="currentColor" fill-opacity="0.3"/>
+  <path d="M16 16h2v2h-2v-2z" fill="currentColor" fill-opacity="0.3"/>
+</svg> 
