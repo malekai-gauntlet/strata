@@ -110,7 +110,7 @@ const Parent = () => {
                 {...fadeInUp}
                 transition={{ delay: 0.6 }}
               >
-                A revolutionary sports academy designed for middle school athletes, combining top-tier sports training with accelerated academics.
+                At a revolutionary sports academy designed for middle school athletes, combining top-tier sports training with accelerated academics.
               </motion.p>
             </div>
           </div>
@@ -118,10 +118,10 @@ const Parent = () => {
       </section>
 
       {/* Why Strata Section */}
-      <section className="pt-32 pb-12 bg-white">
+      <section className="pt-16 sm:pt-20 md:pt-24 lg:pt-32 pb-8 sm:pb-10 md:pb-12 bg-white">
         <div className="container mx-auto px-4">
           <motion.h2 
-            className="text-4xl md:text-5xl lg:text-6xl font-heading tracking-tight text-center mb-20 text-gray-900 leading-[0.9]"
+            className="text-4xl md:text-5xl lg:text-6xl font-heading tracking-tight text-center mb-12 sm:mb-16 md:mb-20 text-gray-900 leading-[0.9]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -129,7 +129,7 @@ const Parent = () => {
             THE FUTURE OF STUDENT-<br></br>ATHLETE DEVELOPMENT
           </motion.h2>
           
-          <div className="grid md:grid-cols-3 gap-12">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-12">
             {/* Individualized Learning */}
             <motion.div
               className="text-center"
@@ -206,7 +206,7 @@ const Parent = () => {
       <section className="pt-4 pb-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div 
-            className="flex flex-wrap items-center justify-center gap-20"
+            className="flex flex-wrap items-center justify-center gap-8 md:gap-20"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -253,17 +253,17 @@ const Parent = () => {
       </section>
 
       {/* Section 1: Excel */}
-      <section className="pt-32 pb-0 bg-white">
+      <section className="pt-16 sm:pt-20 md:pt-24 lg:pt-32 pb-0 bg-white">
         <div className="container mx-auto px-4">
           <motion.h2 
-            className="text-4xl md:text-5xl lg:text-6xl font-heading tracking-tight text-center mb-20 text-gray-900 leading-[0.9]"
+            className="text-4xl md:text-5xl lg:text-6xl font-heading tracking-tight text-center mb-12 sm:mb-16 md:mb-20 text-gray-900 leading-[0.9]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
             MAXIMIZE YOUR KID'S POTENTIAL
           </motion.h2>
-          <div className="grid md:grid-cols-2 gap-20 items-center">
+          <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -282,23 +282,23 @@ const Parent = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <img src="/images/happy-kids.jpg" alt="Happy Kids" className="rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300" />
+              <img src="/images/happy-kids.jpg" alt="Happy Kids" className="w-full h-auto rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300" />
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Section 2: Sports at Noon */}
-      <section className="pt-24 pb-0 bg-white">
+      <section className="pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-0 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-20 items-center">
+          <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <img src="/images/student-athlete.jpg" alt="Student Athlete" className="rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300" />
+              <img src="/images/student-athlete.jpg" alt="Student Athlete" className="w-full h-auto rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300" />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -318,9 +318,9 @@ const Parent = () => {
       </section>
 
       {/* Section 3: Learn 2x in 2 hours */}
-      <section className="pt-24 pb-0 bg-white">
+      <section className="pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-0 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-20 items-center">
+          <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -347,9 +347,9 @@ const Parent = () => {
       </section>
 
       {/* Section 4: Life Skills */}
-      <section className="pt-24 pb-32 bg-white">
+      <section className="pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-16 sm:pb-20 md:pb-24 lg:pb-32 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-20 items-center">
+          <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -372,7 +372,7 @@ const Parent = () => {
                 focused practice to improve at sport, or workshops to develop core life skills.
               </p>
               <p className="text-xl mt-8 text-gray-600 leading-relaxed">
-                The results of these workshops show. Here's a 5th grader with impressive public speaking skills.
+                The results of these workshops show.
               </p>
             </motion.div>
           </div>
@@ -380,10 +380,10 @@ const Parent = () => {
       </section>
 
       {/* Athletic Excellence Section */}
-      <section className="py-32 bg-white">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32 bg-white">
         <div className="container mx-auto px-4">
           <motion.h2 
-            className="text-6xl font-heading mb-20 tracking-tight text-gray-900 text-center"
+            className="text-4xl sm:text-5xl lg:text-6xl font-heading mb-12 sm:mb-16 md:mb-20 tracking-tight text-gray-900 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -391,7 +391,7 @@ const Parent = () => {
             ATHLETIC EXCELLENCE
           </motion.h2>
           
-          <div className="grid md:grid-cols-2 gap-20 items-center mb-24">
+          <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center mb-12 sm:mb-16 md:mb-20 lg:mb-24">
             <motion.div
               className="text-left"
               initial={{ opacity: 0, x: -20 }}
@@ -413,18 +413,18 @@ const Parent = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <img src="/images/drdish.png" alt="Basketball Training" className="rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300" />
+              <img src="/images/drdish.png" alt="Basketball Training" className="w-full h-auto rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300" />
             </motion.div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-20 items-center">
+          <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <img src="/images/lifting.jpg" alt="Strength Training" className="rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300" />
+              <img src="/images/lifting.jpg" alt="Strength Training" className="w-full h-auto rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300" />
             </motion.div>
             <motion.div
               className="text-left"
@@ -448,10 +448,10 @@ const Parent = () => {
       </section>
 
       {/* Academic Excellence Section */}
-      <section className="py-32 bg-white">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32 bg-white">
         <div className="container mx-auto px-4">
           <motion.h2 
-            className="text-6xl font-heading mb-20 tracking-tight text-gray-900 text-center"
+            className="text-4xl sm:text-5xl lg:text-6xl font-heading mb-12 sm:mb-16 md:mb-20 tracking-tight text-gray-900 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -459,7 +459,7 @@ const Parent = () => {
             ACADEMIC EXCELLENCE
           </motion.h2>
 
-          <div className="grid md:grid-cols-2 gap-20 items-center mb-24">
+          <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center mb-12 sm:mb-16 md:mb-20 lg:mb-24">
             <motion.div
               className="text-left"
               initial={{ opacity: 0, x: -20 }}
@@ -467,24 +467,24 @@ const Parent = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="flex items-center mb-8">
-                <h3 className="text-4xl font-heading text-gray-900 mr-4">Fully personalized learning, top academic outcomes</h3>
-                <img src="/images/cognia.png" alt="Cognia Accredited" className="h-16" />
+              <div className="flex items-center mb-4 sm:mb-6 md:mb-8">
+                <h3 className="text-3xl md:text-4xl font-heading text-gray-900 mr-4">Fully personalized learning, top academic outcomes</h3>
+                <img src="/images/cognia.png" alt="Cognia Accredited" className="h-12 sm:h-16" />
               </div>
-              <p className="text-xl mb-8 text-gray-600">
+              <p className="text-xl mb-4 sm:mb-6 md:mb-8 text-gray-600">
                 The learning paradigm has changed. The best way to learn is no longer in a classroom lecture, but through 
                personalized learning software while supported by a guide.
               </p>
-              <p className="text-xl mb-10 text-gray-600">
+              <p className="text-xl mb-6 sm:mb-8 md:mb-10 text-gray-600">
                 Your kid will get to use 2 Hour Learning — a revolutionary software accredited by Cognia — that is used at Alpha 
                 Schools and Sports Academies to achieve Top 2% academic outcomes in only 2 hours of daily studying.
               </p>
-              <div className="flex gap-4">
-                <a href="https://2hourlearning.com" target="_blank" rel="noopener noreferrer">
-                  <Button className="bg-blue-600 text-white hover:bg-blue-700">Learn more about 2 Hour Learning</Button>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a href="https://2hourlearning.com" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                  <Button className="bg-blue-600 text-white hover:bg-blue-700 w-full sm:w-auto">Learn more about 2 Hour Learning</Button>
                 </a>
-                <a href="https://heyzine.com/flip-book/2hourlearning.html" target="_blank" rel="noopener noreferrer">
-                  <Button className="bg-white text-blue-600 border border-blue-600">2 Hour Learning White Paper</Button>
+                <a href="https://heyzine.com/flip-book/2hourlearning.html" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                  <Button className="bg-white text-blue-600 border border-blue-600 w-full sm:w-auto">2 Hour Learning White Paper</Button>
                 </a>
               </div>
             </motion.div>
@@ -498,7 +498,7 @@ const Parent = () => {
             </motion.div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-20 items-center mb-24">
+          <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center mb-12 sm:mb-16 md:mb-20 lg:mb-24">
             <motion.div
               className="aspect-video"
               initial={{ opacity: 0, x: -20 }}
@@ -531,7 +531,7 @@ const Parent = () => {
             </motion.div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-20 items-center">
+          <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center">
             <motion.div
               className="text-left"
               initial={{ opacity: 0, x: -20 }}
@@ -539,15 +539,15 @@ const Parent = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h3 className="text-4xl font-heading mb-8 text-gray-900">Give your kid their time back</h3>
-              <p className="text-xl mb-8 text-gray-600">
+              <h3 className="text-3xl md:text-4xl font-heading mb-4 sm:mb-6 md:mb-8 text-gray-900">Give your kid their time back</h3>
+              <p className="text-xl mb-4 sm:mb-6 md:mb-8 text-gray-600">
                 90% of learning is motivation. In this revolutionary learning model where learning software does the core teaching, the role of the "teacher" has shifted to that of a motivator. And there's no better motivator for a young athlete than their coach.
               </p>
-              <p className="text-xl mb-10 text-gray-600">
+              <p className="text-xl mb-6 sm:mb-8 md:mb-10 text-gray-600">
                 This learning model works. Alpha School in Brownsville Texas took students from the 31st percentile to the 86th percentile in one year.
               </p>
-              <a href="https://2hourlearning.com/twice-the-learning-twice-as-fast-explaining-the-2-hour-learning-model/#:~:text=When%20we%20opened%20our%20campus,as%20much%2C%20twice%20as%20fast." target="_blank" rel="noopener noreferrer">
-                <Button className="bg-blue-600 text-white hover:bg-blue-700">Read Brownsville Case Study</Button>
+              <a href="https://2hourlearning.com/twice-the-learning-twice-as-fast-explaining-the-2-hour-learning-model/#:~:text=When%20we%20opened%20our%20campus,as%20much%2C%20twice%20as%20fast." target="_blank" rel="noopener noreferrer" className="block sm:inline-block w-full sm:w-auto">
+                <Button className="bg-blue-600 text-white hover:bg-blue-700 w-full sm:w-auto">Read Brownsville Case Study</Button>
               </a>
             </motion.div>
             <motion.div
@@ -563,10 +563,10 @@ const Parent = () => {
       </section>
 
       {/* Day in the Life Section */}
-      <section className="py-32 bg-white">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32 bg-white">
         <div className="container mx-auto px-4 text-center">
           <motion.h2 
-            className="text-4xl md:text-5xl lg:text-6xl font-heading tracking-tight text-center mb-20 text-gray-900 leading-[0.9]"
+            className="text-4xl md:text-5xl lg:text-6xl font-heading tracking-tight text-center mb-12 sm:mb-16 md:mb-20 text-gray-900 leading-[0.9]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -576,10 +576,10 @@ const Parent = () => {
           
           <div className="relative max-w-4xl mx-auto">
             {/* Timeline line */}
-            <div className="absolute left-1/2 w-px h-full bg-gray-300" />
+            <div className="absolute left-1/2 w-px h-full bg-gray-300 md:left-1/2" />
             
             {/* Timeline items */}
-            <div className="space-y-32">
+            <div className="space-y-16 sm:space-y-20 md:space-y-24 lg:space-y-32">
               {[
                 { time: "8:45am", activity: "School Dropoff, Morning Launch" },
                 { time: "9:00am", activity: "2 Hour Learning (3 Pomodoro Sessions)" },
@@ -602,9 +602,9 @@ const Parent = () => {
                   </div>
                   
                   {/* Content */}
-                  <div className="grid grid-cols-[1fr,1fr] items-center">
+                  <div className="grid grid-cols-1 md:grid-cols-[1fr,1fr] items-center">
                     {/* Time */}
-                    <div className="text-right pr-8">
+                    <div className="text-center md:text-right md:pr-8 mb-2 md:mb-0">
                       <motion.h3
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -617,7 +617,7 @@ const Parent = () => {
                     </div>
                     
                     {/* Activity */}
-                    <div className="pl-8">
+                    <div className="pl-0 md:pl-8 text-center md:text-left">
                       <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -638,10 +638,10 @@ const Parent = () => {
       </section>
 
       {/* Resources Section */}
-      <section className="py-32 bg-white">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32 bg-white">
         <div className="container mx-auto px-4 text-center">
           <motion.h2 
-            className="text-4xl md:text-5xl lg:text-6xl font-heading mb-20 tracking-tight text-gray-900"
+            className="text-4xl md:text-5xl lg:text-6xl font-heading mb-12 sm:mb-16 md:mb-20 tracking-tight text-gray-900"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -649,7 +649,7 @@ const Parent = () => {
             RESOURCES
           </motion.h2>
           
-          <div className="grid md:grid-cols-3 gap-10">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-10">
             {[
               {
                 href: "https://alpha.school",
@@ -678,7 +678,7 @@ const Parent = () => {
                 href={resource.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white p-10 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+                className="bg-white p-6 sm:p-8 md:p-10 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -696,10 +696,10 @@ const Parent = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-32 bg-white">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32 bg-white">
         <div className="container mx-auto px-4 text-center">
           <motion.h2 
-            className="text-6xl font-heading mb-20 tracking-tight"
+            className="text-4xl sm:text-5xl lg:text-6xl font-heading mb-12 sm:mb-16 md:mb-20 tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -724,10 +724,10 @@ const Parent = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-32 bg-white">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32 bg-white">
         <div className="container mx-auto px-4">
           <motion.h2 
-            className="text-4xl md:text-5xl lg:text-6xl font-heading text-center mb-20 tracking-tight text-gray-900"
+            className="text-4xl md:text-5xl lg:text-6xl font-heading text-center mb-12 sm:mb-16 md:mb-20 tracking-tight text-gray-900"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
