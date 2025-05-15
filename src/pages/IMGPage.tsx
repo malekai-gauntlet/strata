@@ -271,7 +271,7 @@ export default function IMGPage() {
                 Train with world-class coaches every day starting at noon. Master the fundamentals and develop your skills with dedicated daily sports training.
               </p>
               <button className="bg-white hover:bg-gray-100 text-blue-900 font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide">
-                Meet Our Coaches
+                Learn About Athletics
               </button>
             </div>
           </div>
@@ -295,7 +295,7 @@ export default function IMGPage() {
                 With just 2 hours of focused learning in the morning, our students consistently test in the top 1-2% nationally. Experience a new way of learning that delivers exceptional results.
               </p>
               <button className="bg-white hover:bg-gray-100 text-blue-900 font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide">
-                Learn About Our Academics
+                Learn About Academics
               </button>
             </div>
           </div>
@@ -435,8 +435,6 @@ export default function IMGPage() {
               <h3 className="text-xl font-bold mb-6 text-gray-800">About Us</h3>
               <ul className="space-y-3">
                 <li><Link to="/about" className="text-gray-600 hover:text-blue-600">Our Story</Link></li>
-                <li><Link to="/team" className="text-gray-600 hover:text-blue-600">Team</Link></li>
-                <li><Link to="/careers" className="text-gray-600 hover:text-blue-600">Careers</Link></li>
               </ul>
             </div>
             <div>
@@ -467,21 +465,12 @@ export default function IMGPage() {
                   </a>
                 </li>
                 <li>
-                  <a href="mailto:info@example.com" className="text-gray-600 hover:text-blue-600 flex items-center">
+                  <a href="mailto:team@strata.school" className="text-gray-600 hover:text-blue-600 flex items-center">
                     <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    info@example.com
+                    team@strata.school
                   </a>
-                </li>
-                <li>
-                  <div className="text-gray-600 flex items-center">
-                    <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    123 Main St, City, ST 12345
-                  </div>
                 </li>
               </ul>
             </div>
