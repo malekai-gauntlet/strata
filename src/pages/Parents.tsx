@@ -101,13 +101,13 @@ const Parent = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
               <motion.p 
-                className="text-xl text-gray-400 mb-4 font-light tracking-wide"
+                className="text-xl md:text-2xl text-gray-100/80 mb-4 font-light tracking-wider uppercase"
                 {...fadeInUp}
               >
                 HEY PARENTS
               </motion.p>
               <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-heading tracking-tight text-white mb-6 leading-[0.9]"
+                className="text-5xl md:text-7xl lg:text-8xl font-heading tracking-tight text-white mb-6 leading-[0.9]"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
@@ -115,7 +115,7 @@ const Parent = () => {
                 YOUR KID WILL THRIVE
               </motion.h1>
               <motion.p 
-                className="text-xl text-gray-400 mb-8 font-light leading-relaxed"
+                className="text-xl md:text-2xl text-gray-100/80 mb-8 font-light leading-relaxed max-w-2xl mx-auto"
                 {...fadeInUp}
                 transition={{ delay: 0.6 }}
               >
@@ -362,7 +362,7 @@ const Parent = () => {
               transition={{ duration: 0.6 }}
               className="order-3 md:order-4"
             >
-              <h2 className="text-3xl md:text-4xl font-heading tracking-tight mb-6 md:mb-8 text-gray-900 leading-[0.9]">4 hours of sports training</h2>
+              <h2 className="text-4xl font-heading tracking-tight mb-6 md:mb-8 text-gray-900 leading-[0.9]">4 hours of sports training</h2>
               <p className="text-xl text-gray-600 leading-relaxed">
                 With the day's academics completed by 12pm, students have all afternoon to train with coach. 
                 Students have 3-4 extra hours than their competition to train with world-class coaches and 
@@ -530,7 +530,7 @@ const Parent = () => {
               transition={{ duration: 0.6 }}
             >
               <div className="flex items-center mb-4 sm:mb-6 md:mb-8">
-                <h3 className="text-3xl md:text-4xl font-heading text-gray-900 mr-4">Fully personalized learning, top academic outcomes</h3>
+                <h3 className="text-4xl font-heading tracking-tight text-gray-900 mr-4">Fully personalized learning, top academic outcomes</h3>
                 <img src="/images/cognia.png" alt="Cognia Accredited" className="h-12 sm:h-16" />
               </div>
               <p className="text-xl mb-4 sm:mb-6 md:mb-8 text-gray-600">
@@ -571,7 +571,7 @@ const Parent = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h3 className="text-4xl font-heading mb-8 text-gray-900">Just 2 hours of academics, no homework needed</h3>
+              <h3 className="text-4xl font-heading tracking-tight mb-8 text-gray-900">Just 2 hours of academics, no homework needed</h3>
               <p className="text-xl mb-8 text-gray-600">
                 With 2 Hour Learning, students really only need two hours of daily focus in the morning to excel. There's
                 no need for students to be at a desk for 6-7 hours a day as they are at traditional schools.
@@ -604,7 +604,7 @@ const Parent = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h3 className="text-3xl md:text-4xl font-heading mb-4 sm:mb-6 md:mb-8 text-gray-900">Give your kid their time back</h3>
+              <h3 className="text-4xl font-heading tracking-tight mb-4 sm:mb-6 md:mb-8 text-gray-900">Give your kid their time back</h3>
               <p className="text-xl mb-4 sm:mb-6 md:mb-8 text-gray-600">
                 90% of learning is motivation. In this revolutionary learning model where learning software does the core teaching, the role of the "teacher" has shifted to that of a motivator. And there's no better motivator for a young athlete than their coach.
               </p>
