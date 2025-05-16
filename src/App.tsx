@@ -80,11 +80,48 @@ const MouseflowTracking = () => {
   return null;
 };
 
+// Google Analytics tracking component
+const GoogleAnalyticsTracking = () => {
+  useEffect(() => {
+    // Load the external Google Analytics script
+    const gaExternalScript = document.createElement('script');
+    gaExternalScript.async = true;
+    gaExternalScript.src = "https://www.googletagmanager.com/gtag/js?id=G-93XXNXW8B7";
+    document.head.appendChild(gaExternalScript);
+    
+    // Add the GA initialization code
+    const gaInitScript = document.createElement('script');
+    gaInitScript.innerHTML = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-93XXNXW8B7');
+    `;
+    document.head.appendChild(gaInitScript);
+
+    return () => {
+      try {
+        if (gaExternalScript.parentNode) {
+          gaExternalScript.parentNode.removeChild(gaExternalScript);
+        }
+        if (gaInitScript.parentNode) {
+          gaInitScript.parentNode.removeChild(gaInitScript);
+        }
+      } catch (e) {
+        console.error('Error removing Google Analytics scripts:', e);
+      }
+    };
+  }, []);
+
+  return null;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <HotjarTracking />
       <MouseflowTracking />
+      <GoogleAnalyticsTracking />
       <Toaster />
       <Sonner />
       <BrowserRouter>
