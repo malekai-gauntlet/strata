@@ -66,7 +66,7 @@ const Parent = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       {/* <Navigation /> */}
 
       {/* Hero Section */}
@@ -213,37 +213,37 @@ const Parent = () => {
             transition={{ duration: 0.6 }}
           >
             <motion.div 
-              className="w-48 grayscale hover:grayscale-0 transition-all duration-300"
+              className="w-32 sm:w-40 md:w-48 grayscale hover:grayscale-0 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
             >
               <img src="/images/TSA-Final-Logos-RGB-07.png" alt="Texas Sports Academy" className="w-full h-auto" />
             </motion.div>
             <motion.div 
-              className="w-32 grayscale hover:grayscale-0 transition-all duration-300"
+              className="w-24 sm:w-28 md:w-32 grayscale hover:grayscale-0 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
             >
               <img src="/images/alpha.png" alt="Alpha School" className="w-full h-auto" />
             </motion.div>
             <motion.div
-              className="w-32 grayscale hover:grayscale-0 transition-all duration-300"
+              className="w-24 sm:w-28 md:w-32 grayscale hover:grayscale-0 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
             >
               <img src="/images/2hr.png" alt="2 Hour Learning" className="w-full h-auto" />
             </motion.div>
             <motion.div
-              className="w-48 grayscale hover:grayscale-0 transition-all duration-300"
+              className="w-32 sm:w-40 md:w-48 grayscale hover:grayscale-0 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
             >
               <img src="/images/Untitled-design-27.png" alt="NextGen Academy" className="w-full h-auto" />
             </motion.div>
             <motion.div
-              className="w-48 grayscale hover:grayscale-0 transition-all duration-300"
+              className="w-32 sm:w-40 md:w-48 grayscale hover:grayscale-0 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
             >
               <img src="/images/valenta-logolandscape-blue-cmyk.png" alt="Valenta Academy" className="w-full h-auto" />
             </motion.div>
             <motion.div
-              className="w-32 grayscale hover:grayscale-0 transition-all duration-300"
+              className="w-24 sm:w-28 md:w-32 grayscale hover:grayscale-0 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
             >
               <img src="/images/cognia.png" alt="Cognia Accredited" className="w-full h-auto" />
@@ -306,7 +306,7 @@ const Parent = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-4xl font-heading tracking-tight mb-8 text-gray-900 leading-[0.9]">4 hours of sports training</h2>
+              <h2 className="text-3xl md:text-4xl font-heading tracking-tight mb-6 md:mb-8 text-gray-900 leading-[0.9]">4 hours of sports training</h2>
               <p className="text-xl text-gray-600 leading-relaxed">
                 With the day's academics completed by 12pm, students have all afternoon to train with coach. 
                 Students have 3-4 extra hours than their competition to train with world-class coaches and 
@@ -340,7 +340,9 @@ const Parent = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <YouTubePlayer videoId="Q0UaFZYntwc" />
+              <div className="w-full overflow-hidden">
+                <YouTubePlayer videoId="Q0UaFZYntwc" />
+              </div>
             </motion.div>
           </div>
         </div>
@@ -356,7 +358,9 @@ const Parent = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <InstagramEmbed postId="DHeWwHrxgJ8" />
+              <div className="w-full overflow-hidden">
+                <InstagramEmbed postId="DHeWwHrxgJ8" />
+              </div>
             </motion.div>
             <motion.div
               className="text-left"
@@ -491,7 +495,9 @@ const Parent = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <YouTubePlayer videoId="WIXJrdjG8RY" />
+              <div className="w-full overflow-hidden">
+                <YouTubePlayer videoId="WIXJrdjG8RY" />
+              </div>
             </motion.div>
           </div>
 
@@ -553,7 +559,9 @@ const Parent = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <TweetEmbed tweetId="1899164931897106719" />
+              <div className="w-full overflow-hidden">
+                <TweetEmbed tweetId="1899164931897106719" />
+              </div>
             </motion.div>
           </div>
         </div>
@@ -681,7 +689,7 @@ const Parent = () => {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.2 }}
               >
-                <img src={resource.img} alt={resource.alt} className="h-20 mx-auto mb-8" />
+                <img src={resource.img} alt={resource.alt} className="h-16 sm:h-20 mx-auto mb-6 sm:mb-8" />
                 <h3 className="text-2xl font-heading mb-4 text-gray-900">{resource.title}</h3>
                 <p className="text-xl text-gray-600 leading-relaxed">
                   {resource.desc}
@@ -710,12 +718,12 @@ const Parent = () => {
               six hours a day. They spend two hours on academics and four hours for life skills like financial literacy, 
               public speaking, and teamwork."
             </blockquote>
-            <p className="mt-6 text-xl">— Fox 7 Austin report</p>
+            <p className="mt-4 sm:mt-6 text-xl">— Fox 7 Austin report</p>
 
-            <blockquote className="text-2xl italic text-gray-600 mt-12">
+            <blockquote className="text-2xl italic text-gray-600 mt-8 sm:mt-10 md:mt-12">
               "They are only supposed to do two hours, but he brings home his laptop and I wake up every morning to him working on his laptop,"
             </blockquote>
-            <p className="mt-6 text-xl">— Christy Griswold, Sports Academy Parent</p>
+            <p className="mt-4 sm:mt-6 text-xl">— Christy Griswold, Sports Academy Parent</p>
           </div>
         </div>
       </section>
