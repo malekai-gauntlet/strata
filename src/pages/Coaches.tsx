@@ -325,7 +325,7 @@ const Test = () => {
           <div className="max-w-4xl mx-auto">
             <div className="aspect-video bg-black rounded-lg overflow-hidden relative shadow-[0_8px_30px_rgb(0,0,0,0.5)] border border-white/5">
               <iframe
-                src="https://www.youtube.com/embed/JegnDAkM32I"
+                src="https://www.youtube.com/embed/a2Wk1YHgV5I"
                 title="Strata Promo Video"
                 className="w-full h-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

@@ -56,6 +56,7 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
 
 const Parent = () => {
   const [scrollY, setScrollY] = useState(0);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -112,10 +113,53 @@ const Parent = () => {
               >
                 A revolutionary sports academy designed for middle school athletes, combining top-tier sports training with accelerated academics.
               </motion.p>
+              
+              {/* Play Button */}
+              <motion.button
+                onClick={() => setIsVideoModalOpen(true)}
+                className="inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white px-6 py-3 rounded-full transition-all duration-300 group"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+              >
+                <div className="w-8 h-8 rounded-full border-2 border-white/50 flex items-center justify-center">
+                  <div className="w-0 h-0 border-t-[6px] border-t-transparent border-l-[10px] border-l-white border-b-[6px] border-b-transparent ml-1" />
+                </div>
+                Watch Video
+              </motion.button>
             </div>
           </div>
         </motion.div>
       </section>
+
+      {/* Video Modal */}
+      {isVideoModalOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+          onClick={() => setIsVideoModalOpen(false)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            className="w-full max-w-4xl aspect-video relative"
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setIsVideoModalOpen(false)}
+              className="absolute -top-10 right-0 text-white hover:text-gray-300 transition-colors"
+            >
+              Close
+            </button>
+            <YouTubePlayer videoId="a2Wk1YHgV5I" className="w-full h-full" autoplay={true} />
+          </motion.div>
+        </motion.div>
+      )}
 
       {/* Why Strata Section */}
       <section className="pt-16 sm:pt-20 md:pt-24 lg:pt-32 pb-8 sm:pb-10 md:pb-12 bg-white">
@@ -771,6 +815,39 @@ const Parent = () => {
               question="Don't ESAs only come into effect for next school year, the 2026-2027?"
               answer="Yes, the ESA program begins in the 2026-27 school year. For 2025-2026, Strata is providing $10,000 scholarships for students who attend sports academies created from Strata."
             />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32 bg-gradient-to-br from-blue-600 to-blue-800 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <motion.div
+            className="max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading mb-6 tracking-tight">
+              Ready to Give Your Kid an Edge?
+            </h2>
+            <p className="text-xl md:text-2xl mb-12 opacity-90">
+              Join the revolution in student-athlete development. Fill out our quick form to learn more about sports academies near you.
+            </p>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <a 
+                href="#" // You can replace this with your Typeform link later
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-white text-blue-600 px-8 py-4 rounded-full text-xl font-semibold hover:bg-gray-100 transition-colors duration-300 shadow-lg"
+              >
+                Get Started Today
+              </a>
+            </motion.div>
           </motion.div>
         </div>
       </section>

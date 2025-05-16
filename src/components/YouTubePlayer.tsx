@@ -4,9 +4,10 @@ import { motion } from 'framer-motion';
 interface YouTubePlayerProps {
   videoId: string;
   className?: string;
+  autoplay?: boolean;
 }
 
-const YouTubePlayer = ({ videoId, className = '' }: YouTubePlayerProps) => {
+const YouTubePlayer = ({ videoId, className = '', autoplay = false }: YouTubePlayerProps) => {
   return (
     <motion.div
       className={`aspect-video rounded-lg shadow-lg overflow-hidden ${className}`}
@@ -18,7 +19,7 @@ const YouTubePlayer = ({ videoId, className = '' }: YouTubePlayerProps) => {
       <iframe
         width="100%"
         height="100%"
-        src={`https://www.youtube.com/embed/${videoId}`}
+        src={`https://www.youtube.com/embed/${videoId}${autoplay ? '?autoplay=1&mute=1' : ''}`}
         title="YouTube video player"
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
