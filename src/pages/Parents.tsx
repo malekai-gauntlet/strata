@@ -259,7 +259,7 @@ const Parent = () => {
       </section>
 
       {/* Logo Bar */}
-      <section className="pt-4 pb-20 bg-white">
+      <section className="pt-16 pb-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div 
             className="flex flex-wrap items-center justify-center gap-8 md:gap-20"
@@ -784,17 +784,31 @@ const Parent = () => {
           </motion.h2>
           
           <div className="max-w-3xl mx-auto">
-            <blockquote className="text-2xl italic text-gray-600">
-              "...they aggressively believe students don't have to sit in a chair at a desk for 
-              six hours a day. They spend two hours on academics and four hours for life skills like financial literacy, 
-              public speaking, and teamwork."
-            </blockquote>
-            <p className="mt-4 sm:mt-6 text-xl">— Fox 7 Austin report</p>
+            <a 
+              href="https://www.fox7austin.com/video/1549218"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block hover:opacity-80 transition-opacity"
+            >
+              <blockquote className="text-2xl italic text-gray-600">
+                "...they aggressively believe students don't have to sit in a chair at a desk for 
+                six hours a day. They spend two hours on academics and four hours for life skills like financial literacy, 
+                public speaking, and teamwork."
+              </blockquote>
+              <p className="mt-4 sm:mt-6 text-xl">— Fox 7 Austin report</p>
+            </a>
 
-            <blockquote className="text-2xl italic text-gray-600 mt-8 sm:mt-10 md:mt-12">
-              "They are only supposed to do two hours, but he brings home his laptop and I wake up every morning to him working on his laptop,"
-            </blockquote>
-            <p className="mt-4 sm:mt-6 text-xl">— Christy Griswold, Sports Academy Parent</p>
+            <a 
+              href="https://sports.yahoo.com/sports-academy-opens-lake-travis-031900934.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block hover:opacity-80 transition-opacity"
+            >
+              <blockquote className="text-2xl italic text-gray-600 mt-8 sm:mt-10 md:mt-12">
+                "They are only supposed to do two hours, but he brings home his laptop and I wake up every morning to him working on his laptop."
+              </blockquote>
+              <p className="mt-4 sm:mt-6 text-xl">— Christy Griswold, Sports Academy Parent</p>
+            </a>
           </div>
         </div>
       </section>
@@ -824,19 +838,27 @@ const Parent = () => {
             />
             <FAQItem
               question="Who owns the school?"
-              answer="The school is owned by the coach or leader who creates the academy. Strata is just the platform that enables them to create their academy."
+              answer="The school is owned by the coach or leader who creates the academy. Strata is just the platform that enables them to create their academy — by managing the academics, administration, secure ESA funding, and more."
             />
             <FAQItem
               question="Are these schools only for middle schoolers?"
-              answer="That is up to the coach or leader who creates the academy. Though the vast majority our these new sports academies support middle schoolers."
+              answer="That is up to the coach or leader who creates the academy. But the vast majority our these new sports academies support middle schoolers."
             />
             <FAQItem
               question="Who will the sports academy team play?"
-              answer="While up to the coaches discretion, in general: during the club season, teams compete against other AAU programs and academies. During the regular season, the team will schedule exhibition games and matches against other schools."
+              answer="This is up to the coach. But in general: During the club season, the team competes against other AAU programs and academies. During the regular season, the team schedules exhibition games and matches against other schools."
             />
             <FAQItem
               question="How do the ESAs work?"
-              answer="Texas Education Savings Accounts (ESAs) provide $10,000 in annual education funding for families who choose not to enroll their children in public schools. This funding can be used to enroll your kid in a sports academy."
+              answer="Texas Education Savings Accounts (ESAs) provide $10,000 in annual education funding for families who choose to not enroll their children in public schools. This funding can be used to enroll kids in a sports academy."
+            />
+            <FAQItem
+              question="Don't ESAs only come into effect for next school year, the 2026-2027?"
+              answer="Yes, the ESA program begins in the 2026-27 school year. For 2025-2026, we are granting $10,000 scholarships for students who attend sports academies created from Strata."
+            />
+            <FAQItem
+              question="Can I talk to a parent of a student who has gone to a school like this?"
+              answer="Yes, we can connect you with a parent. Please email us at team@strata.school and we will put you in touch!"
             />
             <FAQItem
               question="How does my kid get to school?"
@@ -847,16 +869,8 @@ const Parent = () => {
               answer="Once again, this will be up to the specific sports academy. But in most cases, dorms will not be available and students will live at home."
             />
             <FAQItem
-              question="Can I talk to a parent of a student at the school?"
-              answer="Yes, we can connect you with a parent of a student at the school. Please reach out to us and we can put you in touch!"
-            />
-            <FAQItem
-              question="Don't ESAs only come into effect for next school year, the 2026-2027?"
-              answer="Yes, the ESA program begins in the 2026-27 school year. For 2025-2026, Strata is providing $10,000 scholarships for students who attend sports academies created from Strata."
-            />
-            <FAQItem
               question="What if I love the concept, but my child isn't a super athlete?"
-              answer="That's okay! If you want a general, less-intensive sports-focused school we can recommend a few, like Texas Sports Academy. We also have niche schools for entrepreneurship (Alpha School), e-sports (NextGen Academy), and more."
+              answer="That's okay! We have a network of schools that are focused on different niches (Texas Sports Academy, NextGen Academy, etc.). Some focus on entrepreneurship, arts, general sports, or other interests. Email us at team@strata.school and we will recommend the best school for your situation."
             />
           </motion.div>
         </div>
@@ -872,10 +886,10 @@ const Parent = () => {
             className="max-w-2xl mx-auto"
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading mb-6 text-gray-900">
-              GIVE YOUR STUDENT-ATHLETE AN EDGE
+              GIVE YOUR CHILD AN EDGE
             </h2>
             <p className="text-xl text-gray-600 mb-8">
-              Stay updated on revolutionary sports academies combining academic excellence with elite athletic development.
+              Stay updated on revolutionary sports academies.
             </p>
             <form 
               action={import.meta.env.DEV 
