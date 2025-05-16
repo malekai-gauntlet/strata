@@ -91,7 +91,7 @@ const About = () => {
               </span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-12 max-w-3xl mx-auto text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.4)]">
-              We're providing every Texas child with a choice for world-class education and athletic excellence.
+              Providing every Texas child with a choice for world-class education and athletic excellence.
             </p>
             <motion.div
               initial={{ opacity: 0 }}
@@ -148,7 +148,7 @@ const About = () => {
                 OUR COMMITMENT
               </h2>
               <p className="text-xl text-gray-400 max-w-4xl mx-auto">
-                Strata is creating thousands of revolutionary schools that combine academic excellence and athletic achievement. These schools will generate the best academic outcomes of all schools in their districts.
+                Strata is helping coaches creates thousands of revolutionary schools that combine academic excellence and athletic achievement.
               </p>
             </motion.div>
 
@@ -225,10 +225,10 @@ const About = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-8">
-              THE STRATA SOLUTION
+              THE SOLUTION
             </h2>
             <p className="text-xl text-gray-400 max-w-4xl mx-auto">
-              We will give every student in Texas the option to switch to a world-class education.
+              Giving every student in Texas the option to switch to a world-class education.
             </p>
           </motion.div>
 

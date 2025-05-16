@@ -7,6 +7,7 @@ import VimeoPlayer from '@/components/VimeoPlayer';
 import InstagramEmbed from '@/components/InstagramEmbed';
 import TweetEmbed from '@/components/TweetEmbed';
 import { motion } from 'framer-motion';
+import { Input } from '@/components/ui/input';
 
 // Animation variants
 const fadeInUp = {
@@ -58,6 +59,9 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
 const Parent = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -366,7 +370,7 @@ const Parent = () => {
               <p className="text-xl text-gray-600 leading-relaxed">
                 With the day's academics completed by 12pm, students have all afternoon to train with coach. 
                 Students have 3-4 extra hours than their competition to train with world-class coaches and 
-                position themselves for success later in life.
+                position themselves for future success. 
               </p>
             </motion.div>
           </div>
@@ -386,7 +390,7 @@ const Parent = () => {
             >
               <h2 className="text-4xl font-heading tracking-tight mb-8 text-gray-900 leading-[0.9]">Learn 2x in 2 hours</h2>
               <p className="text-xl text-gray-600 leading-relaxed">
-                Students use the world leading 2 Hour Learning software to learn academics. 
+                Students use the leading 2 Hour Learning software to learn academics. 
                 2 Hour Learning — which is accredited by Cognia — is used at Alpha School, Texas Sports Academy, and hundreds of other schools to help students achieve top 
                 academic outcomes.
               </p>
@@ -418,7 +422,11 @@ const Parent = () => {
               className="order-8 md:order-7"
             >
               <div className="w-full overflow-hidden">
-                <InstagramEmbed postId="DHeWwHrxgJ8" />
+                <img 
+                  src="/images/do what you love.jpg" 
+                  alt="Coach and students enjoying sports activities together" 
+                  className="w-full h-auto rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300"
+                />
               </div>
             </motion.div>
             <motion.div
@@ -433,9 +441,6 @@ const Parent = () => {
                 We know that through the lens of sports, movement, and physical activity students can learn resilience, 
                 teamwork, leadership, strategic decision making, and more. Afternoons are reserved for 
                 focused practice to improve at sport, or workshops to develop core life skills.
-              </p>
-              <p className="text-xl mt-8 text-gray-600 leading-relaxed">
-                The results of these workshops show.
               </p>
             </motion.div>
           </div>
@@ -501,8 +506,8 @@ const Parent = () => {
               <h3 className="text-4xl font-heading mb-8 text-gray-900">Position your kid for long-term success in sport</h3>
               <p className="text-xl mb-8 text-gray-600">
                 This sports academy is focused on the middle school age group. It's a prime opportunity to prepare your kid for 
-                success at the high school level and prepare for a college career (if that's your kid's dream). The extra 
-                3-4 hours your kid gets back can be spent on focused skills training, athletic/fitness training, or 5v5 games.
+                success at the high school level and prepare for a college career and beyond (if that's your kid's dream). <br></br><br></br>
+                The extra 3-4 hours your kid gets back can be spent on focused skills training, fitness training or games.
               </p>
             </motion.div>
           </div>
@@ -539,14 +544,14 @@ const Parent = () => {
               </p>
               <p className="text-xl mb-6 sm:mb-8 md:mb-10 text-gray-600">
                 Your kid will get to use 2 Hour Learning — a breakthrough curriculum accredited by Cognia — that is used at Alpha 
-                Schools and Sports Academies to achieve Top 2% academic outcomes in only 2 hours of daily studying.
+                Schools and sports academies to achieve Top 2% academic outcomes in only 2 hours of daily studying.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <a href="https://2hourlearning.com" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-                  <Button className="bg-blue-600 text-white hover:bg-blue-700 w-full sm:w-auto">Learn more about 2 Hour Learning</Button>
+                  <Button className="bg-blue-600 text-white hover:bg-blue-700 w-full sm:w-auto">Visit 2HourLearning.com</Button>
                 </a>
                 <a href="https://heyzine.com/flip-book/2hourlearning.html" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-                  <Button className="bg-white text-blue-600 border border-blue-600 w-full sm:w-auto">2 Hour Learning White Paper</Button>
+                  <Button className="bg-white text-blue-600 border border-blue-600 w-full sm:w-auto">Read the 2HL White Paper</Button>
                 </a>
               </div>
             </motion.div>
@@ -558,7 +563,11 @@ const Parent = () => {
               className="order-20"
             >
               <div className="w-full overflow-hidden">
-                <YouTubePlayer videoId="WIXJrdjG8RY" />
+                <VideoPlayer 
+                  src="/videos/2-hour-learning-video.mp4"
+                  controls
+                  className="w-full h-full"
+                />
               </div>
             </motion.div>
           </div>
@@ -588,9 +597,8 @@ const Parent = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <VideoPlayer 
-                src="/videos/2-hour-learning-video.mp4"
-                controls
+              <YouTubePlayer 
+                videoId="uGo9p9L2UaU"
                 className="w-full h-full"
               />
             </motion.div>
@@ -612,7 +620,7 @@ const Parent = () => {
                 This learning model works. Alpha School in Brownsville Texas took students from the 31st percentile to the 86th percentile in one year.
               </p>
               <a href="https://2hourlearning.com/twice-the-learning-twice-as-fast-explaining-the-2-hour-learning-model/#:~:text=When%20we%20opened%20our%20campus,as%20much%2C%20twice%20as%20fast." target="_blank" rel="noopener noreferrer" className="block sm:inline-block w-full sm:w-auto">
-                <Button className="bg-blue-600 text-white hover:bg-blue-700 w-full sm:w-auto">Read Brownsville Case Study</Button>
+                <Button className="bg-blue-600 text-white hover:bg-blue-700 w-full sm:w-auto">Read the Brownsville Case Study</Button>
               </a>
             </motion.div>
             <motion.div
@@ -850,6 +858,103 @@ const Parent = () => {
               question="What if I love the concept, but my child isn't a super athlete?"
               answer="That's okay! If you want a general, less-intensive sports-focused school we can recommend a few, like Texas Sports Academy. We also have niche schools for entrepreneurship (Alpha School), e-sports (NextGen Academy), and more."
             />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Email CTA Section */}
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32 bg-gray-50">
+        <div className="container mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-2xl mx-auto"
+          >
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading mb-6 text-gray-900">
+              GIVE YOUR STUDENT-ATHLETE AN EDGE
+            </h2>
+            <p className="text-xl text-gray-600 mb-8">
+              Stay updated on revolutionary sports academies combining academic excellence with elite athletic development.
+            </p>
+            <form 
+              action={import.meta.env.DEV 
+                ? "/api/mock-subscribe" 
+                : "https://hooks.zapier.com/hooks/catch/22692611/2pniatp/"}
+              method="POST"
+              onSubmit={(e) => {
+                e.preventDefault();
+                
+                if (!email.includes('@')) {
+                  setSubmitStatus('error');
+                  return;
+                }
+                
+                setIsSubmitting(true);
+                
+                // Create FormData object
+                const formData = new FormData();
+                formData.append('email', email);
+                formData.append('source', 'parents_page');
+                formData.append('timestamp', new Date().toISOString());
+                
+                if (import.meta.env.DEV) {
+                  // In development, just simulate a successful submission
+                  console.log('Development mode - Form data:', {
+                    email,
+                    source: 'parents_page',
+                    timestamp: new Date().toISOString()
+                  });
+                  setTimeout(() => {
+                    setSubmitStatus('success');
+                    setEmail('');
+                    setIsSubmitting(false);
+                  }, 500);
+                  return;
+                }
+                
+                // Submit the form data without setting Content-Type header
+                fetch(e.currentTarget.action, {
+                  method: 'POST',
+                  body: formData
+                })
+                .then(response => {
+                  if (!response.ok) throw new Error('Submission failed');
+                  setSubmitStatus('success');
+                  setEmail('');
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                  setSubmitStatus('error');
+                })
+                .finally(() => {
+                  setIsSubmitting(false);
+                });
+              }}
+              className="flex flex-col sm:flex-row gap-4"
+            >
+              <Input 
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email" 
+                className="flex-1 h-12 text-lg bg-white border-gray-200"
+                disabled={isSubmitting}
+              />
+              <Button 
+                type="submit"
+                className="h-12 px-8 text-lg bg-blue-600 text-white hover:bg-blue-700"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'SUBMITTING...' : 'STAY UPDATED'}
+              </Button>
+            </form>
+            {submitStatus === 'success' && (
+              <p className="text-green-600 mt-4">Thank you for joining our mission!</p>
+            )}
+            {submitStatus === 'error' && (
+              <p className="text-red-600 mt-4">Please enter a valid email address.</p>
+            )}
           </motion.div>
         </div>
       </section>
