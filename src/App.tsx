@@ -20,29 +20,62 @@ const queryClient = new QueryClient();
 // Hotjar tracking component
 const HotjarTracking = () => {
   useEffect(() => {
-    // Hotjar Tracking Code
-    const hotjarScript = document.createElement('script');
-    hotjarScript.innerHTML = `
-      (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:6406153,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-    `;
-    document.head.appendChild(hotjarScript);
-
-    return () => {
-      try {
-        if (hotjarScript.parentNode) {
-          hotjarScript.parentNode.removeChild(hotjarScript);
-        }
-      } catch (e) {
-        console.error('Error removing Hotjar script:', e);
-      }
+    // Load analytics during idle time or with a small delay to prioritize content rendering
+    const loadHotjar = () => {
+      // Hotjar Tracking Code
+      const hotjarScript = document.createElement('script');
+      hotjarScript.async = true; // Add async attribute
+      hotjarScript.innerHTML = `
+        (function(h,o,t,j,a,r){
+          h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+          h._hjSettings={hjid:6406153,hjsv:6};
+          a=o.getElementsByTagName('head')[0];
+          r=o.createElement('script');r.async=1;
+          r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+          a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+      `;
+      document.head.appendChild(hotjarScript);
+      
+      return hotjarScript;
     };
+
+    // Use requestIdleCallback if available, or setTimeout as fallback
+    let hotjarScript;
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        const idleCallback = window.requestIdleCallback(() => {
+          hotjarScript = loadHotjar();
+        });
+        
+        return () => {
+          window.cancelIdleCallback(idleCallback);
+          try {
+            if (hotjarScript && hotjarScript.parentNode) {
+              hotjarScript.parentNode.removeChild(hotjarScript);
+            }
+          } catch (e) {
+            console.error('Error removing script:', e);
+          }
+        };
+      } else {
+        // Fallback to setTimeout with a small delay
+        const timeoutId = setTimeout(() => {
+          hotjarScript = loadHotjar();
+        }, 1000); // 1 second delay
+
+        return () => {
+          clearTimeout(timeoutId);
+          try {
+            if (hotjarScript && hotjarScript.parentNode) {
+              hotjarScript.parentNode.removeChild(hotjarScript);
+            }
+          } catch (e) {
+            console.error('Error removing script:', e);
+          }
+        };
+      }
+    }
   }, []);
 
   return null;
@@ -51,30 +84,63 @@ const HotjarTracking = () => {
 // Mouseflow tracking component
 const MouseflowTracking = () => {
   useEffect(() => {
-    // Mouseflow Tracking Code
-    const mfScript = document.createElement('script');
-    mfScript.type = "text/javascript";
-    mfScript.defer = true;
-    mfScript.innerHTML = `
-      window._mfq = window._mfq || [];
-      (function() {
-        var mf = document.createElement("script");
-        mf.type = "text/javascript"; mf.defer = true;
-        mf.src = "//cdn.mouseflow.com/projects/093468ee-8454-4313-9398-5880a29cef27.js";
-        document.getElementsByTagName("head")[0].appendChild(mf);
-      })();
-    `;
-    document.head.appendChild(mfScript);
-
-    return () => {
-      try {
-        if (mfScript.parentNode) {
-          mfScript.parentNode.removeChild(mfScript);
-        }
-      } catch (e) {
-        console.error('Error removing Mouseflow script:', e);
-      }
+    // Load analytics during idle time or with a small delay to prioritize content rendering
+    const loadMouseflow = () => {
+      // Mouseflow Tracking Code
+      const mfScript = document.createElement('script');
+      mfScript.type = "text/javascript";
+      mfScript.defer = true;
+      mfScript.async = true; // Add async attribute
+      mfScript.innerHTML = `
+        window._mfq = window._mfq || [];
+        (function() {
+          var mf = document.createElement("script");
+          mf.type = "text/javascript"; mf.defer = true; mf.async = true;
+          mf.src = "//cdn.mouseflow.com/projects/093468ee-8454-4313-9398-5880a29cef27.js";
+          document.getElementsByTagName("head")[0].appendChild(mf);
+        })();
+      `;
+      document.getElementsByTagName("head")[0].appendChild(mfScript);
+      
+      return mfScript;
     };
+
+    // Use requestIdleCallback if available, or setTimeout as fallback
+    let mfScript;
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        const idleCallback = window.requestIdleCallback(() => {
+          mfScript = loadMouseflow();
+        });
+        
+        return () => {
+          window.cancelIdleCallback(idleCallback);
+          try {
+            if (mfScript && mfScript.parentNode) {
+              mfScript.parentNode.removeChild(mfScript);
+            }
+          } catch (e) {
+            console.error('Error removing script:', e);
+          }
+        };
+      } else {
+        // Fallback to setTimeout with a small delay
+        const timeoutId = setTimeout(() => {
+          mfScript = loadMouseflow();
+        }, 1500); // 1.5 second delay (slightly after Hotjar)
+
+        return () => {
+          clearTimeout(timeoutId);
+          try {
+            if (mfScript && mfScript.parentNode) {
+              mfScript.parentNode.removeChild(mfScript);
+            }
+          } catch (e) {
+            console.error('Error removing script:', e);
+          }
+        };
+      }
+    }
   }, []);
 
   return null;
@@ -108,7 +174,7 @@ const GoogleAnalyticsTracking = () => {
           gaInitScript.parentNode.removeChild(gaInitScript);
         }
       } catch (e) {
-        console.error('Error removing Google Analytics scripts:', e);
+        console.error('Error removing Analytics scripts:', e);
       }
     };
   }, []);
