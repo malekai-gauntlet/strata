@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import Timeline from '@/components/Timeline';
 import { Link } from 'react-router-dom';
 import MapEmbed from '@/components/MapEmbed';
+import VimeoPlayer from '@/components/VimeoPlayer';
 
 // Card components
 const ProblemCard = ({ title, description }: { title: string; description: string }) => (
@@ -324,13 +325,7 @@ const Test = () => {
           </div>
           <div className="max-w-4xl mx-auto">
             <div className="aspect-video bg-black rounded-lg overflow-hidden relative shadow-[0_8px_30px_rgb(0,0,0,0.5)] border border-white/5">
-              <iframe
-                src="https://www.youtube.com/embed/a2Wk1YHgV5I"
-                title="Strata Promo Video"
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+              <VimeoPlayer videoId="1084834014" className="w-full h-full" autoplay={false} showTitle={false} />
             </div>
           </div>
         </motion.div>

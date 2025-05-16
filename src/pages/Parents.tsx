@@ -69,7 +69,7 @@ const Parent = () => {
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
-      {/* <Navigation /> */}
+      <Navigation />
 
       {/* Hero Section */}
       <section className="relative h-[85vh] md:h-screen overflow-hidden">

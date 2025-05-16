@@ -70,6 +70,13 @@ const Navigation = () => {
                     Coaches
                   </Link>
                   <Link 
+                    to="/parents" 
+                    className={`${textColorClass} ${linkHoverClass} transition-colors`}
+                    onClick={closeMenu}
+                  >
+                    Parents
+                  </Link>
+                  <Link 
                     to="/about" 
                     className={`${textColorClass} ${linkHoverClass} transition-colors`}
                     onClick={closeMenu}
@@ -87,6 +94,12 @@ const Navigation = () => {
               className={`${textColorClass} ${linkHoverClass} transition-colors`}
             >
               Coaches
+            </Link>
+            <Link 
+              to="/parents" 
+              className={`${textColorClass} ${linkHoverClass} transition-colors`}
+            >
+              Parents
             </Link>
             <Link 
               to="/about" 

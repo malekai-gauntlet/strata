@@ -5,9 +5,23 @@ interface VimeoPlayerProps {
   videoId: string;
   className?: string;
   autoplay?: boolean;
+  showTitle?: boolean;
 }
 
-const VimeoPlayer = ({ videoId, className = '', autoplay = false }: VimeoPlayerProps) => {
+const VimeoPlayer = ({ videoId, className = '', autoplay = false, showTitle = true }: VimeoPlayerProps) => {
+  const params = new URLSearchParams();
+  if (autoplay) params.append('autoplay', '1');
+  if (!showTitle) {
+    params.append('title', '0');
+    params.append('badge', '0');
+    params.append('byline', '0');
+    params.append('portrait', '0');
+  }
+  params.append('autopause', '0');
+  
+  const queryString = params.toString();
+  const videoUrl = `https://player.vimeo.com/video/${videoId}${queryString ? `?${queryString}` : ''}`;
+
   return (
     <motion.div
       className={`aspect-video rounded-lg shadow-lg overflow-hidden ${className}`}
@@ -19,7 +33,7 @@ const VimeoPlayer = ({ videoId, className = '', autoplay = false }: VimeoPlayerP
       <iframe
         width="100%"
         height="100%"
-        src={`https://player.vimeo.com/video/${videoId}${autoplay ? '?autoplay=1' : ''}`}
+        src={videoUrl}
         title="Vimeo video player"
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
