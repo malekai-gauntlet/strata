@@ -41,13 +41,18 @@ const TweetEmbed = ({ tweetId, className = '' }: TweetEmbedProps) => {
 
   return (
     <motion.div 
-      className={className}
+      className={`max-h-[400px] overflow-y-auto ${className}`}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: isLoaded && isVisible ? 1 : 0 }}
       viewport={{ once: true }}
       transition={{ duration: 1.5 }}
     >
-      <blockquote className="twitter-tweet" data-theme="dark">
+      <blockquote 
+        className="twitter-tweet" 
+        data-theme="dark"
+        data-cards="hidden"
+        data-conversation="none"
+      >
         <a href={`https://twitter.com/x/status/${tweetId}`}></a>
       </blockquote>
     </motion.div>

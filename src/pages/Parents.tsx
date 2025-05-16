@@ -3,6 +3,7 @@ import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import VideoPlayer from '@/components/VideoPlayer';
 import YouTubePlayer from '@/components/YouTubePlayer';
+import VimeoPlayer from '@/components/VimeoPlayer';
 import InstagramEmbed from '@/components/InstagramEmbed';
 import TweetEmbed from '@/components/TweetEmbed';
 import { motion } from 'framer-motion';
@@ -73,15 +74,22 @@ const Parent = () => {
       {/* Hero Section */}
       <section className="relative h-screen">
         <div className="absolute inset-0">
-          <video 
+          <motion.video 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
             autoPlay
             muted
             loop
             playsInline
             className="w-full h-full object-cover"
+            onLoadedData={(e) => {
+              const video = e.target as HTMLVideoElement;
+              video.play();
+            }}
           >
             <source src="/videos/v3.mov" type="video/mp4" />
-          </video>
+          </motion.video>
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/70" />
         </div>
         <motion.div 
@@ -156,7 +164,7 @@ const Parent = () => {
             >
               Close
             </button>
-            <YouTubePlayer videoId="a2Wk1YHgV5I" className="w-full h-full" autoplay={true} />
+            <VimeoPlayer videoId="1084834014" className="w-full h-full" autoplay={true} />
           </motion.div>
         </motion.div>
       )}
@@ -812,8 +820,24 @@ const Parent = () => {
               answer="Texas Education Savings Accounts (ESAs) provide $10,000 in annual education funding for families who choose not to enroll their children in public schools. This funding can be used to enroll your kid in a sports academy."
             />
             <FAQItem
+              question="How does my kid get to school?"
+              answer="This will be up to the specific sports academy. But in general, students will be dropped off and picked up by their parents."
+            />
+            <FAQItem
+              question="Will my kid live in a dorm?"
+              answer="Once again, this will be up to the specific sports academy. But in most cases, dorms will not be available and students will live at home."
+            />
+            <FAQItem
+              question="Can I talk to a parent of a student at the school?"
+              answer="Yes, we can connect you with a parent of a student at the school. Please reach out to us and we can put you in touch!"
+            />
+            <FAQItem
               question="Don't ESAs only come into effect for next school year, the 2026-2027?"
               answer="Yes, the ESA program begins in the 2026-27 school year. For 2025-2026, Strata is providing $10,000 scholarships for students who attend sports academies created from Strata."
+            />
+            <FAQItem
+              question="What if I love the concept, but my child isn't a super athlete?"
+              answer="That's okay! If you want a general, less-intensive sports-focused school we can recommend a few, like Texas Sports Academy. We also have niche schools for entrepreneurship (Alpha School), e-sports (NextGen Academy), and more."
             />
           </motion.div>
         </div>
