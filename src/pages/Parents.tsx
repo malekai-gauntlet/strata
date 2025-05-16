@@ -894,7 +894,7 @@ const Parent = () => {
             <form 
               action={import.meta.env.DEV 
                 ? "/api/mock-subscribe" 
-                : "https://hooks.zapier.com/hooks/catch/22692611/2pniatp/"}
+                : "https://hooks.zapier.com/hooks/catch/22692611/27zyk2w/"}
               method="POST"
               onSubmit={(e) => {
                 e.preventDefault();
