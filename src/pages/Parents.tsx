@@ -72,7 +72,7 @@ const Parent = () => {
       {/* <Navigation /> */}
 
       {/* Hero Section */}
-      <section className="relative h-screen">
+      <section className="relative h-[85vh] md:h-screen overflow-hidden">
         <div className="absolute inset-0">
           <motion.video 
             initial={{ opacity: 0 }}
@@ -82,7 +82,7 @@ const Parent = () => {
             muted
             loop
             playsInline
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover scale-[1.4] object-center"
             onLoadedData={(e) => {
               const video = e.target as HTMLVideoElement;
               video.play();
