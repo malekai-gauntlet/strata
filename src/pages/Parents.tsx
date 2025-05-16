@@ -321,6 +321,7 @@ const Parent = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="order-1"
             >
               <h2 className="text-4xl font-heading tracking-tight mb-8 text-gray-900 leading-[0.9]">Excel in athletics and academics</h2>
               <p className="text-xl text-gray-600 leading-relaxed">
@@ -333,6 +334,7 @@ const Parent = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="order-2"
             >
               <img src="/images/happy-kids.jpg" alt="Happy Kids" className="w-full h-auto rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300" />
             </motion.div>
@@ -349,6 +351,7 @@ const Parent = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="order-4 md:order-3"
             >
               <img src="/images/student-athlete.jpg" alt="Student Athlete" className="w-full h-auto rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300" />
             </motion.div>
@@ -357,6 +360,7 @@ const Parent = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="order-3 md:order-4"
             >
               <h2 className="text-3xl md:text-4xl font-heading tracking-tight mb-6 md:mb-8 text-gray-900 leading-[0.9]">4 hours of sports training</h2>
               <p className="text-xl text-gray-600 leading-relaxed">
@@ -378,6 +382,7 @@ const Parent = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="order-5"
             >
               <h2 className="text-4xl font-heading tracking-tight mb-8 text-gray-900 leading-[0.9]">Learn 2x in 2 hours</h2>
               <p className="text-xl text-gray-600 leading-relaxed">
@@ -391,6 +396,7 @@ const Parent = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="order-6"
             >
               <div className="w-full overflow-hidden">
                 <YouTubePlayer videoId="Q0UaFZYntwc" />
@@ -409,13 +415,14 @@ const Parent = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="order-8 md:order-7"
             >
               <div className="w-full overflow-hidden">
                 <InstagramEmbed postId="DHeWwHrxgJ8" />
               </div>
             </motion.div>
             <motion.div
-              className="text-left"
+              className="text-left order-7 md:order-8"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -449,7 +456,7 @@ const Parent = () => {
           
           <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center mb-12 sm:mb-16 md:mb-20 lg:mb-24">
             <motion.div
-              className="text-left"
+              className="text-left order-9"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -468,6 +475,7 @@ const Parent = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="order-10"
             >
               <img src="/images/drdish.png" alt="Basketball Training" className="w-full h-auto rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300" />
             </motion.div>
@@ -479,11 +487,12 @@ const Parent = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="order-12 md:order-11"
             >
               <img src="/images/lifting.jpg" alt="Strength Training" className="w-full h-auto rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300" />
             </motion.div>
             <motion.div
-              className="text-left"
+              className="text-left order-11 md:order-12"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -514,7 +523,7 @@ const Parent = () => {
 
           <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center mb-12 sm:mb-16 md:mb-20 lg:mb-24">
             <motion.div
-              className="text-left"
+              className="text-left order-19"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -546,6 +555,7 @@ const Parent = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="order-20"
             >
               <div className="w-full overflow-hidden">
                 <YouTubePlayer videoId="WIXJrdjG8RY" />
@@ -555,20 +565,7 @@ const Parent = () => {
 
           <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center mb-12 sm:mb-16 md:mb-20 lg:mb-24">
             <motion.div
-              className="aspect-video"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <VideoPlayer 
-                src="/videos/2-hour-learning-video.mp4"
-                controls
-                className="w-full h-full"
-              />
-            </motion.div>
-            <motion.div
-              className="text-left"
+              className="text-left order-21"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -584,11 +581,24 @@ const Parent = () => {
                 hop on a zoom call with a support teacher to work through a question.
               </p>
             </motion.div>
+            <motion.div
+              className="aspect-video order-22"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <VideoPlayer 
+                src="/videos/2-hour-learning-video.mp4"
+                controls
+                className="w-full h-full"
+              />
+            </motion.div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center">
             <motion.div
-              className="text-left"
+              className="text-left order-23"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -610,6 +620,7 @@ const Parent = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="order-24"
             >
               <div className="w-full overflow-hidden">
                 <TweetEmbed tweetId="1899164931897106719" />
@@ -633,7 +644,7 @@ const Parent = () => {
           
           <div className="relative max-w-4xl mx-auto">
             {/* Timeline line */}
-            <div className="absolute left-1/2 w-px h-full bg-gray-300 md:left-1/2" />
+            <div className="absolute left-4 md:left-1/2 w-px h-full bg-gray-300" />
             
             {/* Timeline items */}
             <div className="space-y-16 sm:space-y-20 md:space-y-24 lg:space-y-32">
@@ -654,14 +665,14 @@ const Parent = () => {
                   className="relative"
                 >
                   {/* Time marker */}
-                  <div className="absolute left-1/2 -translate-x-1/2 -mt-2">
+                  <div className="absolute left-4 md:left-1/2 -translate-x-1/2 -mt-2">
                     <div className="w-4 h-4 rounded-full bg-blue-600" />
                   </div>
                   
                   {/* Content */}
-                  <div className="grid grid-cols-1 md:grid-cols-[1fr,1fr] items-center">
+                  <div className="grid grid-cols-[1fr] md:grid-cols-[1fr,1fr] items-center pl-12 md:pl-0">
                     {/* Time */}
-                    <div className="text-center md:text-right md:pr-8 mb-2 md:mb-0">
+                    <div className="text-left md:text-right md:pr-8 mb-2 md:mb-0">
                       <motion.h3
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -674,7 +685,7 @@ const Parent = () => {
                     </div>
                     
                     {/* Activity */}
-                    <div className="pl-0 md:pl-8 text-center md:text-left">
+                    <div className="md:pl-8 text-left">
                       <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
