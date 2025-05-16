@@ -853,39 +853,6 @@ const Parent = () => {
           </motion.div>
         </div>
       </section>
-
-      {/* CTA Section */}
-      <section className="py-16 sm:py-20 md:py-24 lg:py-32 bg-gradient-to-br from-blue-600 to-blue-800 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            className="max-w-3xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading mb-6 tracking-tight">
-              Ready to Give Your Kid an Edge?
-            </h2>
-            <p className="text-xl md:text-2xl mb-12 opacity-90">
-              Join the revolution in student-athlete development. Fill out our quick form to learn more about sports academies near you.
-            </p>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <a 
-                href="#" // You can replace this with your Typeform link later
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block bg-white text-blue-600 px-8 py-4 rounded-full text-xl font-semibold hover:bg-gray-100 transition-colors duration-300 shadow-lg"
-              >
-                Get Started Today
-              </a>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
     </div>
   );
 };
