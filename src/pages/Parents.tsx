@@ -263,15 +263,14 @@ const Parent = () => {
           >
             UNLOCK YOUR KID'S POTENTIAL
           </motion.h2>
-          <div className="flex flex-col md:grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center">
+          <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-center md:text-left"
             >
-              <h2 className="text-3xl md:text-4xl font-heading tracking-tight mb-6 md:mb-8 text-gray-900 leading-[0.9]">Excel in athletics and academics</h2>
+              <h2 className="text-4xl font-heading tracking-tight mb-8 text-gray-900 leading-[0.9]">Excel in athletics and academics</h2>
               <p className="text-xl text-gray-600 leading-relaxed">
                 A first-of-its-kind sports academy. With core academics finished in two focused hours each morning, 
                 students spend afternoons improving at their sport or in hands-on workshops that build core life skills.
@@ -282,7 +281,6 @@ const Parent = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="mt-8 md:mt-0 w-full"
             >
               <img src="/images/happy-kids.jpg" alt="Happy Kids" className="w-full h-auto rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300" />
             </motion.div>
@@ -293,13 +291,12 @@ const Parent = () => {
       {/* Section 2: Sports at Noon */}
       <section className="pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-0 bg-white">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col-reverse md:grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center">
+          <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="mt-8 md:mt-0 w-full"
             >
               <img src="/images/student-athlete.jpg" alt="Student Athlete" className="w-full h-auto rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300" />
             </motion.div>
@@ -308,7 +305,6 @@ const Parent = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-center md:text-left"
             >
               <h2 className="text-3xl md:text-4xl font-heading tracking-tight mb-6 md:mb-8 text-gray-900 leading-[0.9]">4 hours of sports training</h2>
               <p className="text-xl text-gray-600 leading-relaxed">
@@ -563,11 +559,8 @@ const Parent = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="w-full overflow-hidden relative">
-                <div className="max-h-[500px] overflow-y-auto overflow-x-hidden pb-4">
-                  <TweetEmbed tweetId="1899164931897106719" />
-                </div>
-                <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+              <div className="w-full overflow-hidden">
+                <TweetEmbed tweetId="1899164931897106719" />
               </div>
             </motion.div>
           </div>
