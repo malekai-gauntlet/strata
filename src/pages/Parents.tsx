@@ -110,7 +110,7 @@ const Parent = () => {
                 {...fadeInUp}
                 transition={{ delay: 0.6 }}
               >
-                At a revolutionary sports academy designed for middle school athletes, combining top-tier sports training with accelerated academics.
+                A revolutionary sports academy designed for middle school athletes, combining top-tier sports training with accelerated academics.
               </motion.p>
             </div>
           </div>
@@ -147,7 +147,7 @@ const Parent = () => {
                   />
                 </div>
               </div>
-              <h3 className="text-2xl font-heading mb-4 text-gray-900">Accelerated Learning</h3>
+              <h3 className="text-2xl font-heading mb-4 text-gray-900">Top Academics</h3>
               <p className="text-lg text-gray-600">
                 Revolutionary learning software allows students to achieve top academic outcomes in just 2 hours of studying each morning. No homework needed.
               </p>
@@ -195,7 +195,7 @@ const Parent = () => {
               </div>
               <h3 className="text-2xl font-heading mb-4 text-gray-900">Life Skills Focus</h3>
               <p className="text-lg text-gray-600">
-                Through sports and dedicated workshops, students develop essential skills like leadership, growth mindset, and public speaking.
+                Through sports and dedicated workshops, students learn key skills like leadership, growth mindset, and public speaking.
               </p>
             </motion.div>
           </div>
@@ -261,7 +261,7 @@ const Parent = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            MAXIMIZE YOUR KID'S POTENTIAL
+            UNLOCK YOUR KID'S POTENTIAL
           </motion.h2>
           <div className="flex flex-col md:grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center">
             <motion.div
@@ -273,7 +273,7 @@ const Parent = () => {
             >
               <h2 className="text-3xl md:text-4xl font-heading tracking-tight mb-6 md:mb-8 text-gray-900 leading-[0.9]">Excel in athletics and academics</h2>
               <p className="text-xl text-gray-600 leading-relaxed">
-                A first-of-its-kind sports academy. With core academics finished in just two focused hours each morning, 
+                A first-of-its-kind sports academy. With core academics finished in two focused hours each morning, 
                 students spend afternoons improving at their sport or in hands-on workshops that build core life skills.
               </p>
             </motion.div>
@@ -310,10 +310,10 @@ const Parent = () => {
               transition={{ duration: 0.6 }}
               className="text-center md:text-left"
             >
-              <h2 className="text-3xl md:text-4xl font-heading tracking-tight mb-6 md:mb-8 text-gray-900 leading-[0.9]">Sports start at noon</h2>
+              <h2 className="text-3xl md:text-4xl font-heading tracking-tight mb-6 md:mb-8 text-gray-900 leading-[0.9]">4 hours of sports training</h2>
               <p className="text-xl text-gray-600 leading-relaxed">
                 With the day's academics completed by 12pm, students have all afternoon to train with coach. 
-                Students have 3-4 extra hours daily than their competition to train with world-class coaches and 
+                Students have 3-4 extra hours than their competition to train with world-class coaches and 
                 position themselves for success later in life.
               </p>
             </motion.div>
@@ -334,7 +334,7 @@ const Parent = () => {
               <h2 className="text-4xl font-heading tracking-tight mb-8 text-gray-900 leading-[0.9]">Learn 2x in 2 hours</h2>
               <p className="text-xl text-gray-600 leading-relaxed">
                 Students use the world leading 2 Hour Learning software to learn academics. 
-                2 Hour Learning — which is accredited by Cognia — is used at Alpha School, Texas Sports Academy, and hundreds of other schools to help students achieve top-tier 
+                2 Hour Learning — which is accredited by Cognia — is used at Alpha School, Texas Sports Academy, and hundreds of other schools to help students achieve top 
                 academic outcomes.
               </p>
             </motion.div>
@@ -447,9 +447,6 @@ const Parent = () => {
                 success at the high school level and prepare for a college career (if that's your kid's dream). The extra 
                 3-4 hours your kid gets back can be spent on focused skills training, athletic/fitness training, or 5v5 games.
               </p>
-              <p className="text-xl text-gray-600">
-                If this academy is sport-specific (e.g. basketball), the students at the school can be a club team during the off-season, then schedule games with other schools during the season. 
-              </p>
             </motion.div>
           </div>
         </div>
@@ -484,7 +481,7 @@ const Parent = () => {
                personalized learning software while supported by a guide.
               </p>
               <p className="text-xl mb-6 sm:mb-8 md:mb-10 text-gray-600">
-                Your kid will get to use 2 Hour Learning — a revolutionary software accredited by Cognia — that is used at Alpha 
+                Your kid will get to use 2 Hour Learning — a breakthrough curriculum accredited by Cognia — that is used at Alpha 
                 Schools and Sports Academies to achieve Top 2% academic outcomes in only 2 hours of daily studying.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -529,7 +526,7 @@ const Parent = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h3 className="text-4xl font-heading mb-8 text-gray-900">Just 2 hours of academics,no homework needed</h3>
+              <h3 className="text-4xl font-heading mb-8 text-gray-900">Just 2 hours of academics, no homework needed</h3>
               <p className="text-xl mb-8 text-gray-600">
                 With 2 Hour Learning, students really only need two hours of daily focus in the morning to excel. There's
                 no need for students to be at a desk for 6-7 hours a day as they are at traditional schools.
@@ -724,7 +721,7 @@ const Parent = () => {
           
           <div className="max-w-3xl mx-auto">
             <blockquote className="text-2xl italic text-gray-600">
-              "At Texas Sports Academy, they aggressively believe students don't have to sit in a chair at a desk for 
+              "...they aggressively believe students don't have to sit in a chair at a desk for 
               six hours a day. They spend two hours on academics and four hours for life skills like financial literacy, 
               public speaking, and teamwork."
             </blockquote>
@@ -733,7 +730,7 @@ const Parent = () => {
             <blockquote className="text-2xl italic text-gray-600 mt-8 sm:mt-10 md:mt-12">
               "They are only supposed to do two hours, but he brings home his laptop and I wake up every morning to him working on his laptop,"
             </blockquote>
-            <p className="mt-4 sm:mt-6 text-xl">— Christy, Sports Academy Parent</p>
+            <p className="mt-4 sm:mt-6 text-xl">— Christy Griswold, Sports Academy Parent</p>
           </div>
         </div>
       </section>
