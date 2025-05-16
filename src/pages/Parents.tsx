@@ -71,14 +71,14 @@ const Parent = () => {
       {/* <Navigation /> */}
 
       {/* Hero Section */}
-      <section className="relative h-screen">
+      <section className="relative h-[85vh] md:h-screen overflow-hidden">
         <div className="absolute inset-0">
           <video 
             autoPlay
             muted
             loop
             playsInline
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover scale-[1.4] object-center"
           >
             <source src="/videos/v3.mov" type="video/mp4" />
           </video>
