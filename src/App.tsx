@@ -13,6 +13,7 @@ import Parents from "./pages/Parents";
 import Academics from "./pages/Academics";
 import ESAs from "./pages/ESAs";
 import IMGPage from "./pages/IMGPage";
+import Training from "./pages/Training";
 import { useEffect } from "react";
 
 const queryClient = new QueryClient();
@@ -201,6 +202,7 @@ const App = () => (
           <Route path="/academics" element={<Academics />} />
           <Route path="/esas" element={<ESAs />} />
           <Route path="/img" element={<IMGPage />} />
+          <Route path="/training" element={<Training />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
