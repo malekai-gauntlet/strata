@@ -22,7 +22,7 @@ const AnimatedText = () => {
   }, []);
 
   return (
-    <div className="inline-block w-[700px] py-2">
+    <div className="inline-block w-full max-w-[700px] py-2">
       <AnimatePresence mode="wait">
         <motion.span
           key={currentIndex}
@@ -270,7 +270,7 @@ const Test = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden">
       <Navigation />
 
       {/* Epic Opening/Dream State Hero Section */}
@@ -319,17 +319,7 @@ const Test = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="mt-24"
             >
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-12 md:gap-24 max-w-5xl mx-auto">
-                <div className="flex flex-col items-center justify-center">
-                  <div className="h-16 flex items-center justify-center">
-                    <img
-                      src="/images/2 Hour Learning.png"
-                      alt="2 Hour Learning"
-                      className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
-                    />
-                  </div>
-                  <span className="text-sm text-gray-400 mt-3">2 Hour Learning</span>
-                </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-24 max-w-5xl mx-auto">
                 <div className="flex flex-col items-center justify-center">
                   <div className="h-16 flex items-center justify-center">
                     <img
@@ -338,7 +328,6 @@ const Test = () => {
                       className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
                     />
                   </div>
-                  <span className="text-sm text-gray-400 mt-3">Alpha School</span>
                 </div>
                 <div className="flex flex-col items-center justify-center">
                   <div className="h-16 flex items-center justify-center">
@@ -348,7 +337,15 @@ const Test = () => {
                       className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
                     />
                   </div>
-                  <span className="text-sm text-gray-400 mt-3">Texas Sports Academy</span>
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                  <div className="h-16 flex items-center justify-center">
+                    <img
+                      src="/images/2 Hour Learning.png"
+                      alt="2 Hour Learning"
+                      className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
+                    />
+                  </div>
                 </div>
                 <div className="flex flex-col items-center justify-center">
                   <div className="h-16 flex items-center justify-center">
@@ -358,17 +355,6 @@ const Test = () => {
                       className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
                     />
                   </div>
-                  <span className="text-sm text-gray-400 mt-3">Cognia</span>
-                </div>
-                <div className="flex flex-col items-center justify-center">
-                  <div className="h-16 flex items-center justify-center">
-                    <img
-                      src="/images/nba.png"
-                      alt="NBA"
-                      className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
-                    />
-                  </div>
-                  <span className="text-sm text-gray-400 mt-3">NBA</span>
                 </div>
               </div>
             </motion.div>
