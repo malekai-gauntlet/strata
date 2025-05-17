@@ -183,12 +183,74 @@ const GoogleAnalyticsTracking = () => {
   return null;
 };
 
+// Microsoft Clarity tracking component
+const MicrosoftClarityTracking = () => {
+  useEffect(() => {
+    // Load analytics during idle time or with a small delay to prioritize content rendering
+    const loadClarity = () => {
+      const clarityScript = document.createElement('script');
+      clarityScript.type = "text/javascript";
+      clarityScript.async = true;
+      clarityScript.innerHTML = `
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "rkpg9p86ec");
+      `;
+      document.head.appendChild(clarityScript);
+      
+      return clarityScript;
+    };
+
+    // Use requestIdleCallback if available, or setTimeout as fallback
+    let clarityScript;
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        const idleCallback = window.requestIdleCallback(() => {
+          clarityScript = loadClarity();
+        });
+        
+        return () => {
+          window.cancelIdleCallback(idleCallback);
+          try {
+            if (clarityScript && clarityScript.parentNode) {
+              clarityScript.parentNode.removeChild(clarityScript);
+            }
+          } catch (e) {
+            console.error('Error removing Microsoft Clarity script:', e);
+          }
+        };
+      } else {
+        // Fallback to setTimeout with a small delay
+        const timeoutId = setTimeout(() => {
+          clarityScript = loadClarity();
+        }, 2000); // 2 second delay (after Hotjar and Mouseflow)
+
+        return () => {
+          clearTimeout(timeoutId);
+          try {
+            if (clarityScript && clarityScript.parentNode) {
+              clarityScript.parentNode.removeChild(clarityScript);
+            }
+          } catch (e) {
+            console.error('Error removing Microsoft Clarity script:', e);
+          }
+        };
+      }
+    }
+  }, []);
+
+  return null;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <HotjarTracking />
       <MouseflowTracking />
       <GoogleAnalyticsTracking />
+      <MicrosoftClarityTracking />
       <Toaster />
       <Sonner />
       <BrowserRouter>
