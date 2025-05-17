@@ -3,14 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Button } from './ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
+import VimeoPlayer from './VimeoPlayer';
 
 interface FloatingVideoPlayerProps {
-  src: string;
+  videoId: string;
   isVisible: boolean;
   onClose: () => void;
 }
 
-const FloatingVideoPlayer = ({ src, isVisible, onClose }: FloatingVideoPlayerProps) => {
+const FloatingVideoPlayer = ({ videoId, isVisible, onClose }: FloatingVideoPlayerProps) => {
   const isMobile = useIsMobile();
   
   const handleBackgroundClick = (e: React.MouseEvent) => {
@@ -47,17 +48,11 @@ const FloatingVideoPlayer = ({ src, isVisible, onClose }: FloatingVideoPlayerPro
               </Button>
             )}
             <div className={`${isMobile ? 'min-h-[200px]' : 'min-h-[450px]'} flex items-center`} onClick={e => e.stopPropagation()}>
-              <video
+              <VimeoPlayer
+                videoId={videoId}
                 className="w-full aspect-video rounded-lg shadow-xl"
-                controls
-                playsInline
-                preload="metadata"
-                autoPlay
-                onClick={e => e.stopPropagation()}
-              >
-                <source src={src} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+                autoplay={true}
+              />
             </div>
           </div>
         </motion.div>

@@ -9,6 +9,35 @@ import MapEmbed from '@/components/MapEmbed';
 import VimeoPlayer from '@/components/VimeoPlayer';
 import FinancialEstimator from '@/components/FinancialEstimator';
 
+// Animated Text Component
+const AnimatedText = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const texts = ["TRAINING FACILITY", "AAU PROGRAM", "SPORTS VENUE"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((current) => (current + 1) % texts.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="inline-block w-[700px] py-2">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={currentIndex}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="block text-center bg-gradient-to-r from-blue-400 to-blue-600 text-transparent bg-clip-text"
+        >
+          {texts[currentIndex]}
+        </motion.span>
+      </AnimatePresence>
+    </div>
+  );
+};
+
 // Card components
 const ProblemCard = ({ title, description }: { title: string; description: string }) => (
   <motion.div
@@ -180,6 +209,7 @@ const Test = () => {
   const [showFeaturedCampus, setShowFeaturedCampus] = useState(false);
   const [showAcademicsModal, setShowAcademicsModal] = useState(false);
   const [showOperationsModal, setShowOperationsModal] = useState(false);
+  const [shouldAutoplayVideo, setShouldAutoplayVideo] = useState(false);
 
   // Handle body scroll lock
   useEffect(() => {
@@ -253,18 +283,34 @@ const Test = () => {
             className="text-center"
           >
             <span className="text-gray-400 text-lg mb-4 block">FOR TOP 1% COACHES</span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 drop-shadow-[0_4px_4px_rgba(0,0,0,0.4)]">
-              TURN YOUR AAU PROGRAM <br></br> INTO A SCHOOL
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-center flex flex-col items-center gap-2">
+              <div>TURN YOUR</div>
+              <AnimatedText />
+              <div>INTO A SCHOOL</div>
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-gray-200">
               Double your income and leave a legacy.
             </p>
-            <Button 
-              className="bg-white text-black hover:bg-gray-100 text-lg px-8 py-6"
-              onClick={() => document.getElementById('present-state')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Learn How
-            </Button>
+            <div className="flex justify-center">
+              <Button 
+                className="bg-white text-black hover:bg-gray-100 text-lg px-8 py-6 flex items-center gap-2"
+                onClick={() => {
+                  setShouldAutoplayVideo(true);
+                  document.getElementById('promo-video')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                <svg 
+                  width="24" 
+                  height="24" 
+                  viewBox="0 0 24 24" 
+                  fill="currentColor" 
+                  className="relative left-[-4px]"
+                >
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+                Watch Video
+              </Button>
+            </div>
 
             {/* Social Proof Logos */}
             <motion.div
@@ -273,8 +319,7 @@ const Test = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="mt-24"
             >
-              <p className="text-gray-400 text-sm mb-8">LEADERS IN SPORTS & EDUCATION</p>
-              <div className="grid grid-cols-3 gap-12 md:gap-24 max-w-4xl mx-auto">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-12 md:gap-24 max-w-5xl mx-auto">
                 <div className="flex flex-col items-center justify-center">
                   <div className="h-16 flex items-center justify-center">
                     <img
@@ -298,6 +343,26 @@ const Test = () => {
                 <div className="flex flex-col items-center justify-center">
                   <div className="h-16 flex items-center justify-center">
                     <img
+                      src="/images/TSA-Final-Logos-RGB-07.png"
+                      alt="Texas Sports Academy"
+                      className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
+                    />
+                  </div>
+                  <span className="text-sm text-gray-400 mt-3">Texas Sports Academy</span>
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                  <div className="h-16 flex items-center justify-center">
+                    <img
+                      src="/images/cognia.png"
+                      alt="Cognia"
+                      className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
+                    />
+                  </div>
+                  <span className="text-sm text-gray-400 mt-3">Cognia</span>
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                  <div className="h-16 flex items-center justify-center">
+                    <img
                       src="/images/nba.png"
                       alt="NBA"
                       className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity"
@@ -312,7 +377,7 @@ const Test = () => {
       </section>
 
       {/* Promo Video Section */}
-      <section className="py-24 bg-[#111111]">
+      <section id="promo-video" className="py-24 bg-[#111111]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -326,7 +391,7 @@ const Test = () => {
           </div>
           <div className="max-w-4xl mx-auto">
             <div className="aspect-video bg-black rounded-lg overflow-hidden relative shadow-[0_8px_30px_rgb(0,0,0,0.5)] border border-white/5">
-              <VimeoPlayer videoId="1084834014" className="w-full h-full" autoplay={false} showTitle={false} />
+              <VimeoPlayer videoId="1084834014" className="w-full h-full" autoplay={shouldAutoplayVideo} showTitle={false} />
             </div>
           </div>
         </motion.div>
@@ -1224,9 +1289,6 @@ const Test = () => {
                 <li>
                   <a href="/parents" className="text-gray-400 hover:text-white">For Parents</a>
                 </li>
-                <li>
-                  <a href="/blog" className="text-gray-400 hover:text-white">Blog</a>
-                </li>
               </ul>
             </div>
 
@@ -1248,10 +1310,13 @@ const Test = () => {
               <h3 className="text-lg font-semibold mb-4">Partners</h3>
               <ul className="space-y-2">
                 <li>
-                  <a href="https://alpha.school" className="text-gray-400 hover:text-white">Alpha School</a>
+                  <a href="https://alpha.school" className="text-gray-400 hover:text-white" target="_blank" rel="noopener noreferrer">Alpha School</a>
                 </li>
                 <li>
-                  <a href="https://texassportsacademy.com" className="text-gray-400 hover:text-white">Texas Sports Academy</a>
+                  <a href="https://texassportsacademy.com" className="text-gray-400 hover:text-white" target="_blank" rel="noopener noreferrer">Texas Sports Academy</a>
+                </li>
+                <li>
+                  <a href="https://2hourlearning.com" className="text-gray-400 hover:text-white" target="_blank" rel="noopener noreferrer">2 Hour Learning</a>
                 </li>
               </ul>
             </div>

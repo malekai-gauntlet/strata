@@ -127,7 +127,7 @@ const Index = () => {
       />
       
       <FloatingVideoPlayer
-        src="/videos/2-hour-learning-video.mp4"
+        videoId="1084834014"
         isVisible={isVideoVisible}
         onClose={() => setIsVideoVisible(false)}
       />
@@ -156,6 +156,16 @@ const Index = () => {
 
 But you're a coach... why does this matter for you?`}
             </StreamingText>
+                          <Button 
+                variant="default" 
+                className="bg-white text-secondary hover:bg-gray-100 mt-4 inline-flex items-center justify-center gap-3"
+                onClick={() => setIsVideoVisible(true)}
+              >
+                <div className="w-8 h-8 rounded-full border-2 border-secondary/50 flex items-center justify-center">
+                  <div className="w-0 h-0 border-t-[6px] border-t-transparent border-l-[10px] border-l-secondary border-b-[6px] border-b-transparent ml-1" />
+                </div>
+                Watch Video
+              </Button>
           </div>
         </StorySection>
 
