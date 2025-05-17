@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import StorySection from '@/components/StorySection';
 import SectionDots from '@/components/SectionDots';
@@ -19,111 +19,46 @@ import trophyImage from '/images/trophy.png';
 
 const Index = () => {
   const sections = ['intro', 'opportunity', 'legacy', 'income', 'academics', 'athletes', 'partner', 'start'];
-  const [currentSection, setCurrentSection] = useState(getInitialSection());
-  const [isScrollLocked, setIsScrollLocked] = useState(false);
+  const [currentSection, setCurrentSection] = useState('intro');
   const [isVideoVisible, setIsVideoVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const wheelEventRef = useRef<((e: WheelEvent) => void) | null>(null);
-  const lastWheelEventTimeRef = useRef(0);
 
-  function getInitialSection() {
-    const hash = window.location.hash.replace('#', '');
-    return sections.includes(hash) ? hash : 'intro';
-  }
+  useEffect(() => {
+    // Use Intersection Observer to track current section
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setCurrentSection(entry.target.id);
+          }
+        });
+      },
+      {
+        threshold: 0.5, // Trigger when section is 50% visible
+      }
+    );
+
+    sections.forEach((section) => {
+      const element = document.getElementById(section);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const navigateToSection = (section: string) => {
-    if (isScrollLocked || section === currentSection) return;
-    
-    setIsScrollLocked(true);
-    
-    // Cancel any ongoing scroll animations
-    window.scrollTo({ top: window.scrollY });
-    
-    window.location.hash = section;
-    setCurrentSection(section);
     document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
-    
-    setTimeout(() => {
-      setIsScrollLocked(false);
-    }, 800);
-  };
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '');
-      if (sections.includes(hash) && !isScrollLocked) {
-        setCurrentSection(hash);
-      }
-    };
-
-    window.addEventListener('hashchange', handleHashChange);
-    
-    if (!window.location.hash) {
-      window.location.hash = currentSection;
-    }
-
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-    };
-  }, [currentSection, isScrollLocked]);
-
-  useEffect(() => {
-    const handleScroll = (e: WheelEvent) => {
-      // Prevent default scrolling behavior
-      e.preventDefault();
-      
-      // If scrolling is locked, ignore wheel events completely
-      if (isScrollLocked) return;
-
-      // Simple debounce: only allow wheel events every 800ms
-      const currentTime = Date.now();
-      if (currentTime - lastWheelEventTimeRef.current < 800) return;
-      
-      // Only trigger section change if scroll intensity is moderate (> 50) or it's been a while since last scroll
-      const scrollIntensity = Math.abs(e.deltaY);
-      const timeSinceLastScroll = currentTime - lastWheelEventTimeRef.current;
-      
-      if (scrollIntensity < 50 && timeSinceLastScroll < 1500) return;
-      
-      lastWheelEventTimeRef.current = currentTime;
-
-      const currentIndex = sections.indexOf(currentSection);
-      
-      // Determine scroll direction and navigate accordingly
-      if (e.deltaY > 0 && currentIndex < sections.length - 1) {
-        navigateToSection(sections[currentIndex + 1]);
-      } else if (e.deltaY < 0 && currentIndex > 0) {
-        navigateToSection(sections[currentIndex - 1]);
-      }
-    };
-
-    // Store the handler reference so we can remove it properly
-    wheelEventRef.current = handleScroll;
-    
-    // Add the wheel event listener with passive: false to allow preventDefault
-    window.addEventListener('wheel', wheelEventRef.current, { passive: false });
-    
-    return () => {
-      // Remove the event listener using the stored reference
-      if (wheelEventRef.current) {
-        window.removeEventListener('wheel', wheelEventRef.current);
-      }
-    };
-  }, [currentSection, isScrollLocked]);
-
-  const handleDotClick = (section: string) => {
-    navigateToSection(section);
   };
 
   return (
-    <div className="min-h-screen bg-secondary">
+    <div className="h-screen overflow-hidden bg-secondary">
       <Navigation />
       <SectionDots 
         sections={sections}
         currentSection={currentSection}
-        onDotClick={handleDotClick}
+        onDotClick={navigateToSection}
       />
       
       <FloatingVideoPlayer
@@ -132,7 +67,7 @@ const Index = () => {
         onClose={() => setIsVideoVisible(false)}
       />
       
-      <main className="snap-y snap-mandatory h-screen overflow-y-auto scroll-smooth">
+      <main className="h-screen overflow-y-auto overscroll-contain snap-y snap-mandatory">
         <StorySection 
           id="intro" 
           withGraphic 

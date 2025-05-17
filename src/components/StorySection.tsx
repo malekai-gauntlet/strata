@@ -16,7 +16,7 @@ const StorySection = ({ id, children, withGraphic = false, customGraphic, classN
     <section
       id={id}
       className={cn(
-        "h-screen snap-start flex items-center justify-center px-4 py-16 md:py-0",
+        "min-h-screen h-screen flex items-center justify-center px-4 py-16 md:py-0 snap-start snap-always",
         withGraphic ? 'bg-secondary/50' : '',
         className
       )}
