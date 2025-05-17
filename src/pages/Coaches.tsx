@@ -17,7 +17,7 @@ const AnimatedText = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((current) => (current + 1) % texts.length);
-    }, 2500);
+    }, 2000);
     return () => clearInterval(interval);
   }, []);
 
