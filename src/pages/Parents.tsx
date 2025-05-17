@@ -809,6 +809,13 @@ const Parent = () => {
               </blockquote>
               <p className="mt-4 sm:mt-6 text-xl">— Christy Griswold, Sports Academy Parent</p>
             </a>
+
+            <div className="block hover:opacity-80 transition-opacity">
+              <blockquote className="text-2xl italic text-gray-600 mt-8 sm:mt-10 md:mt-12">
+                "My kid is super into sports, a high-potential athlete if I can say. But at his old school he had to be at a desk all day. The academics and late-evening sports weren't working. I was really worried. But when he joined a sports academy, it kind of "unlocked" him. He's staying out of trouble, better in class, better on the court, and he loves it. Things are trending great. Biggest relief of my life."
+              </blockquote>
+              <p className="mt-4 sm:mt-6 text-xl">— Sports Academy Parent</p>
+            </div>
           </div>
         </div>
       </section>
@@ -838,7 +845,7 @@ const Parent = () => {
             />
             <FAQItem
               question="Who owns the school?"
-              answer="The school is owned by the coach or leader who creates the academy. Strata is just the platform that enables them to create their academy — by managing the academics, administration, secure ESA funding, and more."
+              answer="The school is owned by the coach or leader who creates the academy. Strata is just the platform that enables them to create their academy — by managing the academics, administration, secure ESA funding, and more."
             />
             <FAQItem
               question="Are these schools only for middle schoolers?"
