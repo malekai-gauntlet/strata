@@ -10,6 +10,7 @@ import VideoPlayer from '@/components/VideoPlayer';
 import MapEmbed from '@/components/MapEmbed';
 import { motion } from 'framer-motion';
 import FloatingVideoPlayer from '@/components/FloatingVideoPlayer';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Import images
 import capitolImage from '/images/capitol.png';
@@ -24,6 +25,7 @@ const Index = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     // Use Intersection Observer to track current section
@@ -47,6 +49,19 @@ const Index = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  // Add effect to handle scroll lock only on mobile
+  useEffect(() => {
+    if (isMobile && isVideoVisible) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isVideoVisible, isMobile]);
 
   const navigateToSection = (section: string) => {
     document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
