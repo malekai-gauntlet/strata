@@ -152,10 +152,10 @@ const FinancialEstimator: React.FC<FinancialEstimatorProps> = ({ className }) =>
             />
           </div>
 
-          {/* Strata Network Referrals */}
-          <div>
+          {/* Strata Network Referrals - temporarily hidden */}
+          {/* <div>
             <label className="block text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
-              Strata Network Referrals
+              Strata Referrals
               <TooltipProvider delayDuration={0}>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -165,7 +165,7 @@ const FinancialEstimator: React.FC<FinancialEstimatorProps> = ({ className }) =>
                   </TooltipTrigger>
                   <TooltipContent side="right" className="bg-black/90 text-white border border-white/20 p-3">
                     <p className="w-[200px] text-sm">
-                      Students referred through Strata's network vs. students found directly.
+                      # of students Strata finds for you vs. students you find directly. We only recruit students for you if ask want us to.
                     </p>
                   </TooltipContent>
                 </Tooltip>
@@ -177,7 +177,7 @@ const FinancialEstimator: React.FC<FinancialEstimatorProps> = ({ className }) =>
               onChange={(e) => setStrataNetworkReferrals(parseInt(e.target.value))}
               className="bg-black/50 border-white/20 text-white"
             />
-          </div>
+          </div> */}
 
           {/* Reset Button */}
           <Button

@@ -282,7 +282,7 @@ const Test = () => {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <span className="text-gray-400 text-lg mb-4 block">FOR TOP 1% COACHES</span>
+            <span className="text-gray-400 text-sm md:text-lg mb-4 block">FOR TOP 1% COACHES</span>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-center flex flex-col items-center gap-2">
               <div>TURN YOUR</div>
               <AnimatedText />
