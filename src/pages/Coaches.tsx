@@ -7,6 +7,7 @@ import Timeline from '@/components/Timeline';
 import { Link } from 'react-router-dom';
 import MapEmbed from '@/components/MapEmbed';
 import VimeoPlayer from '@/components/VimeoPlayer';
+import FinancialEstimator from '@/components/FinancialEstimator';
 
 // Card components
 const ProblemCard = ({ title, description }: { title: string; description: string }) => (
@@ -430,7 +431,7 @@ const Test = () => {
       <section className="min-h-screen flex items-center relative bg-[#111111] overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="/images/iStock-2041276552.jpg"
+            src="/images/coach.jpg"
             alt="Keep Your Coaching Job"
             className="w-full h-full object-cover object-[center_30%]"
           />
@@ -1038,6 +1039,35 @@ const Test = () => {
               description: "We handle all paperwork - creating your LLC, finalizing contracts, and preparing for the August school year launch."
             }
           ]} />
+        </div>
+      </section>
+
+      {/* Financial Estimator Section */}
+      <section className="py-24 bg-black">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Calculate Your Potential Income
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Estimate your annual revenue and profit based on student enrollment and expenses.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <FinancialEstimator className="max-w-5xl mx-auto" />
+          </motion.div>
         </div>
       </section>
 
