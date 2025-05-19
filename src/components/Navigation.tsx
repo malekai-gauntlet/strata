@@ -43,7 +43,7 @@ const Navigation = () => {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 py-6 px-8 ${navBgClass}`}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <Link to="/" className={`${textColorClass} text-xl font-medium`}>Strata Schools</Link>
+        <Link to="/" className={`${textColorClass} text-xl font-medium`}>Strata</Link>
         
         {isMobile ? (
           <>
