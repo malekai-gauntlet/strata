@@ -4,7 +4,7 @@ import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Timeline from '@/components/Timeline';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import MapEmbed from '@/components/MapEmbed';
 import VimeoPlayer from '@/components/VimeoPlayer';
 import FinancialEstimator from '@/components/FinancialEstimator';
@@ -210,6 +210,19 @@ const Test = () => {
   const [showAcademicsModal, setShowAcademicsModal] = useState(false);
   const [showOperationsModal, setShowOperationsModal] = useState(false);
   const [shouldAutoplayVideo, setShouldAutoplayVideo] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      setTimeout(() => {
+        const id = location.hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100); // Adjust delay as needed
+    }
+  }, [location.hash]);
 
   // Handle body scroll lock
   useEffect(() => {
