@@ -1094,7 +1094,7 @@ const Test = () => {
       </section>
 
       {/* Financial Estimator Section */}
-      <section className="py-24 bg-black">
+      <section id="income" className="py-24 bg-black">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
