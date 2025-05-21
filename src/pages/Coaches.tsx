@@ -216,7 +216,7 @@ const Test = () => {
     if (location.hash) {
       setTimeout(() => {
         const id = location.hash.replace('#', '');
-        const element = document.getElementById(id);
+        const element = id === 'video' ? document.getElementById('promo-video') : document.getElementById(id);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
