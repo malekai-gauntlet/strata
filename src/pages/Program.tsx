@@ -105,12 +105,38 @@ export default function Program() {
         }}
         topRightContent={
           <div className="flex items-center space-x-8">
-            <Link to="/program" className="flex items-center space-x-2 text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200 cursor-pointer">
-              <span>The Program</span>
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </Link>
+            <div className="relative group">
+              <Link to="/program" className="flex items-center space-x-2 text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200 cursor-pointer">
+                <span>The Program</span>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </Link>
+              
+              {/* Dropdown Menu */}
+              <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                <div className="py-3">
+                  <button 
+                    onClick={() => document.getElementById('learn-2x')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-[#004aad] transition-colors duration-200 text-sm font-medium"
+                  >
+                    Learn 2x in 2 Hours
+                  </button>
+                  <button 
+                    onClick={() => document.getElementById('athletic-success')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-[#004aad] transition-colors duration-200 text-sm font-medium"
+                  >
+                    Athletic Success
+                  </button>
+                  <button 
+                    onClick={() => document.getElementById('elite-coaches')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-[#004aad] transition-colors duration-200 text-sm font-medium"
+                  >
+                    Elite Coaches
+                  </button>
+                </div>
+              </div>
+            </div>
             <span className="text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200 cursor-pointer">
               Admission
             </span>
@@ -194,27 +220,54 @@ export default function Program() {
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <div className="bg-gradient-to-br from-[#004aad] to-[#003a8c] rounded-2xl p-12 text-white relative overflow-hidden">
-                <div className="absolute top-4 right-4 w-24 h-24 bg-white/10 rounded-full"></div>
-                <div className="absolute bottom-4 left-4 w-32 h-32 bg-white/5 rounded-full"></div>
+              <div className="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100 relative overflow-hidden">
+                {/* Subtle background pattern */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#004aad]/5 to-[#003a8c]/10"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#004aad]/10 to-transparent rounded-full transform translate-x-16 -translate-y-16"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#87CEEB]/20 to-transparent rounded-full transform -translate-x-12 translate-y-12"></div>
+                
                 <div className="relative z-10">
-                  <h3 className="text-3xl font-bold mb-6">The Dual Excellence Advantage</h3>
-                  <div className="space-y-4">
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-[#004aad] rounded-xl flex items-center justify-center mr-4">
+                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-[#1a1a1a]">The Dual Excellence Advantage</h3>
+                  </div>
+                  
+                  <div className="space-y-5">
                     <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">Academic mastery in 2 hours daily</span>
+                      <div className="w-10 h-10 bg-[#004aad]/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                        <svg className="w-5 h-5 text-[#004aad]" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                        </svg>
+                      </div>
+                      <span className="text-gray-700 leading-relaxed">Academic mastery in 2 hours daily</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">Professional athletic training</span>
+                      <div className="w-10 h-10 bg-[#004aad]/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                        <svg className="w-5 h-5 text-[#004aad]" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                        </svg>
+                      </div>
+                      <span className="text-gray-700 leading-relaxed">Professional athletic training</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">Elite life skills development</span>
+                      <div className="w-10 h-10 bg-[#004aad]/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                        <svg className="w-5 h-5 text-[#004aad]" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                        </svg>
+                      </div>
+                      <span className="text-gray-700 leading-relaxed">Elite life skills development</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">Top 1-2% national test scores</span>
+                      <div className="w-10 h-10 bg-[#004aad]/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                        <svg className="w-5 h-5 text-[#004aad]" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd"/>
+                        </svg>
+                      </div>
+                      <span className="text-gray-700 leading-relaxed">Top 1-2% national test scores</span>
                     </div>
                   </div>
                 </div>
@@ -225,7 +278,7 @@ export default function Program() {
       </Section>
 
       {/* The Texas Sports Academy Day */}
-      <Section className="bg-gray-50">
+      <Section className="bg-gray-50" id="tsa-day">
         <div className="container mx-auto px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -237,43 +290,60 @@ export default function Program() {
               </h2>
               <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
                 <p>
-                  Our carefully structured day maximizes both academic achievement and athletic development. Students begin each morning with 3 hours of intensive, AI-powered learning that covers all core subjects with personalized instruction.
+                  Our carefully structured day maximizes both academic achievement and athletic development through a revolutionary approach that gives students the best of both worlds.
                 </p>
-                <p>
-                  By noon, academics are complete, and students transition to professional sports training. Our elite coaches provide world-class instruction in their sport of choice.
-                </p>
-                <p>
-                  Late afternoons focus on life skills development: public speaking, financial literacy, leadership training, and career preparation. This comprehensive approach develops complete student-athletes who are ready for success at the next level.
-                </p>
+                
+                <div className="space-y-4">
+                  <div>
+                    <p><strong>Morning Academic Mastery:</strong> Students begin each morning with 3 hours of intensive, AI-powered learning that covers all core subjects with personalized instruction, completing all academics by noon.</p>
+                  </div>
+                  <div>
+                    <p><strong>Afternoon Athletic Excellence:</strong> By noon, academics are complete, and students transition to professional sports training with our elite coaches who provide world-class instruction in their sport of choice.</p>
+                  </div>
+                  <div>
+                    <p><strong>Life Skills Development:</strong> Late afternoons focus on essential life skills: public speaking, financial literacy, leadership training, and career preparation - developing complete student-athletes ready for success at the next level.</p>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <div className="bg-gradient-to-br from-[#c9472b] to-[#a23721] rounded-2xl p-12 text-white relative overflow-hidden">
-                <div className="absolute top-4 right-4 w-24 h-24 bg-white/10 rounded-full"></div>
-                <div className="absolute bottom-4 left-4 w-32 h-32 bg-white/5 rounded-full"></div>
+              <div className="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100 relative overflow-hidden">
+                {/* Subtle background pattern */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#c9472b]/5 to-[#a23721]/10"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#c9472b]/10 to-transparent rounded-full transform translate-x-16 -translate-y-16"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#ff8a80]/20 to-transparent rounded-full transform -translate-x-12 translate-y-12"></div>
+                
                 <div className="relative z-10">
-                  <h3 className="text-3xl font-bold mb-6">A Day in the Life</h3>
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-[#c9472b] rounded-xl flex items-center justify-center mr-4">
+                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M12 2l3.09 6.26L22 9l-5 4.87 1.18 6.88L12 17.77l-6.18 2.98L7 14.87 2 10l6.91-.74L12 2z"/>
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-[#1a1a1a]">A Day in the Life</h3>
+                  </div>
+                  
                   <div className="space-y-6">
                     <div>
                       <div className="flex items-center mb-2">
-                        <div className="w-4 h-4 bg-white rounded-full mr-3"></div>
-                        <span className="text-xl font-bold">9:00 AM - 11:30 AM</span>
+                        <div className="w-4 h-4 bg-[#c9472b] rounded-full mr-3"></div>
+                        <span className="text-xl font-bold text-gray-900">9:00 AM - 11:30 AM</span>
                       </div>
-                      <p className="text-white/90 ml-7">Accelerated Academic Learning</p>
+                      <p className="text-gray-700 ml-7">Accelerated Academic Learning</p>
                     </div>
                     <div>
                       <div className="flex items-center mb-2">
-                        <div className="w-4 h-4 bg-white rounded-full mr-3"></div>
-                        <span className="text-xl font-bold">11:30 AM - 12:15 PM</span>
+                        <div className="w-4 h-4 bg-[#c9472b] rounded-full mr-3"></div>
+                        <span className="text-xl font-bold text-gray-900">11:30 AM - 12:15 PM</span>
                       </div>
-                      <p className="text-white/90 ml-7">Lunch Break</p>
+                      <p className="text-gray-700 ml-7">Lunch Break</p>
                     </div>
                     <div>
                       <div className="flex items-center mb-2">
-                        <div className="w-4 h-4 bg-white rounded-full mr-3"></div>
-                        <span className="text-xl font-bold">12:15 PM - 3:30 PM</span>
+                        <div className="w-4 h-4 bg-[#c9472b] rounded-full mr-3"></div>
+                        <span className="text-xl font-bold text-gray-900">12:15 PM - 3:30 PM</span>
                       </div>
-                      <p className="text-white/90 ml-7">Professional Sports Training & Life Skills Workshops</p>
+                      <p className="text-gray-700 ml-7">Professional Sports Training & Life Skills Workshops</p>
                     </div>
                   </div>
                 </div>
@@ -284,7 +354,7 @@ export default function Program() {
       </Section>
 
       {/* Elite Professional Coaches */}
-      <Section className="bg-white">
+      <Section className="bg-white" id="elite-coaches">
         <div className="container mx-auto px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -296,11 +366,20 @@ export default function Program() {
               </h2>
               <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
                 <p>
-                  Our coaching staff represents the pinnacle of athletic achievement. Students learn directly from NBA coaches, NFL veterans, MLB professionals, and D1 stars who bring championship-level expertise to every training session.
+                  Our coaching staff represents the pinnacle of athletic achievement, bringing championship-level expertise directly to every student's training experience.
                 </p>
-                <p>
-                  These aren't just skilled athletes - they're experienced educators who understand how to develop both athletic ability and character. They've competed at the highest levels and know what it takes to succeed in professional sports and life.
-                </p>
+                
+                <div className="space-y-4">
+                  <div>
+                    <p><strong>Championship Experience:</strong> Students learn directly from NBA coaches, NFL veterans, MLB professionals, and D1 stars who bring proven success from the highest levels of competition to every training session.</p>
+                  </div>
+                  <div>
+                    <p><strong>Expert Educators:</strong> These aren't just skilled athletes - they're experienced educators who understand how to develop both athletic ability and character, combining elite performance with proven teaching methods.</p>
+                  </div>
+                  <div>
+                    <p><strong>Success Mentorship:</strong> They've competed at the highest levels and know exactly what it takes to succeed in professional sports and life, providing students with invaluable insights and guidance.</p>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="order-1 lg:order-2">
@@ -311,7 +390,7 @@ export default function Program() {
       </Section>
 
       {/* Position Your Kid for Athletic Success */}
-      <Section className="bg-gray-50">
+      <Section className="bg-gray-50" id="athletic-success">
         <div className="container mx-auto px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -323,14 +402,20 @@ export default function Program() {
               </h2>
               <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
                 <p>
-                  With sports starting at 12pm, your kid gets all afternoon to train with elite coaches and develop their athletic skills. By 4pm, they'll have 6-7 quality hours of academics and sports training completed - no homework stress, no late nights.
+                  Middle school is when athletic foundations are built for high school varsity success, college scholarships, and NIL opportunities. Our program gives your child the competitive edge they need.
                 </p>
-                <p>
-                  This is the prime opportunity window. Middle school is when athletic foundations are built for high school varsity success, college scholarships, and NIL opportunities. Those extra 3-4 hours daily aren't just "more practice time" - they're strategic development that positions your kid ahead of their competition.
-                </p>
-                <p>
-                  No more rushing between afterschool programs. No more getting home after 8pm exhausted. Your kid gets focused, professional-level training during peak hours while their peers competition is sitting in traditional classrooms.
-                </p>
+                
+                <div className="space-y-4">
+                  <div>
+                    <p><strong>Optimal Training Schedule:</strong> With sports starting at 12pm, your kid gets all afternoon to train with elite coaches and develop their athletic skills. By 4pm, they'll have 6-7 quality hours of academics and sports training completed - no homework stress, no late nights.</p>
+                  </div>
+                  <div>
+                    <p><strong>Strategic Development Window:</strong> Those extra 3-4 hours daily aren't just "more practice time" - they're strategic development that positions your kid ahead of their competition during the prime opportunity window for athletic growth.</p>
+                  </div>
+                  <div>
+                    <p><strong>Competitive Advantage:</strong> No more rushing between afterschool programs or getting home after 8pm exhausted. Your kid gets focused, professional-level training during peak hours while their peers' competition is sitting in traditional classrooms.</p>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="order-1 lg:order-2">
@@ -365,7 +450,7 @@ export default function Program() {
       </Section>
 
       {/* Learn 2x in 2 Hours */}
-      <Section className="bg-gray-50">
+      <Section className="bg-gray-50" id="learn-2x">
         <div className="container mx-auto px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -377,38 +462,71 @@ export default function Program() {
               </h2>
               <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
                 <p>
-                  Texas Sports Academy's 2-hour Learning model harnesses the power of AI technology to provide each student with 1:1 learning, accelerating academic mastery and giving them the gift of time.
+                  Through advanced technologies and mastery-based learning, students at Texas Sports Academy complete core subjects in just two hours daily, giving them the gift of time.
                 </p>
-                <p>
-                  With core academics completed in just 2.5 focused hours each morning, students can use their afternoons for what they're truly passionate about: intensive athletic training under professional coaches who've competed at the highest levels - NBA, NFL, MLB, and D1 programs.
-                </p>
-                <p>
-                  The truth is clear: Your kids can accomplish twice as much academically and athletically when they're not sitting in a one-size-fits-all classroom for 6 hours. Our student-athletes are limitless, and we've built a limitless environment that unlocks their full potential.
-                </p>
+                
+                <div className="space-y-4">
+                  <div>
+                    <p><strong>AI-Powered Learning:</strong> Texas Sports Academy's 2-hour Learning model harnesses the power of AI technology to provide each student with 1:1 learning, accelerating academic mastery at an unprecedented pace.</p>
+                  </div>
+                  <div>
+                    <p><strong>Afternoon Freedom:</strong> With core academics completed in just 2.5 focused hours each morning, students can use their afternoons for what they're truly passionate about: intensive athletic training under professional coaches.</p>
+                  </div>
+                  <div>
+                    <p><strong>Limitless Potential:</strong> The truth is clear: Your kids can accomplish twice as much academically and athletically when they're not sitting in a one-size-fits-all classroom for 6 hours.</p>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <div className="bg-gradient-to-br from-[#004aad] to-[#003a8c] rounded-2xl p-12 text-white relative overflow-hidden">
-                <div className="absolute top-4 right-4 w-24 h-24 bg-white/10 rounded-full"></div>
-                <div className="absolute bottom-4 left-4 w-32 h-32 bg-white/5 rounded-full"></div>
+              <div className="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100 relative overflow-hidden">
+                {/* Subtle background pattern */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#004aad]/5 to-[#003a8c]/10"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#004aad]/10 to-transparent rounded-full transform translate-x-16 -translate-y-16"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#87CEEB]/20 to-transparent rounded-full transform -translate-x-12 translate-y-12"></div>
+                
                 <div className="relative z-10">
-                  <h3 className="text-3xl font-bold mb-6">Academic Achievement</h3>
-                  <div className="space-y-4">
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-[#004aad] rounded-xl flex items-center justify-center mr-4">
+                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-[#1a1a1a]">Academic Achievement</h3>
+                  </div>
+                  
+                  <div className="space-y-5">
                     <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">Top 1-2% national test scores</span>
+                      <div className="w-10 h-10 bg-[#004aad]/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                        <svg className="w-5 h-5 text-[#004aad]" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                        </svg>
+                      </div>
+                      <span className="text-gray-700 leading-relaxed">Academic mastery in 2 hours daily</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">Personalized AI learning</span>
+                      <div className="w-10 h-10 bg-[#004aad]/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                        <svg className="w-5 h-5 text-[#004aad]" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                        </svg>
+                      </div>
+                      <span className="text-gray-700 leading-relaxed">Professional athletic training</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">2-5x faster mastery</span>
+                      <div className="w-10 h-10 bg-[#004aad]/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                        <svg className="w-5 h-5 text-[#004aad]" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                        </svg>
+                      </div>
+                      <span className="text-gray-700 leading-relaxed">Elite life skills development</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">College-ready preparation</span>
+                      <div className="w-10 h-10 bg-[#004aad]/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                        <svg className="w-5 h-5 text-[#004aad]" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd"/>
+                        </svg>
+                      </div>
+                      <span className="text-gray-700 leading-relaxed">Top 1-2% national test scores</span>
                     </div>
                   </div>
                 </div>
@@ -419,7 +537,7 @@ export default function Program() {
       </Section>
 
       {/* Life Skills for Champions */}
-      <Section className="bg-white">
+      <Section className="bg-white" id="life-skills">
         <div className="container mx-auto px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -431,38 +549,71 @@ export default function Program() {
               </h2>
               <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
                 <p>
-                  Beyond academics and athletics, we prepare students for life success through comprehensive life skills training. Our curriculum covers essential areas that traditional schools often overlook but that are crucial for long-term success.
+                  Texas Sports Academy isn't just about academics and athletics. We're preparing students for life by teaching essential, actionable skills that traditional schools often overlook.
                 </p>
-                <p>
-                  Students develop public speaking confidence, financial literacy, leadership capabilities, and professional networking skills. They learn time management, goal setting, and how to handle both success and setbacks with resilience.
-                </p>
-                <p>
-                  Whether students pursue professional athletics, college sports, or transition directly to careers, they develop the complete skill set needed to excel in any path they choose.
-                </p>
+                
+                <div className="space-y-4">
+                  <div>
+                    <p><strong>Essential Life Skills:</strong> Students develop public speaking confidence, financial literacy, leadership capabilities, and professional networking skills that are crucial for long-term success in any field they choose.</p>
+                  </div>
+                  <div>
+                    <p><strong>Champion Mindset:</strong> They learn time management, goal setting, and how to handle both success and setbacks with resilience, developing the mental toughness that separates champions from competitors.</p>
+                  </div>
+                  <div>
+                    <p><strong>Life-Long Impact:</strong> Whether students pursue professional athletics, college sports, or transition directly to careers, they develop the complete skill set needed to excel in any path they choose and thrive in an ever-evolving world.</p>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <div className="bg-gradient-to-br from-[#c9472b] to-[#a23721] rounded-2xl p-12 text-white relative overflow-hidden">
-                <div className="absolute top-4 right-4 w-24 h-24 bg-white/10 rounded-full"></div>
-                <div className="absolute bottom-4 left-4 w-32 h-32 bg-white/5 rounded-full"></div>
+              <div className="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100 relative overflow-hidden">
+                {/* Subtle background pattern */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#c9472b]/5 to-[#a23721]/10"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#c9472b]/10 to-transparent rounded-full transform translate-x-16 -translate-y-16"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#ff8a80]/20 to-transparent rounded-full transform -translate-x-12 translate-y-12"></div>
+                
                 <div className="relative z-10">
-                  <h3 className="text-3xl font-bold mb-6">Champion Mindset</h3>
-                  <div className="space-y-4">
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-[#c9472b] rounded-xl flex items-center justify-center mr-4">
+                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-[#1a1a1a]">Champion Mindset</h3>
+                  </div>
+                  
+                  <div className="space-y-5">
                     <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">Public speaking mastery</span>
+                      <div className="w-10 h-10 bg-[#c9472b]/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                        <svg className="w-5 h-5 text-[#c9472b]" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M7 4V2a1 1 0 011-1h4a1 1 0 011 1v2h4a1 1 0 110 2h-1v10a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM9 6v8a1 1 0 102 0V6H9z"/>
+                        </svg>
+                      </div>
+                      <span className="text-gray-700 leading-relaxed">Public speaking mastery</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">Financial literacy education</span>
+                      <div className="w-10 h-10 bg-[#c9472b]/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                        <svg className="w-5 h-5 text-[#c9472b]" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
+                        </svg>
+                      </div>
+                      <span className="text-gray-700 leading-relaxed">Financial literacy education</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">Leadership development</span>
+                      <div className="w-10 h-10 bg-[#c9472b]/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                        <svg className="w-5 h-5 text-[#c9472b]" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                        </svg>
+                      </div>
+                      <span className="text-gray-700 leading-relaxed">Leadership development</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">Professional networking</span>
+                      <div className="w-10 h-10 bg-[#c9472b]/10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                        <svg className="w-5 h-5 text-[#c9472b]" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clipRule="evenodd"/>
+                        </svg>
+                      </div>
+                      <span className="text-gray-700 leading-relaxed">Professional networking</span>
                     </div>
                   </div>
                 </div>

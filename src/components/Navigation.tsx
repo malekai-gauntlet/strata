@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface NavigationProps {
@@ -14,6 +14,7 @@ interface NavigationProps {
 
 const Navigation = ({ customLogo, topRightContent }: NavigationProps = {}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [programDropdownOpen, setProgramDropdownOpen] = useState(false);
   const isMobile = useIsMobile();
   const location = useLocation();
 
@@ -49,6 +50,29 @@ const Navigation = ({ customLogo, topRightContent }: NavigationProps = {}) => {
   const mobileMenuBgClass = isParentsPage || isTexasSportsAcademyPage
     ? 'bg-white'
     : 'bg-black';
+
+  const programDropdownItems = [
+    { name: 'Academic Excellence', anchor: '#program-details' },
+    { name: 'The TSA Day', anchor: '#tsa-day' },
+    { name: 'Elite Coaches', anchor: '#elite-coaches' },
+    { name: 'Athletic Success', anchor: '#athletic-success' },
+    { name: 'Learn 2x in 2 Hours', anchor: '#learn-2x' },
+    { name: 'Life Skills', anchor: '#life-skills' }
+  ];
+
+  const handleDropdownClick = (anchor: string) => {
+    if (location.pathname !== '/program') {
+      // If not on program page, navigate to it first then scroll
+      window.location.href = `/program${anchor}`;
+    } else {
+      // If already on program page, just scroll to section
+      const element = document.querySelector(anchor);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    setProgramDropdownOpen(false);
+  };
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 py-4 px-8 ${navBgClass}`}>
