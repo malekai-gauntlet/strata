@@ -481,8 +481,83 @@ export default function IMGPage() {
         </div>
       </Section>
 
-      {/* 2 Hours to Learn, 4 to Triumph Section */}
-      <Section className="bg-white">
+
+      {/* Meet The Guides Section */}
+      <Section className="bg-gradient-to-r from-white via-[#f5f5f5] to-white">
+        <div className="container mx-auto px-8 h-full flex items-center">
+          <div className="max-w-7xl mx-auto w-full">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-6xl font-integral tracking-tight mb-6 text-[#004aad] leading-[0.9]">
+                WORLD-CLASS GUIDES
+              </h2>
+              <p className="text-xl md:text-2xl text-[#1a1a1a] leading-relaxed max-w-4xl mx-auto">
+                Texas Sports Academy leaders are former professional athletes and coaches who have played at the highest levels. Our elite athlete coaches bring championship experience directly to your training.
+              </p>
+            </div>
+            
+            <EliteCoachesCarousel />
+            
+            <div className="text-center mt-12">
+              <button className="bg-[#c9472b] hover:bg-[#a23721] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
+                EXPLORE OUR PROGRAM
+              </button>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Academic Excellence Section */}
+      <Section>
+        <img
+          src="/images/laptop.jpg"
+          alt="Academic Excellence"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent">
+          <div className="container mx-auto px-8 pt-40">
+            <div className="max-w-xl">
+              <h2 className="text-5xl md:text-7xl font-integral tracking-tight mb-6 text-white leading-[0.9] drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
+                WIN AS A STUDENT
+              </h2>
+              <p className="text-xl mb-8 text-white opacity-90 max-w-lg drop-shadow-lg">
+                With just 2 hours of focused learning in the morning, our students consistently test in the top 1-2% nationally. Experience a new way of learning that delivers exceptional results.
+              </p>
+              <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
+                Learn About Academics
+              </button>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Day in the Life Section */}
+      {/*
+      <Section>
+        <img
+          src="/images/olderlaptop.jpg"
+          alt="Day in the Life"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent">
+          <div className="container mx-auto px-8 pt-40">
+            <div className="max-w-xl">
+              <h2 className="text-5xl md:text-7xl font-integral tracking-tight mb-6 text-white leading-[0.9] drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)] whitespace-nowrap">
+                A DAY IN THE LIFE
+              </h2>
+              <p className="text-xl text-white opacity-90 max-w-lg drop-shadow-lg">
+                Academics are finished in two hours, giving your child their time back. 9am - 12pm: Academics. 12 - 3:30pm: Sports practice. 3:30pm onwards: Extracurriculars.
+              </p>
+              <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide mt-8 font-poppins">
+                See A Day In The Life
+              </button>
+            </div>
+          </div>
+        </div>
+      </Section>
+      */}
+
+{/* 2 Hours to Learn, 4 to Triumph Section */}
+<Section className="bg-white">
         <div className="container mx-auto px-8 h-full flex items-center">
           <div className="w-full">
             {/* Main Title */}
@@ -595,73 +670,50 @@ export default function IMGPage() {
         </div>
       </Section>
 
-      {/* Meet The Guides Section */}
-      <Section className="bg-gradient-to-r from-white via-[#f5f5f5] to-white">
-        <div className="container mx-auto px-8 h-full flex items-center">
-          <div className="max-w-7xl mx-auto w-full">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-6xl font-integral tracking-tight mb-6 text-[#004aad] leading-[0.9]">
-                WORLD-CLASS GUIDES
-              </h2>
-              <p className="text-xl md:text-2xl text-[#1a1a1a] leading-relaxed max-w-4xl mx-auto">
-                Texas Sports Academy leaders are former professional athletes and coaches who have played at the highest levels. Our elite athlete coaches bring championship experience directly to your training.
-              </p>
-            </div>
-            
-            <EliteCoachesCarousel />
-            
-            <div className="text-center mt-12">
-              <button className="bg-[#c9472b] hover:bg-[#a23721] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
-                EXPLORE OUR PROGRAM
-              </button>
-            </div>
-          </div>
-        </div>
-      </Section>
 
-      {/* Academic Excellence Section */}
+      {/* Life Skills Section */}
       <Section>
         <img
-          src="/images/laptop.jpg"
-          alt="Academic Excellence"
+          src="/images/procoachteacher.jpg"
+          alt="Professional Coaches"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent">
           <div className="container mx-auto px-8 pt-40">
             <div className="max-w-xl">
               <h2 className="text-5xl md:text-7xl font-integral tracking-tight mb-6 text-white leading-[0.9] drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
-                WIN AS A STUDENT
+                MASTER KEY LIFE SKILLS
               </h2>
               <p className="text-xl mb-8 text-white opacity-90 max-w-lg drop-shadow-lg">
-                With just 2 hours of focused learning in the morning, our students consistently test in the top 1-2% nationally. Experience a new way of learning that delivers exceptional results.
+                Learn from professional coaches that have reached the very top of their fields. Hone life skills like Financial Literacy, Public Speaking, and more.
               </p>
               <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
-                Learn About Academics
+                Meet Our Coaches
               </button>
             </div>
           </div>
         </div>
       </Section>
 
-      {/* Day in the Life Section */}
+      {/* ESAs Section */}
       {/*
       <Section>
         <img
-          src="/images/olderlaptop.jpg"
-          alt="Day in the Life"
+          src="/images/capitol.jpg"
+          alt="Texas State Capitol"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent">
           <div className="container mx-auto px-8 pt-40">
             <div className="max-w-xl">
-              <h2 className="text-5xl md:text-7xl font-integral tracking-tight mb-6 text-white leading-[0.9] drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)] whitespace-nowrap">
-                A DAY IN THE LIFE
+              <h2 className="text-5xl md:text-7xl font-integral tracking-tight mb-6 text-white leading-[0.9] drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
+                TEXAS ESA PROGRAM
               </h2>
-              <p className="text-xl text-white opacity-90 max-w-lg drop-shadow-lg">
-                Academics are finished in two hours, giving your child their time back. 9am - 12pm: Academics. 12 - 3:30pm: Sports practice. 3:30pm onwards: Extracurriculars.
+              <p className="text-xl mb-8 text-white opacity-90 max-w-lg drop-shadow-lg">
+                Take advantage of Texas's new ESA legislation, passed on April 16, 2025. Families now receive $10,800 per student to invest in their education, making our program more accessible than ever.
               </p>
-              <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide mt-8 font-poppins">
-                See A Day In The Life
+              <button className="bg-[#c9472b] hover:bg-[#a23721] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
+                Learn About ESAs
               </button>
             </div>
           </div>
@@ -669,10 +721,12 @@ export default function IMGPage() {
       </Section>
       */}
 
-      {/* Partners Section */}
+
+
+      {/* Partners Section - Commented Out */}
+      {/*
       <section className="bg-gradient-to-r from-white via-[#f5f5f5] to-white relative">
         <div className="container mx-auto px-8">
-          {/* Partner Logos */}
           <div className="pt-32 pb-12">
             <h2 className="text-5xl md:text-7xl font-integral tracking-tight mb-16 text-[#1a1a1a] leading-[0.9] text-center">
               WORLD LEADING PARTNERS
@@ -709,7 +763,6 @@ export default function IMGPage() {
             </div>
           </div>
 
-          {/* Quote Section */}
           <div className="border-t border-gray-100 pt-12 pb-24">
             <div className="max-w-3xl mx-auto text-center">
               <svg className="w-12 h-12 mx-auto mb-8 text-[#6b7280]" fill="currentColor" viewBox="0 0 32 32">
@@ -731,56 +784,9 @@ export default function IMGPage() {
           </div>
         </div>
       </section>
-
-      {/* Professional Coaches Section */}
-      <Section>
-        <img
-          src="/images/procoachteacher.jpg"
-          alt="Professional Coaches"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent">
-          <div className="container mx-auto px-8 pt-40">
-            <div className="max-w-xl">
-              <h2 className="text-5xl md:text-7xl font-integral tracking-tight mb-6 text-white leading-[0.9] drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
-                PROFESSIONAL COACHES
-              </h2>
-              <p className="text-xl mb-8 text-white opacity-90 max-w-lg drop-shadow-lg">
-                Learn from professional coaches that have reached the very top of their fields.
-              </p>
-              <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
-                Meet Our Coaches
-              </button>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* ESAs Section */}
-      {/*
-      <Section>
-        <img
-          src="/images/capitol.jpg"
-          alt="Texas State Capitol"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent">
-          <div className="container mx-auto px-8 pt-40">
-            <div className="max-w-xl">
-              <h2 className="text-5xl md:text-7xl font-integral tracking-tight mb-6 text-white leading-[0.9] drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
-                TEXAS ESA PROGRAM
-              </h2>
-              <p className="text-xl mb-8 text-white opacity-90 max-w-lg drop-shadow-lg">
-                Take advantage of Texas's new ESA legislation, passed on April 16, 2025. Families now receive $10,800 per student to invest in their education, making our program more accessible than ever.
-              </p>
-              <button className="bg-[#c9472b] hover:bg-[#a23721] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
-                Learn About ESAs
-              </button>
-            </div>
-          </div>
-        </div>
-      </Section>
       */}
+
+
 
       {/* Parent Interest CTA Section */}
       <section className="bg-gradient-to-r from-white via-[#f5f5f5] to-white relative overflow-hidden">
@@ -797,7 +803,7 @@ export default function IMGPage() {
               GIVE YOUR KID THEIR BEST CHANCE
             </h2>
             <p className="text-xl md:text-2xl text-[#1a1a1a] mb-12 max-w-3xl mx-auto leading-relaxed">
-              Give your kid their best shot at athletic, acacdemic, and career success. Sign up to be in the loop on academies in your area.
+              Give your kid their best shot at athletic, academic, and career success. Sign up to be in the loop on academies in your area.
             </p>
             
             {/* Interest Form */}
