@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 
 const Section = ({ children, className = "", id }: { children: React.ReactNode, className?: string, id?: string }) => {
@@ -48,44 +49,53 @@ const ProgramCoachesCarousel = () => {
   ];
 
   return (
-    <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4">
+    <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
       {coaches.map((coach, index) => (
-        <div key={index} className="min-w-[320px] snap-center">
-          <div className="bg-gradient-to-br from-[#004aad] to-[#003a8c] rounded-2xl p-8 text-white h-96 flex flex-col items-center text-center">
-            {/* Coach Photo - Top Center */}
-            <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white/20 mb-6">
-              <img 
-                src={coach.image} 
-                alt={coach.name}
-                className={`w-full h-full object-cover ${
-                  coach.name === "JAMAL GROSS" ? "object-[center_0%]" :
-                  coach.name === "ALEX CRUZ" ? "object-[center_20%]" :
-                  coach.name === "GRAHAM SPRAKER" ? "object-[center_0%]" :
-                  "object-center"
-                }`}
-              />
-            </div>
+        <div key={index} className="min-w-[340px] snap-center">
+          <div className="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100 h-[480px] flex flex-col relative overflow-hidden">
+            {/* Subtle background pattern */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#004aad]/3 to-[#003a8c]/5"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#004aad]/5 to-transparent rounded-full transform translate-x-16 -translate-y-16"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#87CEEB]/10 to-transparent rounded-full transform -translate-x-12 translate-y-12"></div>
             
-            {/* Coach Info - Stacked Vertically */}
-            <div className="flex-1 flex flex-col items-center justify-center space-y-4">
-              <div>
-                <h4 className="text-xl font-bold mb-2">{coach.name}</h4>
-                <p className="text-[#87CEEB] text-lg font-semibold mb-4">{coach.credentials}</p>
+            <div className="relative z-10 flex flex-col h-full">
+              {/* Coach Photo - Larger and more prominent */}
+              <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#004aad]/20 mb-6 mx-auto shadow-lg">
+                <img 
+                  src={coach.image} 
+                  alt={coach.name}
+                  className={`w-full h-full object-cover ${
+                    coach.name === "JAMAL GROSS" ? "object-[center_0%]" :
+                    coach.name === "ALEX CRUZ" ? "object-[center_20%]" :
+                    coach.name === "GRAHAM SPRAKER" ? "object-[center_0%]" :
+                    "object-center"
+                  }`}
+                />
               </div>
               
-              <div className="space-y-2">
-                <p className="text-white/90 text-base font-medium">{coach.teams}</p>
-                <p className="text-[#87CEEB] text-sm uppercase tracking-wider">{coach.sport}</p>
+              {/* Coach Info - Better hierarchy */}
+              <div className="flex-1 flex flex-col items-center text-center space-y-4">
+                <div className="space-y-3">
+                  <h4 className="text-2xl font-bold text-gray-900 leading-tight">{coach.name}</h4>
+                  <div className="space-y-2">
+                    <p className="text-[#004aad] text-lg font-bold tracking-wide">{coach.credentials}</p>
+                    <p className="text-gray-700 text-base font-semibold">{coach.teams}</p>
+                  </div>
+                </div>
+                
+                <div className="mt-auto pt-4">
+                  <p className="text-[#004aad] text-sm font-medium uppercase tracking-wider mb-4">{coach.sport}</p>
+                  
+                  {/* League Logo - Larger and more prominent */}
+                  <div className="flex justify-center">
+                    <img 
+                      src={coach.logo} 
+                      alt={`${coach.sport} League`}
+                      className="h-16 w-auto opacity-90"
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-            
-            {/* League Logo - Bottom Center */}
-            <div className="mt-4">
-              <img 
-                src={coach.logo} 
-                alt={`${coach.sport} League`}
-                className="h-14 w-auto opacity-80"
-              />
             </div>
           </div>
         </div>
@@ -95,6 +105,20 @@ const ProgramCoachesCarousel = () => {
 };
 
 export default function Program() {
+  // Handle scrolling to section when page loads with hash
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      // Wait a bit for the page to fully render
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 300);
+    }
+  }, []);
+
   return (
     <div className="w-full font-poppins">
       <Navigation 
@@ -116,24 +140,24 @@ export default function Program() {
               {/* Dropdown Menu */}
               <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                 <div className="py-3">
-                  <button 
-                    onClick={() => document.getElementById('learn-2x')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-[#004aad] transition-colors duration-200 text-sm font-medium"
+                  <Link 
+                    to="/program#learn-2x"
+                    className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-[#004aad] transition-colors duration-200 text-sm font-medium"
                   >
                     Learn 2x in 2 Hours
-                  </button>
-                  <button 
-                    onClick={() => document.getElementById('athletic-success')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-[#004aad] transition-colors duration-200 text-sm font-medium"
+                  </Link>
+                  <Link 
+                    to="/program#athletic-success"
+                    className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-[#004aad] transition-colors duration-200 text-sm font-medium"
                   >
                     Athletic Success
-                  </button>
-                  <button 
-                    onClick={() => document.getElementById('elite-coaches')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-[#004aad] transition-colors duration-200 text-sm font-medium"
+                  </Link>
+                  <Link 
+                    to="/program#elite-coaches"
+                    className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-[#004aad] transition-colors duration-200 text-sm font-medium"
                   >
                     Elite Coaches
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -419,27 +443,38 @@ export default function Program() {
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <div className="bg-gradient-to-br from-[#c9472b] to-[#a23721] rounded-2xl p-12 text-white relative overflow-hidden">
-                <div className="absolute top-4 right-4 w-24 h-24 bg-white/10 rounded-full"></div>
-                <div className="absolute bottom-4 left-4 w-32 h-32 bg-white/5 rounded-full"></div>
+              <div className="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100 relative overflow-hidden">
+                {/* Subtle background pattern */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#c9472b]/5 to-[#a23721]/10"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#c9472b]/10 to-transparent rounded-full transform translate-x-16 -translate-y-16"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#ff8a80]/20 to-transparent rounded-full transform -translate-x-12 translate-y-12"></div>
+                
                 <div className="relative z-10">
-                  <h3 className="text-3xl font-bold mb-6">The Athletic Advantage</h3>
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-[#c9472b] rounded-xl flex items-center justify-center mr-4">
+                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd"/>
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-[#1a1a1a]">The Athletic Advantage</h3>
+                  </div>
+                  
                   <div className="space-y-4">
-                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">3-4 extra hours daily for athletic development</span>
+                    <div className="flex items-start">
+                      <div className="w-3 h-3 bg-[#c9472b] rounded-full mr-4 mt-2 flex-shrink-0"></div>
+                      <span className="text-gray-700 leading-relaxed">3-4 extra hours daily for athletic development</span>
                     </div>
-                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">No rushing between programs</span>
+                    <div className="flex items-start">
+                      <div className="w-3 h-3 bg-[#c9472b] rounded-full mr-4 mt-2 flex-shrink-0"></div>
+                      <span className="text-gray-700 leading-relaxed">No rushing between programs</span>
                     </div>
-                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">Prime middle school development window</span>
+                    <div className="flex items-start">
+                      <div className="w-3 h-3 bg-[#c9472b] rounded-full mr-4 mt-2 flex-shrink-0"></div>
+                      <span className="text-gray-700 leading-relaxed">Prime middle school development window</span>
                     </div>
-                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-white rounded-full mr-4"></div>
-                      <span className="text-lg">Clear pathway to college recruitment</span>
+                    <div className="flex items-start">
+                      <div className="w-3 h-3 bg-[#c9472b] rounded-full mr-4 mt-2 flex-shrink-0"></div>
+                      <span className="text-gray-700 leading-relaxed">Clear pathway to college recruitment</span>
                     </div>
                   </div>
                 </div>
@@ -644,31 +679,7 @@ export default function Program() {
       {/* Footer */}
       <footer className="bg-gradient-to-br from-[#004aad] to-[#003a8c] text-white py-16">
         <div className="container mx-auto px-8">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-8">What's next?</h3>
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <Link to="/admission">
-                <button className="bg-white text-[#004aad] font-bold py-3 px-6 rounded-full hover:bg-gray-50 transition-all duration-300">
-                  LEARN MORE
-                </button>
-              </Link>
-              <Link to="/visit">
-                <button className="border-2 border-white text-white font-bold py-3 px-6 rounded-full hover:bg-white hover:text-[#004aad] transition-all duration-300">
-                  VISIT
-                </button>
-              </Link>
-              <Link to="/apply">
-                <button className="border-2 border-white text-white font-bold py-3 px-6 rounded-full hover:bg-white hover:text-[#004aad] transition-all duration-300">
-                  APPLY
-                </button>
-              </Link>
-            </div>
-            <img 
-              src="/images/TSA Final Logos - CMYK-01.svg" 
-              alt="Texas Sports Academy" 
-              className="h-16 mx-auto mb-8"
-            />
-          </div>
+          
           
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
             <div>
