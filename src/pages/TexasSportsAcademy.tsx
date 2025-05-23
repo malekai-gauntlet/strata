@@ -183,6 +183,85 @@ const PressFeature = () => {
   );
 };
 
+// Elite Coaches carousel component
+const EliteCoachesCarousel = () => {
+  const coaches = [
+    {
+      name: "JAMAL GROSS",
+      sport: "Basketball",
+      credentials: "NBA COACH",
+      teams: "ROCKETS, TRAILBLAZERS, SUNS",
+      image: "/images/Wilson perfect.jpg",
+      logo: "/images/nba.png"
+    },
+    {
+      name: "BRANDON BURTON", 
+      sport: "Football",
+      credentials: "NFL VETERAN",
+      teams: "VIKINGS, BILLS, COLTS",
+      image: "/images/Brandon Vikings.jpg",
+      logo: "/images/NFL-logo.png"
+    },
+    {
+      name: "ALEX CRUZ",
+      sport: "Softball", 
+      credentials: "DIVISION I SOFTBALL",
+      teams: "TEXAS STATE",
+      image: "/images/A. Cruz Texas State Headshot.jpg",
+      logo: "/images/supercat-logo.png"
+    },
+    {
+      name: "GRAHAM SPRAKER",
+      sport: "Baseball",
+      credentials: "MLB PRO", 
+      teams: "BLUE JAYS, RAYS",
+      image: "/images/Spraker Head Shot.jpg",
+      logo: "/images/mlb-logo-png_seeklogo-188178.png"
+    }
+  ];
+
+  return (
+    <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
+      {coaches.map((coach, index) => (
+        <div key={index} className="min-w-[400px] snap-center">
+          <div className="bg-gradient-to-br from-[#004aad] to-[#003a8c] rounded-2xl p-8 text-white h-full">
+            <div className="flex items-center gap-6 mb-6">
+              <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white/20">
+                <img 
+                  src={coach.image} 
+                  alt={coach.name}
+                  className={`w-full h-full object-cover ${
+                    coach.name === "JAMAL GROSS" ? "object-[center_0%]" :
+                    coach.name === "ALEX CRUZ" ? "object-[center_20%]" :
+                    coach.name === "GRAHAM SPRAKER" ? "object-[center_0%]" :
+                    "object-center"
+                  }`}
+                />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold mb-1">{coach.name}</h3>
+                <p className="text-[#87CEEB] text-lg font-semibold">{coach.credentials}</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-white/90 text-lg font-medium mb-2">{coach.teams}</p>
+                <p className="text-[#87CEEB] text-sm uppercase tracking-wider">{coach.sport}</p>
+              </div>
+              <img 
+                src={coach.logo} 
+                alt={`${coach.sport} League`}
+                className="h-16 w-auto opacity-80"
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export default function IMGPage() {
   return (
     <div className="w-full font-poppins">
@@ -470,7 +549,7 @@ export default function IMGPage() {
                         <span className="text-[#1e40af] text-sm font-semibold">3pm</span>
                       </div>
                     </div>
-                    <div className="bg-[#60a5fa] rounded-lg p-3 md:p-4 text-center text-white font-semibold text-sm md:text-base">
+                    <div className="bg-[#60a5fa] rounded-lg p-3 md:p-4 text-center text-white font-semibold text-base">
                       6 Hours sitting in a class
                     </div>
                   </div>
@@ -498,19 +577,43 @@ export default function IMGPage() {
                     </div>
                     <div className="grid grid-cols-7 gap-2 md:gap-3">
                       <div className="col-span-3 bg-[#60a5fa] rounded-lg p-3 md:p-4 text-center text-white flex items-center justify-center">
-                        <div className="font-bold text-sm md:text-lg">2 Hour Learning</div>
+                        <div className="font-semibold text-base">2 Hour Learning</div>
                       </div>
                       <div className="col-span-4 bg-[#60a5fa] rounded-lg p-3 md:p-4 text-white flex items-center justify-center">
                         <div className="text-center">
-                          <div className="font-bold text-sm md:text-lg mb-1">Sports Training</div>
-                          <div className="text-xs md:text-sm">+</div>
-                          <div className="font-bold text-sm md:text-lg">Life Skills Workshops</div>
+                          <div className="font-semibold text-base mb-1">Sports Training</div>
+                          <div className="text-sm">+</div>
+                          <div className="font-semibold text-base">Life Skills Workshops</div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Meet The Guides Section */}
+      <Section className="bg-gradient-to-r from-white via-[#f5f5f5] to-white">
+        <div className="container mx-auto px-8 h-full flex items-center">
+          <div className="max-w-7xl mx-auto w-full">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-6xl font-integral tracking-tight mb-6 text-[#004aad] leading-[0.9]">
+                WORLD-CLASS GUIDES
+              </h2>
+              <p className="text-xl md:text-2xl text-[#1a1a1a] leading-relaxed max-w-4xl mx-auto">
+                Texas Sports Academy leaders are former professional athletes and coaches who have played at the highest levels. Our elite athlete coaches bring championship experience directly to your training.
+              </p>
+            </div>
+            
+            <EliteCoachesCarousel />
+            
+            <div className="text-center mt-12">
+              <button className="bg-[#c9472b] hover:bg-[#a23721] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
+                EXPLORE OUR PROGRAM
+              </button>
             </div>
           </div>
         </div>
@@ -574,7 +677,7 @@ export default function IMGPage() {
             <h2 className="text-5xl md:text-7xl font-integral tracking-tight mb-16 text-[#1a1a1a] leading-[0.9] text-center">
               WORLD LEADING PARTNERS
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-20 max-w-5xl mx-auto items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-20 max-w-4xl mx-auto items-center">
               <div className="transform hover:scale-110 transition-transform duration-300">
                 <a 
                   href="https://alpha.school" 
@@ -585,20 +688,6 @@ export default function IMGPage() {
                   <img 
                     src="/images/alpha.png" 
                     alt="Alpha School" 
-                    className="h-24 w-auto mx-auto object-contain transition-all duration-300" 
-                  />
-                </a>
-              </div>
-              <div className="transform hover:scale-110 transition-transform duration-300">
-                <a 
-                  href="https://sportsacademy.school" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="block"
-                >
-                  <img 
-                    src="/images/TSA-Final-Logos-RGB-08.png" 
-                    alt="Texas Sports Academy" 
                     className="h-24 w-auto mx-auto object-contain transition-all duration-300" 
                   />
                 </a>
