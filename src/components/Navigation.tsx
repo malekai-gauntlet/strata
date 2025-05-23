@@ -9,9 +9,10 @@ interface NavigationProps {
     alt: string;
     className?: string;
   };
+  topRightContent?: React.ReactNode;
 }
 
-const Navigation = ({ customLogo }: NavigationProps = {}) => {
+const Navigation = ({ customLogo, topRightContent }: NavigationProps = {}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isMobile = useIsMobile();
   const location = useLocation();
@@ -108,24 +109,33 @@ const Navigation = ({ customLogo }: NavigationProps = {}) => {
           </>
         ) : (
           <div className="flex items-center space-x-8">
-            <Link 
-              to="/coaches" 
-              className={`${textColorClass} ${linkHoverClass} transition-colors font-poppins`}
-            >
-              Coaches
-            </Link>
-            <Link 
-              to="/parents" 
-              className={`${textColorClass} ${linkHoverClass} transition-colors font-poppins`}
-            >
-              Parents
-            </Link>
-            <Link 
-              to="/about" 
-              className={`${textColorClass} ${linkHoverClass} transition-colors font-poppins`}
-            >
-              About
-            </Link>
+            {!isTexasSportsAcademyPage && (
+              <>
+                <Link 
+                  to="/coaches" 
+                  className={`${textColorClass} ${linkHoverClass} transition-colors font-poppins`}
+                >
+                  Coaches
+                </Link>
+                <Link 
+                  to="/parents" 
+                  className={`${textColorClass} ${linkHoverClass} transition-colors font-poppins`}
+                >
+                  Parents
+                </Link>
+                <Link 
+                  to="/about" 
+                  className={`${textColorClass} ${linkHoverClass} transition-colors font-poppins`}
+                >
+                  About
+                </Link>
+              </>
+            )}
+            {topRightContent && (
+              <div className={isTexasSportsAcademyPage ? '' : 'ml-4'}>
+                {topRightContent}
+              </div>
+            )}
           </div>
         )}
       </div>

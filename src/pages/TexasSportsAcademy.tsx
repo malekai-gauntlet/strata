@@ -192,6 +192,16 @@ export default function IMGPage() {
           alt: "Texas Sports Academy",
           className: "h-14 w-auto"
         }}
+        topRightContent={
+          <div className="flex items-center space-x-6">
+            <span className="text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200 cursor-pointer">
+              Start Your Academy
+            </span>
+            <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-3 px-6 rounded-lg text-sm shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide">
+              Find An Academy
+            </button>
+          </div>
+        }
       />
       
       {/* Video Hero Section */}
@@ -517,7 +527,7 @@ export default function IMGPage() {
           <div className="container mx-auto px-8 pt-40">
             <div className="max-w-xl">
               <h2 className="text-5xl md:text-7xl font-integral tracking-tight mb-6 text-white leading-[0.9] drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
-                CRUSH IT AS A STUDENT
+                WIN AS A STUDENT
               </h2>
               <p className="text-xl mb-8 text-white opacity-90 max-w-lg drop-shadow-lg">
                 With just 2 hours of focused learning in the morning, our students consistently test in the top 1-2% nationally. Experience a new way of learning that delivers exceptional results.
@@ -531,6 +541,7 @@ export default function IMGPage() {
       </Section>
 
       {/* Day in the Life Section */}
+      {/*
       <Section>
         <img
           src="/images/olderlaptop.jpg"
@@ -553,30 +564,7 @@ export default function IMGPage() {
           </div>
         </div>
       </Section>
-
-      {/* Professional Coaches Section */}
-      <Section>
-        <img
-          src="/images/procoachteacher.jpg"
-          alt="Professional Coaches"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent">
-          <div className="container mx-auto px-8 pt-40">
-            <div className="max-w-xl">
-              <h2 className="text-5xl md:text-7xl font-integral tracking-tight mb-6 text-white leading-[0.9] drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
-                PROFESSIONAL COACHES
-              </h2>
-              <p className="text-xl mb-8 text-white opacity-90 max-w-lg drop-shadow-lg">
-                Learn from professional coaches that have reached the very top of their fields.
-              </p>
-              <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
-                Meet Our Coaches
-              </button>
-            </div>
-          </div>
-        </div>
-      </Section>
+      */}
 
       {/* Partners Section */}
       <section className="bg-gradient-to-r from-white via-[#f5f5f5] to-white relative">
@@ -655,7 +643,32 @@ export default function IMGPage() {
         </div>
       </section>
 
+      {/* Professional Coaches Section */}
+      <Section>
+        <img
+          src="/images/procoachteacher.jpg"
+          alt="Professional Coaches"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent">
+          <div className="container mx-auto px-8 pt-40">
+            <div className="max-w-xl">
+              <h2 className="text-5xl md:text-7xl font-integral tracking-tight mb-6 text-white leading-[0.9] drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
+                PROFESSIONAL COACHES
+              </h2>
+              <p className="text-xl mb-8 text-white opacity-90 max-w-lg drop-shadow-lg">
+                Learn from professional coaches that have reached the very top of their fields.
+              </p>
+              <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
+                Meet Our Coaches
+              </button>
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* ESAs Section */}
+      {/*
       <Section>
         <img
           src="/images/capitol.jpg"
@@ -678,6 +691,180 @@ export default function IMGPage() {
           </div>
         </div>
       </Section>
+      */}
+
+      {/* Parent Interest CTA Section */}
+      <section className="bg-gradient-to-r from-white via-[#f5f5f5] to-white relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-32 h-32 border border-[#004aad] rounded-full"></div>
+          <div className="absolute bottom-20 right-20 w-24 h-24 border border-[#c9472b] rounded-full"></div>
+          <div className="absolute top-1/2 left-1/4 w-16 h-16 border border-[#004aad] rounded-full"></div>
+        </div>
+        
+        <div className="container mx-auto px-8 py-20 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-4xl md:text-6xl font-integral tracking-tight text-[#004aad] mb-6 leading-[0.9]">
+              GIVE YOUR KID THEIR BEST CHANCE
+            </h2>
+            <p className="text-xl md:text-2xl text-[#1a1a1a] mb-12 max-w-3xl mx-auto leading-relaxed">
+              Give your kid their best shot at athletic, acacdemic, and career success. Sign up to be in the loop on academies in your area.
+            </p>
+            
+            {/* Interest Form */}
+            <div className="bg-white rounded-2xl p-8 md:p-12 shadow-2xl max-w-2xl mx-auto border border-gray-100">
+              <h3 className="text-2xl md:text-3xl font-bold text-[#1a1a1a] mb-8">
+                Get Early Access Information
+              </h3>
+              
+              <form className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="parentName" className="block text-sm font-semibold text-[#1a1a1a] mb-2">
+                      Parent Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="parentName"
+                      name="parentName"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004aad] focus:border-[#004aad] transition-colors"
+                      placeholder="Your full name"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="studentName" className="block text-sm font-semibold text-[#1a1a1a] mb-2">
+                      Student Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="studentName"
+                      name="studentName"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004aad] focus:border-[#004aad] transition-colors"
+                      placeholder="Your child's name"
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-semibold text-[#1a1a1a] mb-2">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004aad] focus:border-[#004aad] transition-colors"
+                      placeholder="your.email@example.com"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-semibold text-[#1a1a1a] mb-2">
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004aad] focus:border-[#004aad] transition-colors"
+                      placeholder="(555) 123-4567"
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="studentGrade" className="block text-sm font-semibold text-[#1a1a1a] mb-2">
+                      Student Grade *
+                    </label>
+                    <select
+                      id="studentGrade"
+                      name="studentGrade"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004aad] focus:border-[#004aad] transition-colors"
+                    >
+                      <option value="">Select grade</option>
+                      <option value="6">6th Grade</option>
+                      <option value="7">7th Grade</option>
+                      <option value="8">8th Grade</option>
+                      <option value="9">9th Grade</option>
+                      <option value="10">10th Grade</option>
+                      <option value="11">11th Grade</option>
+                      <option value="12">12th Grade</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="primarySport" className="block text-sm font-semibold text-[#1a1a1a] mb-2">
+                      Primary Sport
+                    </label>
+                    <select
+                      id="primarySport"
+                      name="primarySport"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004aad] focus:border-[#004aad] transition-colors"
+                    >
+                      <option value="">Select sport</option>
+                      <option value="baseball">Baseball</option>
+                      <option value="basketball">Basketball</option>
+                      <option value="football">Football</option>
+                      <option value="soccer">Soccer</option>
+                      <option value="tennis">Tennis</option>
+                      <option value="golf">Golf</option>
+                      <option value="track">Track & Field</option>
+                      <option value="volleyball">Volleyball</option>
+                      <option value="swimming">Swimming</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div>
+                  <label htmlFor="location" className="block text-sm font-semibold text-[#1a1a1a] mb-2">
+                    Preferred Location/City
+                  </label>
+                  <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004aad] focus:border-[#004aad] transition-colors"
+                    placeholder="Dallas, Houston, Austin, etc."
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="comments" className="block text-sm font-semibold text-[#1a1a1a] mb-2">
+                    Additional Comments or Questions
+                  </label>
+                  <textarea
+                    id="comments"
+                    name="comments"
+                    rows={4}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004aad] focus:border-[#004aad] transition-colors resize-none"
+                    placeholder="Tell us more about your child's goals or any specific questions you have..."
+                  ></textarea>
+                </div>
+                
+                <button
+                  type="submit"
+                  className="w-full bg-[#c9472b] hover:bg-[#a23721] text-white font-bold py-4 px-8 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide"
+                >
+                  Get Early Access Information
+                </button>
+              </form>
+              
+              <p className="text-sm text-gray-600 mt-6 leading-relaxed">
+                By submitting this form, you'll receive priority access to enrollment information, campus updates, and exclusive previews of our program. We respect your privacy and will never share your information.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="bg-gradient-to-r from-white via-[#f5f5f5] to-white py-16">
