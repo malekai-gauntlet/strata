@@ -49,10 +49,10 @@ const ProgramCoachesCarousel = () => {
   ];
 
   return (
-    <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
+    <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8">
       {coaches.map((coach, index) => (
         <div key={index} className="min-w-[340px] snap-center">
-          <div className="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100 h-[480px] flex flex-col relative overflow-hidden">
+          <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 h-[480px] flex flex-col relative overflow-hidden">
             {/* Subtle background pattern */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#004aad]/3 to-[#003a8c]/5"></div>
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#004aad]/5 to-transparent rounded-full transform translate-x-16 -translate-y-16"></div>
@@ -130,7 +130,14 @@ export default function Program() {
         topRightContent={
           <div className="flex items-center space-x-8">
             <div className="relative group">
-              <Link to="/program" className="flex items-center space-x-2 text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200 cursor-pointer">
+              <Link to="/program" 
+                onClick={(e) => {
+                  if (window.location.pathname === '/program') {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                }}
+                className="flex items-center space-x-2 text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200 cursor-pointer">
                 <span>The Program</span>
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -142,18 +149,36 @@ export default function Program() {
                 <div className="py-3">
                   <Link 
                     to="/program#learn-2x"
+                    onClick={(e) => {
+                      if (window.location.pathname === '/program') {
+                        e.preventDefault();
+                        document.getElementById('learn-2x')?.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
                     className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-[#004aad] transition-colors duration-200 text-sm font-medium"
                   >
                     Learn 2x in 2 Hours
                   </Link>
                   <Link 
                     to="/program#athletic-success"
+                    onClick={(e) => {
+                      if (window.location.pathname === '/program') {
+                        e.preventDefault();
+                        document.getElementById('athletic-success')?.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
                     className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-[#004aad] transition-colors duration-200 text-sm font-medium"
                   >
                     Athletic Success
                   </Link>
                   <Link 
                     to="/program#elite-coaches"
+                    onClick={(e) => {
+                      if (window.location.pathname === '/program') {
+                        e.preventDefault();
+                        document.getElementById('elite-coaches')?.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
                     className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-[#004aad] transition-colors duration-200 text-sm font-medium"
                   >
                     Elite Coaches
