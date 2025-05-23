@@ -14,8 +14,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
-        heading: ["Inter", "sans-serif"],
+        sans: ["Poppins", "Inter", "sans-serif"],
+        heading: ["IntegralCF", "Poppins", "Inter", "sans-serif"],
+        'integral': ["IntegralCF", "Inter", "sans-serif"],
+        'poppins': ["Poppins", "Inter", "sans-serif"],
       },
       fontWeight: {
         'heading': '800',

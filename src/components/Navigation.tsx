@@ -3,7 +3,15 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-const Navigation = () => {
+interface NavigationProps {
+  customLogo?: {
+    src: string;
+    alt: string;
+    className?: string;
+  };
+}
+
+const Navigation = ({ customLogo }: NavigationProps = {}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isMobile = useIsMobile();
   const location = useLocation();
@@ -19,31 +27,42 @@ const Navigation = () => {
   const isAboutPage = location.pathname === '/about';
   const isMissionPage = location.pathname === '/mission';
   const isParentsPage = location.pathname === '/parents';
+  const isTexasSportsAcademyPage = location.pathname === '/texassportsacademy';
   const isDarkPage = isAboutPage || isMissionPage;
 
-  // Special styling for Parents page
-  const navBgClass = isParentsPage 
+  // Special styling for different pages
+  const navBgClass = isParentsPage || isTexasSportsAcademyPage
     ? 'bg-white' 
     : isMobile || isDarkPage 
       ? 'bg-black' 
       : 'bg-transparent backdrop-blur-sm';
 
-  const textColorClass = isParentsPage
-    ? 'text-gray-900'
+  const textColorClass = isParentsPage || isTexasSportsAcademyPage
+    ? 'text-[#004aad]'
     : 'text-white';
 
-  const linkHoverClass = isParentsPage
-    ? 'hover:text-gray-600'
+  const linkHoverClass = isParentsPage || isTexasSportsAcademyPage
+    ? 'hover:text-[#1a1a1a]'
     : 'hover:text-white';
 
-  const mobileMenuBgClass = isParentsPage
+  const mobileMenuBgClass = isParentsPage || isTexasSportsAcademyPage
     ? 'bg-white'
     : 'bg-black';
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 py-6 px-8 ${navBgClass}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 py-4 px-8 ${navBgClass}`}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <Link to="/" className={`${textColorClass} text-xl font-medium`}>Strata</Link>
+        {customLogo ? (
+          <Link to="/" className="flex items-center">
+            <img 
+              src={customLogo.src} 
+              alt={customLogo.alt} 
+              className={customLogo.className || "h-8 w-auto"}
+            />
+          </Link>
+        ) : (
+          <Link to="/" className={`${textColorClass} text-xl font-medium font-poppins`}>Strata</Link>
+        )}
         
         {isMobile ? (
           <>
@@ -64,21 +83,21 @@ const Navigation = () => {
                 <div className="flex flex-col space-y-4">
                   <Link 
                     to="/coaches" 
-                    className={`${textColorClass} ${linkHoverClass} transition-colors`}
+                    className={`${textColorClass} ${linkHoverClass} transition-colors font-poppins`}
                     onClick={closeMenu}
                   >
                     Coaches
                   </Link>
                   <Link 
                     to="/parents" 
-                    className={`${textColorClass} ${linkHoverClass} transition-colors`}
+                    className={`${textColorClass} ${linkHoverClass} transition-colors font-poppins`}
                     onClick={closeMenu}
                   >
                     Parents
                   </Link>
                   <Link 
                     to="/about" 
-                    className={`${textColorClass} ${linkHoverClass} transition-colors`}
+                    className={`${textColorClass} ${linkHoverClass} transition-colors font-poppins`}
                     onClick={closeMenu}
                   >
                     About
@@ -91,19 +110,19 @@ const Navigation = () => {
           <div className="flex items-center space-x-8">
             <Link 
               to="/coaches" 
-              className={`${textColorClass} ${linkHoverClass} transition-colors`}
+              className={`${textColorClass} ${linkHoverClass} transition-colors font-poppins`}
             >
               Coaches
             </Link>
             <Link 
               to="/parents" 
-              className={`${textColorClass} ${linkHoverClass} transition-colors`}
+              className={`${textColorClass} ${linkHoverClass} transition-colors font-poppins`}
             >
               Parents
             </Link>
             <Link 
               to="/about" 
-              className={`${textColorClass} ${linkHoverClass} transition-colors`}
+              className={`${textColorClass} ${linkHoverClass} transition-colors font-poppins`}
             >
               About
             </Link>

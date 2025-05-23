@@ -13,6 +13,7 @@ import Parents from "./pages/Parents";
 import Academics from "./pages/Academics";
 import ESAs from "./pages/ESAs";
 import IMGPage from "./pages/IMGPage";
+import TexasSportsAcademy from "./pages/TexasSportsAcademy";
 import Training from "./pages/Training";
 import SB2 from "./pages/SB2";
 import { useEffect } from "react";
@@ -264,7 +265,7 @@ const App = () => (
           <Route path="/parents" element={<Parents />} />
           <Route path="/academics" element={<Academics />} />
           <Route path="/esas" element={<ESAs />} />
-          <Route path="/img" element={<IMGPage />} />
+          <Route path="/texassportsacademy" element={<TexasSportsAcademy />} />
           <Route path="/training" element={<Training />} />
           <Route path="/sb2" element={<SB2 />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
