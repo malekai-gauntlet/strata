@@ -30,7 +30,7 @@ const Navigation = ({ customLogo, topRightContent }: NavigationProps = {}) => {
   const isAboutPage = location.pathname === '/about';
   const isMissionPage = location.pathname === '/mission';
   const isParentsPage = location.pathname === '/parents';
-  const isTexasSportsAcademyPage = location.pathname === '/texassportsacademy' || location.pathname === '/program' || location.pathname === '/location' || location.pathname === '/learn-more';
+  const isTexasSportsAcademyPage = location.pathname === '/texassportsacademy' || location.pathname === '/program' || location.pathname === '/location' || location.pathname === '/learn-more' || location.pathname === '/events';
   const isDarkPage = isAboutPage || isMissionPage;
 
   // Special styling for different pages
