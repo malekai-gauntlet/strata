@@ -17,6 +17,8 @@ import TexasSportsAcademy from "./pages/TexasSportsAcademy";
 import Program from "./pages/Program";
 import Training from "./pages/Training";
 import SB2 from "./pages/SB2";
+import Location from "./pages/Location";
+import LearnMore from "./pages/LearnMore";
 import { useEffect } from "react";
 
 const queryClient = new QueryClient();
@@ -270,6 +272,8 @@ const App = () => (
           <Route path="/program" element={<Program />} />
           <Route path="/training" element={<Training />} />
           <Route path="/sb2" element={<SB2 />} />
+          <Route path="/location" element={<Location />} />
+          <Route path="/learn-more" element={<LearnMore />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

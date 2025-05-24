@@ -26,3 +26,4 @@ dist-ssr
 public/videos/athletes 2.mov
 master-map/*
 .env
+.gitignore

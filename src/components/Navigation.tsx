@@ -8,6 +8,7 @@ interface NavigationProps {
     src: string;
     alt: string;
     className?: string;
+    linkTo?: string;
   };
   topRightContent?: React.ReactNode;
 }
@@ -29,7 +30,7 @@ const Navigation = ({ customLogo, topRightContent }: NavigationProps = {}) => {
   const isAboutPage = location.pathname === '/about';
   const isMissionPage = location.pathname === '/mission';
   const isParentsPage = location.pathname === '/parents';
-  const isTexasSportsAcademyPage = location.pathname === '/texassportsacademy' || location.pathname === '/program';
+  const isTexasSportsAcademyPage = location.pathname === '/texassportsacademy' || location.pathname === '/program' || location.pathname === '/location' || location.pathname === '/learn-more';
   const isDarkPage = isAboutPage || isMissionPage;
 
   // Special styling for different pages
@@ -78,7 +79,7 @@ const Navigation = ({ customLogo, topRightContent }: NavigationProps = {}) => {
     <nav className={`fixed top-0 left-0 right-0 z-50 py-4 px-8 ${navBgClass}`}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {customLogo ? (
-          <Link to="/" className="flex items-center">
+          <Link to={customLogo.linkTo || "/"} className="flex items-center">
             <img 
               src={customLogo.src} 
               alt={customLogo.alt} 

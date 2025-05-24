@@ -221,43 +221,56 @@ const EliteCoachesCarousel = () => {
   ];
 
   return (
-    <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
-      {coaches.map((coach, index) => (
-        <div key={index} className="min-w-[400px] snap-center">
-          <div className="bg-gradient-to-br from-[#004aad] to-[#003a8c] rounded-2xl p-8 text-white h-full">
-            <div className="flex items-center gap-6 mb-6">
-              <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white/20">
-                <img 
-                  src={coach.image} 
-                  alt={coach.name}
-                  className={`w-full h-full object-cover ${
-                    coach.name === "JAMAL GROSS" ? "object-[center_0%]" :
-                    coach.name === "ALEX CRUZ" ? "object-[center_20%]" :
-                    coach.name === "GRAHAM SPRAKER" ? "object-[center_0%]" :
-                    "object-center"
-                  }`}
-                />
+    <div className="overflow-hidden relative">
+      <div className="flex overflow-x-auto gap-6 pb-8 lg:pl-6 pl-8 pr-8 lg:pr-0">
+        {coaches.map((coach, index) => (
+          <div key={index} className="min-w-[400px] flex-shrink-0">
+            <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 h-full flex flex-col relative overflow-hidden">
+              {/* Subtle background pattern */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#004aad]/3 to-[#003a8c]/5"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#004aad]/5 to-transparent rounded-full transform translate-x-16 -translate-y-16"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#87CEEB]/10 to-transparent rounded-full transform -translate-x-12 translate-y-12"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center gap-6 mb-6">
+                  <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-[#004aad]/20">
+                    <img 
+                      src={coach.image} 
+                      alt={coach.name}
+                      className={`w-full h-full object-cover ${
+                        coach.name === "JAMAL GROSS" ? "object-[center_0%]" :
+                        coach.name === "ALEX CRUZ" ? "object-[center_20%]" :
+                        coach.name === "GRAHAM SPRAKER" ? "object-[center_0%]" :
+                        "object-center"
+                      }`}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold mb-1 text-gray-900">{coach.name}</h3>
+                    <p className="text-[#004aad] text-lg font-semibold">{coach.credentials}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-gray-700 text-lg font-medium mb-2">{coach.teams}</p>
+                    <p className="text-[#004aad] text-sm uppercase tracking-wider">{coach.sport}</p>
+                  </div>
+                  <img 
+                    src={coach.logo} 
+                    alt={`${coach.sport} League`}
+                    className="h-16 w-auto opacity-90"
+                  />
+                </div>
               </div>
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold mb-1">{coach.name}</h3>
-                <p className="text-[#87CEEB] text-lg font-semibold">{coach.credentials}</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-white/90 text-lg font-medium mb-2">{coach.teams}</p>
-                <p className="text-[#87CEEB] text-sm uppercase tracking-wider">{coach.sport}</p>
-              </div>
-              <img 
-                src={coach.logo} 
-                alt={`${coach.sport} League`}
-                className="h-16 w-auto opacity-80"
-              />
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+        {/* Add extra space at the end to ensure last card extends to screen edge */}
+        <div className="lg:w-8 w-0 flex-shrink-0"></div>
+      </div>
+      {/* Fade gradient on the right edge to indicate more content */}
+      <div className="absolute top-0 right-0 h-full w-12 bg-gradient-to-l from-white to-transparent pointer-events-none hidden lg:block"></div>
     </div>
   );
 };
@@ -308,12 +321,12 @@ export default function IMGPage() {
             <span className="text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200 cursor-pointer">
               Admission
             </span>
-            <div className="flex items-center space-x-2 text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200 cursor-pointer">
+            <Link 
+              to="/location" 
+              className="flex items-center space-x-2 text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200"
+            >
               <span>Locations</span>
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
+            </Link>
             <span className="text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200 cursor-pointer">
               Events
             </span>
@@ -332,7 +345,7 @@ export default function IMGPage() {
             <span className="text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200 cursor-pointer">
               Start Your Academy
             </span>
-            <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-3 px-6 rounded-lg text-sm shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide">
+            <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-3 px-6 rounded-lg text-sm shadow-lg hover:shadow-xl transition-all duration-300 uppercase tracking-wide">
               Find An Academy
             </button>
           </div>
@@ -379,36 +392,60 @@ export default function IMGPage() {
 
       {/* Welcome Section */}
       <Section className="bg-gradient-to-r from-white via-[#f5f5f5] to-white">
-        <div className="container mx-auto px-8 h-full flex items-center">
+        <div className="container mx-auto px-8 h-full flex flex-col justify-center">
           <div className="max-w-6xl mx-auto text-center w-full">
             <h2 className="text-5xl md:text-7xl font-integral tracking-tight mb-12 text-[#004aad] leading-[0.9]">
               WELCOME TO TEXAS SPORTS ACADEMY
             </h2>
-            <p className="text-xl md:text-2xl text-[#1a1a1a] leading-relaxed max-w-5xl mx-auto">
+            <p className="text-xl md:text-2xl text-[#1a1a1a] leading-relaxed max-w-5xl mx-auto mb-16">
               We are a network of sports academies that combine athletic excellence with leading academics. With core academics finished in just two focused hours each morning, students have all afternoon to improve at their sport and develop life skills. 
             </p>
           </div>
-        </div>
-        
-        {/* Texas Map Section */}
-        {/* 
-        <div className="mt-20">
-          <div className="container mx-auto px-8">
-            <div className="text-center mb-8">
-              <h3 className="text-3xl md:text-4xl font-integral tracking-tight text-[#004aad] mb-4">
-                CHOOSE YOUR CAMPUS
-              </h3>
-              <p className="text-lg text-[#6b7280] max-w-3xl mx-auto">
-                Expanding across Texas to bring world-class education and athletic excellence to every community.
-              </p>
-            </div>
-          </div>
           
-          <div className="w-full h-[600px] bg-gray-50 overflow-hidden">
-            <TexasSchoolDistrictsMap />
+          {/* Stats within Welcome Section */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-16 max-w-6xl mx-auto">
+            <motion.div 
+              className="text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true, amount: 0.9 }}
+            >
+              <div className="text-4xl md:text-5xl font-bold mb-2 text-[#004aad] font-poppins">4+ Hours</div>
+              <div className="text-sm uppercase tracking-wider text-[#6b7280] font-poppins">Extra Athletic Training Daily</div>
+            </motion.div>
+            <motion.div 
+              className="text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true, amount: 0.9 }}
+            >
+              <div className="text-4xl md:text-5xl font-bold mb-2 text-[#004aad] font-poppins">Pro Level</div>
+              <div className="text-sm uppercase tracking-wider text-[#6b7280] font-poppins">NBA • NFL • MLB Coaches</div>
+            </motion.div>
+            <motion.div 
+              className="text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true, amount: 0.9 }}
+            >
+              <div className="text-4xl md:text-5xl font-bold mb-2 text-[#004aad] font-poppins">2 Hours</div>
+              <div className="text-sm uppercase tracking-wider text-[#6b7280] font-poppins">Daily Academic Completion</div>
+            </motion.div>
+            <motion.div 
+              className="text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true, amount: 0.9 }}
+            >
+              <div className="text-4xl md:text-5xl font-bold mb-2 text-[#004aad] font-poppins">Top 1%</div>
+              <div className="text-sm uppercase tracking-wider text-[#6b7280] font-poppins">National Test Scores</div>
+            </motion.div>
           </div>
         </div>
-        */}
       </Section>
 
       {/* Unlock Potential Section */}
@@ -427,9 +464,14 @@ export default function IMGPage() {
               <p className="text-xl mb-8 text-[#1a1a1a] opacity-90 max-w-lg">
                 Give your child the opportunity to excel in both academics and athletics.
               </p>
-              <button className="bg-[#c9472b] hover:bg-[#a23721] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
+              <a 
+                href="/program" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-[#c9472b] hover:bg-[#a23721] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transition-all duration-300 uppercase tracking-wide font-poppins inline-block text-center"
+              >
                 SCHOOL OVERVIEW
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -487,32 +529,6 @@ export default function IMGPage() {
         </div>
       </Section>
 
-      {/* 
-      Stats Bar Section 
-      <section className="bg-gradient-to-r from-white via-[#f5f5f5] to-white py-12 shadow-lg">
-        <div className="container mx-auto px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-4xl font-bold mb-2 text-[#1a1a1a] font-poppins">Top 2%</div>
-              <div className="text-sm uppercase tracking-wider text-[#6b7280] font-poppins">Focused Academics</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold mb-2 text-[#1a1a1a] font-poppins">12 - 3pm</div>
-              <div className="text-sm uppercase tracking-wider text-[#6b7280] font-poppins">Daily Sports Training</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold mb-2 text-[#1a1a1a] font-poppins">Top 2%</div>
-              <div className="text-sm uppercase tracking-wider text-[#6b7280] font-poppins">Academic Outcomes</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold mb-2 text-[#1a1a1a] font-poppins">1000+</div>
-              <div className="text-sm uppercase tracking-wider text-[#6b7280] font-poppins">Hours Saved For Your Kid</div>
-            </div>
-          </div>
-        </div>
-      </section>
-      */}
-
       {/* Excel as Athlete Section */}
       <Section>
         <img
@@ -529,14 +545,18 @@ export default function IMGPage() {
               <p className="text-xl mb-8 text-white opacity-90 max-w-lg drop-shadow-lg">
                 Train with world-class coaches every day starting at noon. Master the fundamentals and develop your skills with dedicated daily sports training.
               </p>
-              <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
+              <a 
+                href="/program#athletic-success" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transition-all duration-300 uppercase tracking-wide font-poppins inline-block text-center"
+              >
                 Learn About Athletics
-              </button>
+              </a>
             </div>
           </div>
         </div>
       </Section>
-
 
       {/* Meet The Guides Section */}
       <Section className="bg-gradient-to-r from-white via-[#f5f5f5] to-white">
@@ -554,9 +574,14 @@ export default function IMGPage() {
             <EliteCoachesCarousel />
             
             <div className="text-center mt-12">
-              <button className="bg-[#c9472b] hover:bg-[#a23721] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
-                EXPLORE OUR PROGRAM
-              </button>
+              <a 
+                href="/program#elite-coaches" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-[#c9472b] hover:bg-[#a23721] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transition-all duration-300 uppercase tracking-wide font-poppins inline-block text-center"
+              >
+                MEET OUR COACHES
+              </a>
             </div>
           </div>
         </div>
@@ -578,9 +603,14 @@ export default function IMGPage() {
               <p className="text-xl mb-8 text-white opacity-90 max-w-lg drop-shadow-lg">
                 With just 2 hours of focused learning in the morning, our students consistently test in the top 1-2% nationally. Experience a new way of learning that delivers exceptional results.
               </p>
-              <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
+              <a 
+                href="/program#learn-2x" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transition-all duration-300 uppercase tracking-wide font-poppins inline-block text-center"
+              >
                 Learn About Academics
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -743,9 +773,14 @@ export default function IMGPage() {
               <p className="text-xl mb-8 text-white opacity-90 max-w-lg drop-shadow-lg">
                 Learn from professional coaches that have reached the very top of their fields. Hone life skills like Financial Literacy, Public Speaking, and more.
               </p>
-              <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide font-poppins">
-                Meet Our Coaches
-              </button>
+              <a 
+                href="/program#life-skills" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transition-all duration-300 uppercase tracking-wide font-poppins inline-block text-center"
+              >
+                Learn More
+              </a>
             </div>
           </div>
         </div>
@@ -1003,7 +1038,7 @@ export default function IMGPage() {
                 
                 <button
                   type="submit"
-                  className="w-full bg-[#c9472b] hover:bg-[#a23721] text-white font-bold py-4 px-8 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide"
+                  className="w-full bg-[#c9472b] hover:bg-[#a23721] text-white font-bold py-4 px-8 rounded-lg text-lg shadow-lg hover:shadow-xl transition-all duration-300 uppercase tracking-wide"
                 >
                   Get Early Access Information
                 </button>

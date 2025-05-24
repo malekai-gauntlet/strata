@@ -49,57 +49,63 @@ const ProgramCoachesCarousel = () => {
   ];
 
   return (
-    <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8">
-      {coaches.map((coach, index) => (
-        <div key={index} className="min-w-[340px] snap-center">
-          <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 h-[480px] flex flex-col relative overflow-hidden">
-            {/* Subtle background pattern */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#004aad]/3 to-[#003a8c]/5"></div>
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#004aad]/5 to-transparent rounded-full transform translate-x-16 -translate-y-16"></div>
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#87CEEB]/10 to-transparent rounded-full transform -translate-x-12 translate-y-12"></div>
-            
-            <div className="relative z-10 flex flex-col h-full">
-              {/* Coach Photo - Larger and more prominent */}
-              <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#004aad]/20 mb-6 mx-auto shadow-lg">
-                <img 
-                  src={coach.image} 
-                  alt={coach.name}
-                  className={`w-full h-full object-cover ${
-                    coach.name === "JAMAL GROSS" ? "object-[center_0%]" :
-                    coach.name === "ALEX CRUZ" ? "object-[center_20%]" :
-                    coach.name === "GRAHAM SPRAKER" ? "object-[center_0%]" :
-                    "object-center"
-                  }`}
-                />
-              </div>
+    <div className="overflow-hidden relative">
+      <div className="flex overflow-x-auto gap-6 pb-8 lg:pl-6 pl-8 pr-8 lg:pr-0">
+        {coaches.map((coach, index) => (
+          <div key={index} className="min-w-[340px] flex-shrink-0">
+            <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 h-[480px] flex flex-col relative overflow-hidden">
+              {/* Subtle background pattern */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#004aad]/3 to-[#003a8c]/5"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#004aad]/5 to-transparent rounded-full transform translate-x-16 -translate-y-16"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#87CEEB]/10 to-transparent rounded-full transform -translate-x-12 translate-y-12"></div>
               
-              {/* Coach Info - Better hierarchy */}
-              <div className="flex-1 flex flex-col items-center text-center space-y-4">
-                <div className="space-y-3">
-                  <h4 className="text-2xl font-bold text-gray-900 leading-tight">{coach.name}</h4>
-                  <div className="space-y-2">
-                    <p className="text-[#004aad] text-lg font-bold tracking-wide">{coach.credentials}</p>
-                    <p className="text-gray-700 text-base font-semibold">{coach.teams}</p>
-                  </div>
+              <div className="relative z-10 flex flex-col h-full">
+                {/* Coach Photo - Larger and more prominent */}
+                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#004aad]/20 mb-6 mx-auto shadow-lg">
+                  <img 
+                    src={coach.image} 
+                    alt={coach.name}
+                    className={`w-full h-full object-cover ${
+                      coach.name === "JAMAL GROSS" ? "object-[center_0%]" :
+                      coach.name === "ALEX CRUZ" ? "object-[center_20%]" :
+                      coach.name === "GRAHAM SPRAKER" ? "object-[center_0%]" :
+                      "object-center"
+                    }`}
+                  />
                 </div>
                 
-                <div className="mt-auto pt-4">
-                  <p className="text-[#004aad] text-sm font-medium uppercase tracking-wider mb-4">{coach.sport}</p>
+                {/* Coach Info - Better hierarchy */}
+                <div className="flex-1 flex flex-col items-center text-center space-y-4">
+                  <div className="space-y-3">
+                    <h4 className="text-2xl font-bold text-gray-900 leading-tight">{coach.name}</h4>
+                    <div className="space-y-2">
+                      <p className="text-[#004aad] text-lg font-bold tracking-wide">{coach.credentials}</p>
+                      <p className="text-gray-700 text-base font-semibold">{coach.teams}</p>
+                    </div>
+                  </div>
                   
-                  {/* League Logo - Larger and more prominent */}
-                  <div className="flex justify-center">
-                    <img 
-                      src={coach.logo} 
-                      alt={`${coach.sport} League`}
-                      className="h-16 w-auto opacity-90"
-                    />
+                  <div className="mt-auto pt-4">
+                    <p className="text-[#004aad] text-sm font-medium uppercase tracking-wider mb-4">{coach.sport}</p>
+                    
+                    {/* League Logo - Larger and more prominent */}
+                    <div className="flex justify-center">
+                      <img 
+                        src={coach.logo} 
+                        alt={`${coach.sport} League`}
+                        className="h-16 w-auto opacity-90"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+        {/* Add extra space at the end to ensure last card extends to screen edge */}
+        <div className="lg:w-8 w-0 flex-shrink-0"></div>
+      </div>
+      {/* Fade gradient on the right edge to indicate more content */}
+      <div className="absolute top-0 right-0 h-full w-12 bg-gradient-to-l from-white to-transparent pointer-events-none hidden lg:block"></div>
     </div>
   );
 };
@@ -125,7 +131,8 @@ export default function Program() {
         customLogo={{
           src: "/images/TSA Final Logos - CMYK-01.svg",
           alt: "Texas Sports Academy",
-          className: "h-14 w-auto"
+          className: "h-14 w-auto",
+          linkTo: "/texassportsacademy"
         }}
         topRightContent={
           <div className="flex items-center space-x-8">
@@ -189,12 +196,12 @@ export default function Program() {
             <span className="text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200 cursor-pointer">
               Admission
             </span>
-            <div className="flex items-center space-x-2 text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200 cursor-pointer">
+            <Link 
+              to="/location" 
+              className="flex items-center space-x-2 text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200"
+            >
               <span>Locations</span>
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
+            </Link>
             <span className="text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200 cursor-pointer">
               Events
             </span>
@@ -213,7 +220,7 @@ export default function Program() {
             <span className="text-gray-600 hover:text-[#004aad] text-sm font-medium transition-colors duration-200 cursor-pointer">
               Start Your Academy
             </span>
-            <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-3 px-6 rounded-lg text-sm shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide">
+            <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-3 px-6 rounded-lg text-sm shadow-lg hover:shadow-xl transition-all duration-300 uppercase tracking-wide">
               Find An Academy
             </button>
           </div>
@@ -238,7 +245,7 @@ export default function Program() {
           </p>
           <button 
             onClick={() => document.getElementById('program-details')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-white text-[#004aad] font-bold py-4 px-10 rounded-full text-lg hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            className="bg-white text-[#004aad] font-bold py-4 px-10 rounded-full text-lg hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             EXPLORE THE PROGRAM
           </button>
@@ -403,7 +410,7 @@ export default function Program() {
       </Section>
 
       {/* Elite Professional Coaches */}
-      <Section className="bg-white" id="elite-coaches">
+      <Section className="bg-white relative" id="elite-coaches">
         <div className="container mx-auto px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -431,8 +438,11 @@ export default function Program() {
                 </div>
               </div>
             </div>
-            <div className="order-1 lg:order-2">
-              <ProgramCoachesCarousel />
+            <div className="order-1 lg:order-2 lg:col-span-1">
+              {/* Break out of container for full-width carousel */}
+              <div className="lg:absolute lg:left-1/2 lg:right-0 lg:w-[50vw] lg:top-1/2 lg:-translate-y-1/2">
+                <ProgramCoachesCarousel />
+              </div>
             </div>
           </div>
         </div>
@@ -694,7 +704,7 @@ export default function Program() {
             Explore how Texas Sports Academy can transform your student-athlete's future.
           </p>
           <Link to="/contact">
-            <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-full text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wide">
+            <button className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-full text-lg shadow-lg hover:shadow-xl transition-all duration-300 uppercase tracking-wide">
               EXPLORE TEXAS SPORTS ACADEMY IN ACTION
             </button>
           </Link>
