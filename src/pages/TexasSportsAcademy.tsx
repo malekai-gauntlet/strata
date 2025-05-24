@@ -185,6 +185,9 @@ const PressFeature = () => {
 
 // Elite Coaches carousel component
 const EliteCoachesCarousel = () => {
+  const [isAutoScrolling, setIsAutoScrolling] = React.useState(true);
+  const [dragConstraints, setDragConstraints] = React.useState({ left: 0, right: 0 });
+  
   const coaches = [
     {
       name: "JAMAL GROSS",
@@ -220,12 +223,51 @@ const EliteCoachesCarousel = () => {
     }
   ];
 
+  // Duplicate coaches for seamless loop
+  const duplicatedCoaches = [...coaches, ...coaches];
+  
+  // Calculate drag constraints
+  React.useEffect(() => {
+    const cardWidth = 424; // 400px card + 24px gap
+    const totalWidth = duplicatedCoaches.length * cardWidth;
+    const viewportWidth = window.innerWidth;
+    setDragConstraints({
+      left: -(totalWidth - viewportWidth),
+      right: 0
+    });
+  }, [duplicatedCoaches.length]);
+
   return (
     <div className="overflow-hidden relative">
-      <div className="flex overflow-x-auto gap-6 pb-8 lg:pl-6 pl-8 pr-8 lg:pr-0">
-        {coaches.map((coach, index) => (
-          <div key={index} className="min-w-[400px] flex-shrink-0">
-            <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 h-full flex flex-col relative overflow-hidden">
+      <motion.div 
+        className="flex gap-6 pb-8 cursor-grab active:cursor-grabbing"
+        drag="x"
+        dragConstraints={dragConstraints}
+        dragElastic={0.1}
+        onDragStart={() => setIsAutoScrolling(false)}
+        onDragEnd={() => {
+          // Resume auto-scrolling after 3 seconds of no interaction
+          setTimeout(() => setIsAutoScrolling(true), 3000);
+        }}
+        animate={isAutoScrolling ? {
+          x: [0, -2000] // Adjust this value based on card width + gap
+        } : {}}
+        transition={isAutoScrolling ? {
+          x: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: 70, // Adjust speed here - higher number = slower
+            ease: "linear"
+          }
+        } : {}}
+        style={{
+          width: `${duplicatedCoaches.length * 424}px` // 400px card + 24px gap
+        }}
+        whileTap={{ cursor: "grabbing" }}
+      >
+        {duplicatedCoaches.map((coach, index) => (
+          <div key={`${coach.name}-${index}`} className="min-w-[400px] flex-shrink-0 pointer-events-none">
+            <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 h-full flex flex-col relative overflow-hidden pointer-events-auto">
               {/* Subtle background pattern */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#004aad]/3 to-[#003a8c]/5"></div>
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#004aad]/5 to-transparent rounded-full transform translate-x-16 -translate-y-16"></div>
@@ -266,11 +308,13 @@ const EliteCoachesCarousel = () => {
             </div>
           </div>
         ))}
-        {/* Add extra space at the end to ensure last card extends to screen edge */}
-        <div className="lg:w-8 w-0 flex-shrink-0"></div>
-      </div>
-      {/* Fade gradient on the right edge to indicate more content */}
-      <div className="absolute top-0 right-0 h-full w-12 bg-gradient-to-l from-white to-transparent pointer-events-none hidden lg:block"></div>
+      </motion.div>
+      
+      {/* Left fade gradient */}
+      <div className="absolute top-0 left-0 h-full w-20 bg-gradient-to-r from-white via-white/50 to-transparent pointer-events-none z-10"></div>
+      
+      {/* Right fade gradient */}
+      <div className="absolute top-0 right-0 h-full w-20 bg-gradient-to-l from-white via-white/50 to-transparent pointer-events-none z-10"></div>
     </div>
   );
 };
@@ -769,7 +813,7 @@ export default function IMGPage() {
             <div className="max-w-xl">
               <h2 className="text-5xl md:text-7xl font-integral tracking-tight mb-6 text-white leading-[0.9] drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)]">
                 MASTER KEY LIFE SKILLS
-              </h2>
+                </h2>
               <p className="text-xl mb-8 text-white opacity-90 max-w-lg drop-shadow-lg">
                 Learn from professional coaches that have reached the very top of their fields. Hone life skills like Financial Literacy, Public Speaking, and more.
               </p>
@@ -779,7 +823,7 @@ export default function IMGPage() {
                 rel="noopener noreferrer"
                 className="bg-[#004aad] hover:bg-[#003a8c] text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transition-all duration-300 uppercase tracking-wide font-poppins inline-block text-center"
               >
-                Learn More
+                Learn About Life Skills
               </a>
             </div>
           </div>

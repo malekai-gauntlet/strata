@@ -227,8 +227,7 @@ export default function Location() {
             Sports Academy Locations
           </h1>
           <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl leading-relaxed">
-            Give your student-athlete the ultimate advantage with our revolutionary 2-hour learning model 
-            and elite professional coaching. Find the perfect campus location for your family.
+            Discover our growing network of campuses across Texas.
           </p>
           <button 
             onClick={() => document.getElementById('campus-locations')?.scrollIntoView({ behavior: 'smooth' })}
@@ -249,7 +248,7 @@ export default function Location() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl md:text-5xl font-integral tracking-tight text-gray-900 mb-6 leading-[0.9]">
               Texas Sports Academy Campuses
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -263,39 +262,6 @@ export default function Location() {
               <CampusCard key={index} {...campus} />
             ))}
           </div>
-        </div>
-      </Section>
-
-      {/* Call to Action Section */}
-      <Section className="bg-gradient-to-r from-[#004aad] to-[#0056c7] text-white">
-        <div className="container mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="space-y-8"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold">
-              Ready to Join Texas Sports Academy?
-            </h2>
-            <p className="text-xl max-w-3xl mx-auto">
-              Whether you're interested in our current campuses or want to stay updated 
-              on new locations, we're here to help you give your student-athlete the ultimate 
-              advantage in academics, athletics, and life skills.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-              <Button className="bg-white text-[#004aad] hover:bg-gray-100 text-lg px-8 py-4 rounded-lg font-semibold">
-                Apply Now
-              </Button>
-              <Button 
-                variant="outline" 
-                className="border-white text-white hover:bg-white hover:text-[#004aad] text-lg px-8 py-4 rounded-lg font-semibold"
-              >
-                Contact Admissions
-              </Button>
-            </div>
-          </motion.div>
         </div>
       </Section>
 
