@@ -21,6 +21,7 @@ import Location from "./pages/Location";
 import Events from "./pages/Events";
 import LearnMore from "./pages/LearnMore";
 import CoachApplication from "./pages/CoachApplication";
+import School from "./pages/School";
 import { useEffect } from "react";
 
 const queryClient = new QueryClient();
@@ -278,6 +279,7 @@ const App = () => (
           <Route path="/events" element={<Events />} />
           <Route path="/learn-more" element={<LearnMore />} />
           <Route path="/coach-application" element={<CoachApplication />} />
+          <Route path="/school/:slug" element={<School />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

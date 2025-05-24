@@ -42,7 +42,7 @@ export default function CoachApplication() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-xl md:text-2xl leading-relaxed opacity-90 drop-shadow-lg max-w-4xl mx-auto mb-8"
             >
-              Interested in creating your own sports academy? Apply to receive more information about leading a sports academy.
+              Interested in leading your own sports academy? Apply to receive more information about leading a sports academy.
             </motion.p>
             <motion.button
               initial={{ opacity: 0, y: 30 }}
@@ -165,12 +165,12 @@ export default function CoachApplication() {
                   type="submit"
                   className="w-full bg-[#c9472b] hover:bg-[#a23721] text-white font-bold py-4 px-8 rounded-lg text-lg shadow-lg hover:shadow-xl transition-all duration-300 uppercase tracking-wide"
                 >
-                  Submit Application
+                  Submit
                 </button>
               </form>
               
               <p className="text-sm text-gray-600 mt-6 leading-relaxed text-center">
-                By submitting this application, you'll receive information about Texas Sports Academies, training programs, and next steps in the process.
+                By submitting, you'll receive information about Texas Sports Academies, training programs, and next steps in the process.
               </p>
             </motion.div>
           </div>

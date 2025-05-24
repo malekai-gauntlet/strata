@@ -21,7 +21,8 @@ const CampusCard = ({
   tuition, 
   image, 
   statusColor, 
-  applicationStatus 
+  applicationStatus,
+  slug
 }: {
   name: string;
   gradeLevel: string;
@@ -31,6 +32,7 @@ const CampusCard = ({
   image: string;
   statusColor: string;
   applicationStatus?: string;
+  slug: string;
 }) => {
   return (
     <motion.div
@@ -69,8 +71,8 @@ const CampusCard = ({
 
         {/* Action Buttons */}
         <div className="flex justify-center">
-          <Button className="bg-[#004aad] hover:bg-[#003a8c] text-white px-6 py-3 rounded-lg font-semibold transition-colors">
-            Learn More
+          <Button asChild className="bg-[#004aad] hover:bg-[#003a8c] text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+            <Link to={`/school/${slug}`}>Learn More</Link>
           </Button>
         </div>
       </div>
@@ -87,6 +89,7 @@ export default function Location() {
       status: "Open",
       image: "/images/TSA Door.jpg",
       statusColor: "bg-green-600",
+      slug: "lake-travis"
     },
     {
       name: "Texas Sports Academy Round Rock", 
@@ -94,7 +97,8 @@ export default function Location() {
       status: "Coming Soon",
       image: "/images/roundrock.jpg",
       statusColor: "bg-blue-600",
-      applicationStatus: "Fall 2025 applications opening soon."
+      applicationStatus: "Fall 2025 applications opening soon.",
+      slug: "round-rock"
     },
     {
       name: "Texas Sports Academy Carrollton",
@@ -102,7 +106,8 @@ export default function Location() {
       status: "Coming Soon",
       image: "/images/Carrollton2.png",
       statusColor: "bg-blue-600",
-      applicationStatus: "Campus planning in progress."
+      applicationStatus: "Campus planning in progress.",
+      slug: "carrollton"
     },
     {
       name: "Texas Sports Academy Houston",
@@ -110,7 +115,8 @@ export default function Location() {
       status: "Coming Soon",
       image: "/images/court.jpg",
       statusColor: "bg-blue-600",
-      applicationStatus: "Fall 2025 applications opening soon."
+      applicationStatus: "Fall 2025 applications opening soon.",
+      slug: "houston"
     },
   ];
 
